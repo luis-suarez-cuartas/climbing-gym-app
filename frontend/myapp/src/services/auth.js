@@ -33,3 +33,8 @@ export const loginRequest = (url, data) => {
     .then(response => response.json())
     .catch(error => console.error('Error with fetch:', error));
 };
+export const logout = () => {
+    console.log('Logging out'); // Debugging
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+};

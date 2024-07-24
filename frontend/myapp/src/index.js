@@ -1,12 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import { css,Global } from '@emotion/react';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+localStorage.removeItem('accessToken');
+localStorage.removeItem('refreshToken');
 const root = ReactDOM.createRoot(document.getElementById('root'));
+const globalStyles = css`
+  * {
+    box-sizing: border-box;
+    margin: 0;
+  }
+`;
 root.render(
   <React.StrictMode>
+    <Global css={globalStyles} />
     <App />
   </React.StrictMode>
 );
