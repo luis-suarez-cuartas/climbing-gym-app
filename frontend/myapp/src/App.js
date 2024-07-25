@@ -5,6 +5,7 @@ import Register from './views/Register';  // Asegúrate de que las rutas sean co
 import Login from './views/Login';
 import PublicRoute from './hooks/PublicRoute';
 import Profile from './views/Profile/Profile'
+import TrainingSesion from './views/TrainingSesion';
 // import PrivateRoute from './hooks/PrivateRoute';
 
 function AppRouter() {
@@ -15,6 +16,7 @@ function AppRouter() {
         <Route path="/register" element={<PublicRoute restricted={true} component={Register} />} />
         <Route path="/login" element={<PublicRoute restricted={true} component={Login} />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/entrenamiento" element={<TrainingSesion />} /> 
         <Route path="*" element={<Navigate to="/" replace />} /> {/* Redirige cualquier otra ruta a la página de inicio */}
       </Routes>
     </BrowserRouter>

@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { logout } from '../services/auth';
 
 const headerStyles = css`
   position: fixed;
@@ -52,8 +53,8 @@ const buttonStyles = css`
   gap: 1rem;
   align-content: center;
   width: 300px;
-  
-  a {
+
+  a, button {
     border: 1px solid gray;
     width: 5rem;
     height: 1.8rem;
@@ -62,6 +63,8 @@ const buttonStyles = css`
     text-align: center;
     padding-top: 5px;
     color: #fff; /* Color blanco por defecto */
+    background-color: transparent;
+    cursor: pointer;
     
     :hover {
       background-color: #1f2024;
@@ -71,7 +74,7 @@ const buttonStyles = css`
 
   #signout {
     color: white;
-    background-color: #000; /* Negro para Sign Out */
+    background-color: transparent;
 
     :hover {
       background-color: #1f2024;
@@ -91,18 +94,28 @@ const buttonStyles = css`
 `;
 
 export function BarraNavegacion() {
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/');
+  };
+
   return (
     <header css={headerStyles}>
       <nav css={navStyles}>
         <ul>
           <li>
-            <img src="imagenes/logo.png" alt="logo"  css={logoStyles} />
+            <img src="imagenes/logo.png" alt="logo" css={logoStyles} />
           </li>
           <li>
-            <a href="./index.html">Vías</a>
+            <a href="./index.html">Publicaciones</a>
           </li>
           <li>
-            <Link to="/profile">Perfil</Link> 
+            <Link to="/profile">Perfil</Link>
+          </li>
+          <li>
+            <Link to="/entrenamiento">Entrenamiento</Link>
           </li>
           <li>
             <a href="./index.html">Ranking</a>
@@ -115,8 +128,8 @@ export function BarraNavegacion() {
           </li>
         </ul>
         <div css={buttonStyles}>
-          <Link to="/login" id="signin">Sign In</Link>
-          <Link to="/register" id="signout">Sign Out</Link>
+          <Link to="/login" id="signin">Log In</Link>
+          <button onClick={handleLogout} id="signout">Log Out</button>
         </div>
       </nav>
     </header>

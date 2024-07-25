@@ -33,8 +33,18 @@ export const loginRequest = (url, data) => {
     .then(response => response.json())
     .catch(error => console.error('Error with fetch:', error));
 };
-export const logout = () => {
-    console.log('Logging out'); // Debugging
+
+export const logout = async () => {
+    const refreshToken = localStorage.getItem('refreshToken');
+    if (refreshToken) {
+        await fetch('/api/auth/logout/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ refresh_token: refreshToken }),
+        });
+    }
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
 };

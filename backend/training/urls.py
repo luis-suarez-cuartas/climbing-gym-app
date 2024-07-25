@@ -1,11 +1,8 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from .views import TrainingViewSet, ClimbedRouteViewSet
-
-router = DefaultRouter()
-router.register(r'trainings', TrainingViewSet)
-router.register(r'routes', ClimbedRouteViewSet)
+# trainning/urls.py
+from django.urls import path
+from .views import UnloadedTrainingListView, UpdateTrainingView
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('unloaded-trainings/', UnloadedTrainingListView.as_view(), name='unloaded-training-list'),
+    path('update-training/<int:pk>/', UpdateTrainingView.as_view(), name='update-training'),
 ]
