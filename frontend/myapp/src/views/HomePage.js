@@ -14,8 +14,7 @@ function Home() {
         <br />
         <GrowthSection />
       <main className="container">
-        <h1>Welcome to Our Home Page</h1>
-        <p>This is the Home page of our website. Here, you can find various information about our services and offers.</p>
+        
       </main>
       <PiePagina />
     </div>

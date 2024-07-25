@@ -31,7 +31,7 @@ export function GrowthSection() {
     <section css={flexStyles}>
       <div css={columnStyles}>
         <h4>Growth & ROI</h4>
-        <h1>Make your images Relevant</h1>
+        <h1>Supera tus límites</h1> 
         <h3 className="description">
           Use URL parameters to deliver dynamic & personalized images. Works
           perfectly for email marketing campaigns, E-commerce stores, or blogs
@@ -39,7 +39,7 @@ export function GrowthSection() {
         </h3>
       </div>
       <div>
-        <img src="/ipad.png" alt="" />
+        <img src="imagenes/autobelay.jpg" alt="" />
       </div>
     </section>
   );

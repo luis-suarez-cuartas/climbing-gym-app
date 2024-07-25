@@ -4,6 +4,7 @@ import Home from './views/HomePage';  // Asegúrate de que las rutas sean correc
 import Register from './views/Register';  // Asegúrate de que las rutas sean correctas
 import Login from './views/Login';
 import PublicRoute from './hooks/PublicRoute';
+import Profile from './views/Profile/Profile'
 // import PrivateRoute from './hooks/PrivateRoute';
 
 function AppRouter() {
@@ -13,6 +14,7 @@ function AppRouter() {
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<PublicRoute restricted={true} component={Register} />} />
         <Route path="/login" element={<PublicRoute restricted={true} component={Login} />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="*" element={<Navigate to="/" replace />} /> {/* Redirige cualquier otra ruta a la página de inicio */}
       </Routes>
     </BrowserRouter>

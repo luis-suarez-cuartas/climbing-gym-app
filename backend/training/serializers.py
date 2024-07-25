@@ -1,22 +1,21 @@
-
 from rest_framework import serializers
 from .models import Training, ClimbedRoute
 
-class ClimbedRouteSerializer(serializers.ModelSerializer):
+class ViaSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClimbedRoute
-        fields = ['id', 'training', 'duration', 'grade', 'route_name']
+        fields = '__all__'
 
-class TrainingSerializer(serializers.ModelSerializer):
-    routes = ClimbedRouteSerializer(many=True)
+class EntrenamientoSerializer(serializers.ModelSerializer):
+    vias = ViaSerializer(many=True, read_only=True)
 
     class Meta:
         model = Training
-        fields = ['id', 'climber', 'start_time', 'end_time', 'total_duration', 'routes', 'notes']
+        fields = '__all__'
 
     def create(self, validated_data):
-        routes_data = validated_data.pop('routes')
-        training = Training.objects.create(**validated_data)
-        for route_data in routes_data:
-            ClimbedRoute.objects.create(training=training, **route_data)
-        return training
+        vias_data = validated_data.pop('vias')
+        entrenamiento = Training.objects.create(**validated_data)
+        for via_data in vias_data:
+            ClimbedRoute.objects.create(training_session=entrenamiento, **via_data)
+        return entrenamiento

@@ -4,18 +4,23 @@ import { Link } from 'react-router-dom';
 
 const headerStyles = css`
   position: fixed;
-  background-color: #fff;
+  background-color: #000; /* Negro */
   margin: 0px auto 150px;
   display: flex;
   justify-content: center;
   width: 100%;
-  padding-top: 20px;
+  padding: 20px 0; /* Aumentar el padding para hacer la barra más ancha */
   z-index: 8;
+`;
+
+const logoStyles = css`
+  height: 100%; /* Ajustar la altura al 100% de la barra de navegación */
+  max-height: 50px; /* Establecer una altura máxima para la imagen */
 `;
 
 const navStyles = css`
   max-width: 1300px;
-  color: #1a47ff;
+  color: #fff; /* Blanco */
   font-weight: 500;
   display: flex;
   justify-content: space-between;
@@ -32,11 +37,11 @@ const navStyles = css`
 
   a {
     height: 50px;
-    color: #1f2024;
+    color: #fff; /* Blanco */
     text-decoration: none;
 
     :hover {
-      color: #1a47ff;
+      color: #1a47ff; /* Azul claro para el hover */
     }
   }
 `;
@@ -46,28 +51,40 @@ const buttonStyles = css`
   justify-content: center;
   gap: 1rem;
   align-content: center;
-  width: 300 px;
+  width: 300px;
+  
   a {
     border: 1px solid gray;
     width: 5rem;
     height: 1.8rem;
     border-radius: 8px;
-    color: black;
     text-decoration: none;
     text-align: center;
     padding-top: 5px;
+    color: #fff; /* Color blanco por defecto */
+    
     :hover {
       background-color: #1f2024;
       color: white;
     }
   }
 
-  #blue {
+  #signout {
     color: white;
-    background-color: #1a47ff;
+    background-color: #000; /* Negro para Sign Out */
 
     :hover {
       background-color: #1f2024;
+      color: white;
+    }
+  }
+
+  #signin {
+    color: white; /* Blanco para Sign In */
+    background-color: transparent;
+
+    :hover {
+      background-color: #1a47ff;
       color: white;
     }
   }
@@ -79,27 +96,27 @@ export function BarraNavegacion() {
       <nav css={navStyles}>
         <ul>
           <li>
-            <img src="./abyssale-logo.svg" alt="logo" />
+            <img src="imagenes/logo.png" alt="logo"  css={logoStyles} />
           </li>
           <li>
-            <a href="./index.html">Product</a>
+            <a href="./index.html">Vías</a>
           </li>
           <li>
-            <a href="./index.html">Solution</a>
+            <Link to="/profile">Perfil</Link> 
           </li>
           <li>
-            <a href="./index.html">Pricing</a>
+            <a href="./index.html">Ranking</a>
           </li>
           <li>
-            <a href="./index.html">Integration</a>
+            <a href="./index.html">Novedades</a>
           </li>
           <li>
-            <a href="./index.html">Resources</a>
+            <a href="./index.html">Servicio</a>
           </li>
         </ul>
         <div css={buttonStyles}>
-          <Link to="/login">Sign In</Link>
-          <Link to="/register" id="blue">Sign out</Link>
+          <Link to="/login" id="signin">Sign In</Link>
+          <Link to="/register" id="signout">Sign Out</Link>
         </div>
       </nav>
     </header>
