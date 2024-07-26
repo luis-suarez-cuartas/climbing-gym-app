@@ -17,8 +17,9 @@ function AppRouter() {
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<PublicRoute restricted={true} component={Register} />} />
         <Route path="/login" element={<PublicRoute restricted={true} component={Login} />} />
+        
         <Route path="/profile" element={<Profile />} />
-        <Route path="/entrenamiento" element={<TrainingSesion />} /> 
+        <Route path="/entrenamiento" element={<TrainingSesion/>} /> 
         <Route path="/publications" element={<Publications/>} /> 
         <Route path="/ranking" element={<Ranking/>} /> 
         <Route path="*" element={<Navigate to="/" replace />} /> {/* Redirige cualquier otra ruta a la página de inicio */}

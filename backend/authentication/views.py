@@ -31,6 +31,7 @@ class LogoutView(APIView):
     def post(self, request):
         try:
             refresh_token = request.data["refresh_token"]
+            logger.info("User logged out")
             token = RefreshToken(refresh_token)
             token.blacklist()
             return Response(status=status.HTTP_205_RESET_CONTENT)

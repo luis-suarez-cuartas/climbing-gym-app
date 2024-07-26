@@ -1,4 +1,3 @@
-// views/TrainingSesion.js
 import React, { useState, useEffect } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -39,7 +38,6 @@ const appStyles = {
 const formContainerStyles = {
   width: '70%'
 };
-
 const TrainingSesion = () => {
   const [sessions, setSessions] = useState([]);
   const [selectedSession, setSelectedSession] = useState(null);

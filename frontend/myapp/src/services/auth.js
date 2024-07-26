@@ -36,14 +36,21 @@ export const loginRequest = (url, data) => {
 
 export const logout = async () => {
     const refreshToken = localStorage.getItem('refreshToken');
+    const accessToken = localStorage.getItem('accessToken');
     if (refreshToken) {
-        await fetch('/api/auth/logout/', {
+        const response = await fetch('http://localhost:8000/api/auth/logout/', {
             method: 'POST',
             headers: {
+                'Authorization': `Bearer ${accessToken}`,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ refresh_token: refreshToken }),
         });
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Logout failed:', errorText);
+        }
+
     }
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');

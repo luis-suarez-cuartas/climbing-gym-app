@@ -5,8 +5,6 @@ import { css,Global } from '@emotion/react';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-localStorage.removeItem('accessToken');
-localStorage.removeItem('refreshToken');
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const globalStyles = css`
   * {
