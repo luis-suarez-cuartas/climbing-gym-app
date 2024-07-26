@@ -38,6 +38,7 @@ const appStyles = {
 const formContainerStyles = {
   width: '70%'
 };
+
 const TrainingSesion = () => {
   const [sessions, setSessions] = useState([]);
   const [selectedSession, setSelectedSession] = useState(null);
@@ -59,8 +60,6 @@ const TrainingSesion = () => {
     console.log('Selected session:', session);
     setSelectedSession(session);
     if (session) {
-      setFieldValue("name", session.name);
-      setFieldValue("about", session.notes);
       setFieldValue("duracion", session.duration);
       setFieldValue("fecha", session.date);
     }
@@ -80,24 +79,25 @@ const TrainingSesion = () => {
             fecha: ""
           }}
           validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting }) => {
+          onSubmit={(values, { setSubmitting, resetForm }) => {
             if (selectedSession) {
-              console.log('Submitting session:', values);
+              console.log('Submitting updated session:', values);
               loadSession(selectedSession.id, {
                 name: values.name,
                 notes: values.about,
-                duration: values.duracion,
-                date: values.fecha,
+                duration: selectedSession.duration, // Keep original duration
+                date: selectedSession.date, // Keep original date
                 loaded: true
               })
                 .then(response => {
-                  console.log('Session loaded successfully:', response);
-                  alert('Session loaded successfully');
+                  console.log('Session updated successfully:', response);
+                  alert('Session updated successfully');
                   setSubmitting(false);
+                  resetForm();
                   getUnloadedSessions().then(data => setSessions(data));
                 })
                 .catch(error => {
-                  console.error('Error loading session:', error);
+                  console.error('Error updating session:', error);
                   setSubmitting(false);
                 });
             }
@@ -121,15 +121,6 @@ const TrainingSesion = () => {
                   )}
                 </Select>
               </FormControl>
-              <br />
-              <br />
-              <Button
-                variant="contained"
-                type="submit"
-                disabled={isSubmitting}
-              >
-                OK
-              </Button>
               <br />
               <br />
               <Field
@@ -160,6 +151,7 @@ const TrainingSesion = () => {
                 label="Duration"
                 fullWidth
                 margin="normal"
+                disabled
               />
               <ErrorMessage name="duracion" component="div" className="input-feedback" />
 
@@ -173,6 +165,7 @@ const TrainingSesion = () => {
                 InputLabelProps={{
                   shrink: true,
                 }}
+                disabled
               />
               <ErrorMessage name="fecha" component="div" className="input-feedback" />
               <br />

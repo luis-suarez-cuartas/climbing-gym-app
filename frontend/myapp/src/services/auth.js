@@ -8,10 +8,10 @@ export const getAccessToken = () => {
     return localStorage.getItem('accessToken');
 };
 
-export const sendAuthenticatedRequest = (url, data) => {
+export const sendAuthenticatedRequest = (url, method, data) => {  // Añadido parámetro method
     const accessToken = getAccessToken();
     return fetch(url, {
-        method: 'POST',
+        method: method,  // Usar el método pasado como argumento
         headers: {
             'Authorization': `Bearer ${accessToken}`,
             'Content-Type': 'application/json'
@@ -21,6 +21,7 @@ export const sendAuthenticatedRequest = (url, data) => {
     .then(response => response.json())
     .catch(error => console.error('Error with fetch:', error));
 };
+
 
 export const loginRequest = (url, data) => {
     return fetch(url, {

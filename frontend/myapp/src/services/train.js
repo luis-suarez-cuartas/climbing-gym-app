@@ -3,7 +3,7 @@ import { getAccessToken } from './auth';
 
 export const getUnloadedSessions = async () => {
     const accessToken = getAccessToken();
-    console.log('Access Token:', accessToken); // Verifica el token
+    console.log('Access Token:', accessToken); 
 
     if (!accessToken) {
         throw new Error('No access token available');
@@ -18,7 +18,7 @@ export const getUnloadedSessions = async () => {
             }
         });
 
-        console.log('Response status:', response.status); // Verifica el estado de la respuesta
+        console.log('Response status:', response.status); 
 
         if (!response.ok) {
             const contentType = response.headers.get('content-type');
@@ -39,9 +39,14 @@ export const getUnloadedSessions = async () => {
     }
 };
 
+
 export const loadSession = async (sessionId, data) => {
     try {
-        const response = await sendAuthenticatedRequest(`/api/training/update-training/${sessionId}/`, 'PATCH', data); // Corregido aquí 'trainning' a 'training'
+        const response = await sendAuthenticatedRequest(
+            `http://localhost:8000/api/training/update-training/${sessionId}/`, 
+            'PATCH',  // Especificar que se debe usar el método PATCH
+            data
+        );
         console.log('Session loaded successfully:', response);
         return response;
     } catch (error) {
