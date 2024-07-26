@@ -12,29 +12,12 @@ const LeftProfile = () => {
             <NameCard>Jorge Morais</NameCard>
           </h1>
           <a href="#">
-            <LinkCard>@jorgemorais</LinkCard>
+            <LinkCard>jorge@gmail.com</LinkCard>
           </a>
-          <p>
-            <TitleCardPro>Front-end Developer</TitleCardPro>
-          </p>
+          
         </UserInfo>
         <Widget>
-          <a href="#">
-            <div>
-              <img src="/images/adress-icon.png" alt="Address Icon" />
-              <span>Fortaleza/Ceará - Brasil</span>
-            </div>
-          </a>
-          <StatusCard>
-            <div>
-              <img src="/images/company-icon.png" alt="Company Icon" />
-              <span>InCicle</span>
-            </div>
-            <div>
-              <img src="/images/university-icon.png" alt="University Icon" />
-              <span>Minho University</span>
-            </div>
-          </StatusCard>
+        <EditarButton>Editar</EditarButton>
         </Widget>
       </ArtCard>
     </Container>
@@ -133,7 +116,21 @@ const Widget = styled.div`
     margin-left: 10px;
   }
 `;
+const EditarButton = styled.button`
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #0073b1;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
 
+  &:hover {
+    background-color: #005582;
+  }
+`;
 const StatusCard = styled.div`
   text-decoration: none;
   display: flex;

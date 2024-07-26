@@ -109,7 +109,7 @@ export function BarraNavegacion() {
             <img src="imagenes/logo.png" alt="logo" css={logoStyles} />
           </li>
           <li>
-            <a href="./index.html">Publicaciones</a>
+           <Link to="/publications">Publications</Link>
           </li>
           <li>
             <Link to="/profile">Perfil</Link>
@@ -118,7 +118,7 @@ export function BarraNavegacion() {
             <Link to="/entrenamiento">Entrenamiento</Link>
           </li>
           <li>
-            <a href="./index.html">Ranking</a>
+            <Link to="/ranking">Ranking</Link>
           </li>
           <li>
             <a href="./index.html">Novedades</a>

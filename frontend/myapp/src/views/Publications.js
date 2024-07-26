@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { BarraNavegacion } from '../components/BarraNavegacion';
 
-const MainProfile = () => {
+const Publications = () => {
   const [like1, setLike1] = useState(0);
   const [like2, setLike2] = useState(0);
 
@@ -9,8 +10,15 @@ const MainProfile = () => {
   const handleLike2 = () => setLike2(like2 + 1);
 
   return (
+    <div>
+    <BarraNavegacion />
+      <br />
+        <br />
+        <br />
+        <br />
+        <br />
     <Container>
-      <div>
+        <div>
         <Article>
           <SharedActor>
             <a href="#">
@@ -21,9 +29,9 @@ const MainProfile = () => {
                   <br />
                   <div>
                     <img src="/images/clock.png" alt="Clock" />
-                    <span>about 3 hours ago</span>
-                    <img src="/images/unlock.png" alt="Unlock" />
-                    <span>just me</span>
+                    <span>about 1 day ago</span>
+                    <img src="/images/language.png" alt="Public" />
+                    <span>Public</span>
                   </div>
                 </h3>
               </div>
@@ -33,22 +41,19 @@ const MainProfile = () => {
             </a>
           </SharedActor>
           <MessageBox>
-            <span>This publication is set up in private mode, only I can see!</span>
+            <span>This publication is public, everyone can see!</span>
           </MessageBox>
           <ActionsPub>
             <div>
               <img src="/images/like.png" alt="Like" />
               <span>
-                <b>{like1}</b> likes
+                <b>{like2}</b> likes
               </span>
             </div>
-            <div>
-              <span>0 comments</span>
-              <span>0 shares</span>
-            </div>
+            
           </ActionsPub>
           <ArticleButtons>
-            <button onClick={handleLike1}>
+            <button onClick={handleLike2}>
               <img src="/images/like.png" alt="Like" />
               <span>Like</span>
             </button>
@@ -56,65 +61,13 @@ const MainProfile = () => {
               <img src="/images/comente.png" alt="Comment" />
               <span>Comment</span>
             </button>
-            <button>
-              <img src="/images/share.png" alt="Share" />
-              <span>Share</span>
-            </button>
+            <div>
+              <span>55 comments</span>
+              <span>12 shares</span>
+            </div>
           </ArticleButtons>
         </Article>
-      </div>
-      <div>
-        <Article>
-          <SharedActor>
-            <a href="#">
-              <img src="/images/fotocv.jpg" alt="Profile" />
-              <div>
-                <h3>
-                  Jorge Morais
-                  <br />
-                  <div>
-                    <img src="/images/clock.png" alt="Clock" />
-                    <span>about 3 hours ago</span>
-                    <img src="/images/unlock.png" alt="Unlock" />
-                    <span>just me</span>
-                  </div>
-                </h3>
-              </div>
-              <button>
-                <img src="/images/expand_more_black_24dp.svg" alt="Expand" />
-              </button>
-            </a>
-          </SharedActor>
-          <MessageBox>
-            <span>This publication is set up in private mode, only I can see!</span>
-          </MessageBox>
-          <ActionsPub>
-            <div>
-              <img src="/images/like.png" alt="Like" />
-              <span>
-                <b>{like1}</b> likes
-              </span>
-            </div>
-            <div>
-              <span>0 comments</span>
-              <span>0 shares</span>
-            </div>
-          </ActionsPub>
-          <ArticleButtons>
-            <button onClick={handleLike1}>
-              <img src="/images/like.png" alt="Like" />
-              <span>Like</span>
-            </button>
-            <button>
-              <img src="/images/comente.png" alt="Comment" />
-              <span>Comment</span>
-            </button>
-            <button>
-              <img src="/images/share.png" alt="Share" />
-              <span>Share</span>
-            </button>
-          </ArticleButtons>
-        </Article>
+        
       </div>
       <div>
         <Article>
@@ -148,10 +101,7 @@ const MainProfile = () => {
                 <b>{like2}</b> likes
               </span>
             </div>
-            <div>
-              <span>55 comments</span>
-              <span>12 shares</span>
-            </div>
+            
           </ActionsPub>
           <ArticleButtons>
             <button onClick={handleLike2}>
@@ -162,19 +112,77 @@ const MainProfile = () => {
               <img src="/images/comente.png" alt="Comment" />
               <span>Comment</span>
             </button>
-            <button>
-              <img src="/images/share.png" alt="Share" />
-              <span>Share</span>
-            </button>
+            <div>
+              <span>55 comments</span>
+              <span>12 shares</span>
+            </div>
           </ArticleButtons>
         </Article>
+        
+      </div>
+      <div>
+        <Article>
+          <SharedActor>
+            <a href="#">
+              <img src="/images/fotocv.jpg" alt="Profile" />
+              <div>
+                <h3>
+                  Jorge Morais
+                  <br />
+                  <div>
+                    <img src="/images/clock.png" alt="Clock" />
+                    <span>about 1 day ago</span>
+                    <img src="/images/language.png" alt="Public" />
+                    <span>Public</span>
+                  </div>
+                </h3>
+              </div>
+              <button>
+                <img src="/images/expand_more_black_24dp.svg" alt="Expand" />
+              </button>
+            </a>
+          </SharedActor>
+          <MessageBox>
+            <span>This publication is public, everyone can see!</span>
+          </MessageBox>
+          <ActionsPub>
+            <div>
+              <img src="/images/like.png" alt="Like" />
+              <span>
+                <b>{like2}</b> likes
+              </span>
+            </div>
+            
+          </ActionsPub>
+          <ArticleButtons>
+            <button onClick={handleLike2}>
+              <img src="/images/like.png" alt="Like" />
+              <span>Like</span>
+            </button>
+            <button>
+              <img src="/images/comente.png" alt="Comment" />
+              <span>Comment</span>
+            </button>
+            <div>
+              <span>55 comments</span>
+              <span>12 shares</span>
+            </div>
+          </ArticleButtons>
+        </Article>
+        
+      </div>
+      <div>
+      <MoreButton>More</MoreButton>
       </div>
     </Container>
+    </div>
   );
 };
 
 const Container = styled.div`
   grid-area: main;
+  width :75%;
+  margin: 0 auto;
 `;
 
 const CommonCard = styled.div`
@@ -188,49 +196,7 @@ const CommonCard = styled.div`
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15), 0 0 0 rgb(0, 0, 0, 0.20);
 `;
 
-const ShareBox = styled(CommonCard)`
-  display: flex;
-  align-items: center;
-  color: #958b7b;
-  margin: 0 0 8px;
-  background: white;
-  justify-content: space-between;
 
-  div {
-    button {
-      outline: none;
-      color: rgba(0, 0, 0, 0.6);
-      font-size: 12px;
-      line-height: 1;
-      min-height: 60px;
-      background: transparent;
-      border: none;
-      display: inline-flex;
-      align-items: center;
-      font-weight: 600;
-
-      &:hover {
-        background-color: rgba(0, 0, 0, 0.09);
-      }
-    }
-    &:first-child {
-      display: flex;
-      align-items: center;
-      padding: 8px 10px 0px 10px;
-      img {
-        margin-right: 4px;
-      }
-      button {
-        flex-grow: 1;
-        border-radius: 20px;
-        padding-left: 10px;
-      }
-    }
-    &:nth-child(2) {
-      color: rgba(0, 0, 0, 0.6);
-    }
-  }
-`;
 
 const Article = styled(CommonCard)`
   padding: 0;
@@ -345,6 +311,21 @@ const ActionsPub = styled.div`
     }
   }
 `;
+const MoreButton = styled.button`
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #0073b1;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+
+  &:hover {
+    background-color: #005582;
+  }
+`;
 
 const ArticleButtons = styled.div`
   display: flex;
@@ -369,4 +350,4 @@ const ArticleButtons = styled.div`
   }
 `;
 
-export default MainProfile;
+export default Publications;
