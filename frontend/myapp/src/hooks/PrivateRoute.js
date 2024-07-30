@@ -1,18 +1,9 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { getAccessToken } from '../services/auth'; 
 
-const PrivateRoute = ({ component: Component, ...rest }) => (
-    <Route 
-        {...rest} 
-        render={props => 
-            getAccessToken() ? (
-                <Component {...props} />
-            ) : (
-                <Redirect to="/login" />
-            )
-        } 
-    />
-);
+const PrivateRoute = ({ component: Component }) => {
+    return getAccessToken() ? <Component /> : <Navigate to="/login" />;
+};
 
 export default PrivateRoute;
