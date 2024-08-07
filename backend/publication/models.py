@@ -5,6 +5,7 @@ from training.models import Training
 class Publication(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='publications')
     training = models.OneToOneField(Training, on_delete=models.CASCADE, related_name='publication')
+    is_public = models.BooleanField(default=True) 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

@@ -8,6 +8,9 @@ import {
   Select,
   InputLabel,
   MenuItem,
+  FormControlLabel,
+  Radio,
+  RadioGroup
 } from '@mui/material';
 import { BarraNavegacion } from '../components/BarraNavegacion';
 import { getUnloadedSessions, loadSession } from '../services/train';
@@ -18,6 +21,7 @@ const validationSchema = Yup.object({
   about: Yup.string().required("Required"),
   duracion: Yup.number().required("Required"),
   fecha: Yup.date().required("Required"),
+  is_public: Yup.string().required("Required")  // Validación para el campo is_public
 });
 
 const navStyles = {
@@ -52,7 +56,7 @@ const TrainingSesion = () => {
       })
       .catch(error => {
         console.error('Error fetching sessions:', error);
-        setSessions([]); // Asegurarse de que sessions sea un array vacío en caso de error
+        setSessions([]);
       });
   }, []);
 
@@ -77,25 +81,27 @@ const TrainingSesion = () => {
             name: "",
             about: "",
             duracion: "",
-            fecha: ""
+            fecha: "",
+            is_public: "public"  // Valor inicial para el campo is_public
           }}
           validationSchema={validationSchema}
           onSubmit={(values, { setSubmitting, resetForm }) => {
             if (selectedSession) {
               console.log('Submitting updated session:', values);
-              createPublication(selectedSession.id)
-                .then(pubResponse => {
-                  console.log('Publication created successfully:', pubResponse);
-                  return loadSession(selectedSession.id, {
-                    name: values.name,
-                    notes: values.about,
-                    duration: selectedSession.duration, // Keep original duration
-                    date: selectedSession.date, // Keep original date
-                    loaded: true
-                  });
-                })
+              loadSession(selectedSession.id, {
+                name: values.name,
+                notes: values.about,
+                duration: selectedSession.duration, // Keep original duration
+                date: selectedSession.date
+              })
                 .then(response => {
                   console.log('Session updated successfully:', response);
+                  // Convertir el valor is_public a booleano
+                  const isPublic = values.is_public === "public";
+                  return createPublication(selectedSession.id, isPublic);
+                })
+                .then(pubResponse => {
+                  console.log('Publication created successfully:', pubResponse);
                   alert('Session and publication created successfully');
                   setSubmitting(false);
                   resetForm();
@@ -108,7 +114,7 @@ const TrainingSesion = () => {
             }
           }}
         >
-          {({ setFieldValue, isSubmitting, dirty, handleReset }) => (
+          {({ setFieldValue, isSubmitting, dirty, handleReset, handleChange, values }) => (
             <Form>
               <FormControl fullWidth margin="normal">
                 <InputLabel id="session-label">Choose your session</InputLabel>
@@ -175,6 +181,21 @@ const TrainingSesion = () => {
               <ErrorMessage name="fecha" component="div" className="input-feedback" />
               <br />
               <br />
+
+              <FormControl component="fieldset">
+                <RadioGroup
+                  aria-label="is_public"
+                  name="is_public"
+                  onChange={handleChange}
+                  value={values.is_public}
+                >
+                  <FormControlLabel value="public" control={<Radio />} label="Public" />
+                  <FormControlLabel value="private" control={<Radio />} label="Private" />
+                </RadioGroup>
+              </FormControl>
+
+              <br />
+
               <Button
                 variant="contained"
                 type="button"

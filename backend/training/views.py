@@ -22,7 +22,4 @@ class UpdateTrainingView(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Training.objects.filter(user=self.request.user, loaded=False)
-
-    def patch(self, request, *args, **kwargs):
-        return self.partial_update(request, *args, **kwargs)
+        return Training.objects.filter(user=self.request.user)
