@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import { BarraNavegacion } from '../components/BarraNavegacion';
 import { getUnloadedSessions, loadSession } from '../services/train';
+import { createPublication } from '../services/publication';
 
 const validationSchema = Yup.object({
   name: Yup.string().required("Required"),
@@ -82,22 +83,26 @@ const TrainingSesion = () => {
           onSubmit={(values, { setSubmitting, resetForm }) => {
             if (selectedSession) {
               console.log('Submitting updated session:', values);
-              loadSession(selectedSession.id, {
-                name: values.name,
-                notes: values.about,
-                duration: selectedSession.duration, // Keep original duration
-                date: selectedSession.date, // Keep original date
-                loaded: true
-              })
+              createPublication(selectedSession.id)
+                .then(pubResponse => {
+                  console.log('Publication created successfully:', pubResponse);
+                  return loadSession(selectedSession.id, {
+                    name: values.name,
+                    notes: values.about,
+                    duration: selectedSession.duration, // Keep original duration
+                    date: selectedSession.date, // Keep original date
+                    loaded: true
+                  });
+                })
                 .then(response => {
                   console.log('Session updated successfully:', response);
-                  alert('Session updated successfully');
+                  alert('Session and publication created successfully');
                   setSubmitting(false);
                   resetForm();
                   getUnloadedSessions().then(data => setSessions(data));
                 })
                 .catch(error => {
-                  console.error('Error updating session:', error);
+                  console.error('Error updating session or creating publication:', error);
                   setSubmitting(false);
                 });
             }
