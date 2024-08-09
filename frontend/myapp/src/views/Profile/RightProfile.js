@@ -119,7 +119,7 @@ const ActivitieMetrics = styled.div`
   display: flex;
   width: 33%;
   flex-direction: column;
-  border: 2px solid #649ed9;
+  border: 3px solid #FF6633;
   border-radius: 6px;
   margin-top: 4px;
   margin-right: 4px;
@@ -157,7 +157,7 @@ const ProjectMetrics = styled.div`
   display: flex;
   width: 33%;
   flex-direction: column;
-  border: 2px solid #505559;
+  border: 3px solid #FF6633;
   border-radius: 6px;
   margin-top: 4px;
   margin-right: 4px;
@@ -192,7 +192,7 @@ const TotalMetrics = styled.div`
   display: flex;
   width: 33%;
   flex-direction: column;
-  border: 2px solid #6383a6;
+  border: 3px solid #FF6633;
   border-radius: 6px;
   margin-top: 4px;
   font-size: 12px;

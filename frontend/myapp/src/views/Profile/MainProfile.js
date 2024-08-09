@@ -23,7 +23,7 @@ const MainProfile = () => {
           <Article key={pub.id}>
             <SharedActor>
               <button>
-                <img src="/imagenes/fotocv.jpg" alt="Profile" />
+                <img src="/imagenes/profile.jpg" alt="Profile" />
                 <div>
                   <h3>
                     {pub.user_name || 'Unknown User'}

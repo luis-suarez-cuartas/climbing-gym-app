@@ -9,7 +9,7 @@ import TrainingSesion from './views/TrainingSesion';
 import Publications from './views/Publications';
 import Ranking from './views/Ranking';
 import PrivateRoute from './hooks/PrivateRoute';
-
+import Sesion from './views/Sesion';
 function AppRouter() {
   return (
     <BrowserRouter>
@@ -17,7 +17,7 @@ function AppRouter() {
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<PublicRoute restricted={true} component={Register} />} />
         <Route path="/login" element={<PublicRoute restricted={true} component={Login} />} />
-        
+        <Route path="/sesion/:training_id" element={<PrivateRoute component={Sesion} />} /> 
         <Route path="/profile" element={<PrivateRoute component={Profile} />} />
         <Route path="/entrenamiento" element={<PrivateRoute component={TrainingSesion} />} />
         <Route path="/publications" element={<PrivateRoute component={Publications} />} />

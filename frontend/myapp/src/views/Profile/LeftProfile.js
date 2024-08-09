@@ -76,7 +76,7 @@ const CardBackground = styled.div`
 
 const Photo = styled.div`
   box-shadow: none;
-  background-image: url("/images/fotocv.jpg");
+  background-image: url("/imagenes/profile.jpg");
   width: 150px;
   height: 150px;
   box-sizing: border-box;

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { BarraNavegacion } from '../components/BarraNavegacion';
 import { getPublicPublications, likePublication } from '../services/publication';
 import moment from 'moment';
@@ -41,50 +42,54 @@ const Publications = () => {
       <Container>
         {publications && Array.isArray(publications) && publications.length > 0 ? (
           publications.map(pub => (
-            <Article key={pub.id}>
-              <SharedActor>
-                <button>
-                  <img src="/imagenes/fotocv.jpg" alt="Profile" />
+            pub.training_id ? (
+              <Article to={`/sesion/${pub.training_id}`} key={pub.id}> {/* Enlace correcto usando `Link` */}
+                <SharedActor>
+                  <button>
+                    <img src="/imagenes/fotocv.jpg" alt="Profile" />
+                    <div>
+                      <h3>
+                        {pub.user_name || 'Unknown User'}
+                        <br />
+                        <div>
+                          <img src="/imagenes/clock.png" alt="Clock" />
+                          <span>{moment(pub.created_at).fromNow()}</span>
+                          <img src="/imagenes/language.png" alt="Public" />
+                          <span>Public</span>
+                        </div>
+                      </h3>
+                    </div>
+                  </button>
+                </SharedActor>
+                <MessageBox>
+                  <span>{pub.training_name || 'No content available'}</span>
+                </MessageBox>
+                <ActionsPub>
                   <div>
-                    <h3>
-                      {pub.user_name || 'Unknown User'}
-                      <br />
-                      <div>
-                        <img src="/imagenes/clock.png" alt="Clock" />
-                        <span>{moment(pub.created_at).fromNow()}</span>
-                        <img src="/imagenes/language.png" alt="Public" />
-                        <span>Public</span>
-                      </div>
-                    </h3>
+                    <img src="/imagenes/like.png" alt="Like" />
+                    <span>
+                      <b>{pub.likes_count}</b> likes
+                    </span>
                   </div>
-                </button>
-              </SharedActor>
-              <MessageBox>
-                <span>{pub.training_name || 'No content available'}</span>
-              </MessageBox>
-              <ActionsPub>
-                <div>
-                  <img src="/imagenes/like.png" alt="Like" />
-                  <span>
-                    <b>{pub.likes_count}</b> likes
-                  </span>
-                </div>
-              </ActionsPub>
-              <ArticleButtons>
-                <button onClick={() => handleLike(pub.id)}>
-                  <img src="/imagenes/like.png" alt="Like" />
-                  <span>Like</span>
-                </button>
-                <button>
-                  <img src="/imagenes/comente.png" alt="Comment" />
-                  <span>Comment</span>
-                </button>
-                <div>
-                  <span>0 comments</span>
-                  <span>0 shares</span>
-                </div>
-              </ArticleButtons>
-            </Article>
+                </ActionsPub>
+                <ArticleButtons>
+                  <button onClick={() => handleLike(pub.id)}>
+                    <img src="/imagenes/like.png" alt="Like" />
+                    <span>Like</span>
+                  </button>
+                  <button>
+                    <img src="/imagenes/comente.png" alt="Comment" />
+                    <span>Comment</span>
+                  </button>
+                  <div>
+                    <span>0 comments</span>
+                    <span>0 shares</span>
+                  </div>
+                </ArticleButtons>
+              </Article>
+            ) : (
+              <p key={pub.id}>Training ID no disponible</p>
+            )
           ))
         ) : (
           <p>No public publications available</p>
@@ -95,29 +100,19 @@ const Publications = () => {
   );
 };
 
-// Component styles as before...
-
 
 const Container = styled.div`
   grid-area: main;
   width: 75%;
   margin: 0 auto;
-  background-color: #FFFFFF;  /* Fondo gris oscuro */
-  padding: 20px;  /* Añadido padding para un mejor aspecto */
+  background-color: #FFFFFF;
+  padding: 20px;
 `;
 
-const CommonCard = styled.div`
-  text-align: center;
-  overflow: hidden;
-  margin-bottom: 8px;
-  background-color: #FFFFFF;  /* Color naranja brillante */
-  border-radius: 5px;
-  position: relative;
-  border: none;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15), 0 0 0 rgb(0, 0, 0, 0.20);
-`;
-
-const Article = styled(CommonCard)`
+const Article = styled(Link)`  /* Cambiado de CommonCard a Link */
+  display: block;
+  text-decoration: none;
+  color: inherit;  /* Mantener el color del texto por defecto */
   padding: 0;
   margin: 18px 0 18px;
   overflow: visible;
@@ -159,7 +154,7 @@ const SharedActor = styled.div`
         text-align: left;
         font-size: 18px;
         font-weight: 800;
-        color: #000;  /* Nombre del usuario en negro */
+        color: #000;
         div {
           display: flex;
           align-items: center;

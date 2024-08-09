@@ -1,4 +1,4 @@
-# trainning/views.py
+from django.shortcuts import get_object_or_404
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -68,6 +68,38 @@ class TrainingStatsView(APIView):
                 'routes': routes_total.count(),
                 'duration': duration_total,
             }
+        }
+
+        return Response(data)
+    
+
+class TrainingDetailView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, training_id):
+        training = get_object_or_404(Training, id=training_id)
+        routes = ClimbedRouteTrainingSession.objects.filter(training_session=training)
+        total_time_climbed = routes.aggregate(Sum('time_taken'))['time_taken__sum'] or 0
+        routes_count = routes.count()
+
+        # Preparar datos para el frontend, incluyendo fells y completed para cada ruta
+        route_data = [
+            {
+                'route_name': route.climbed_route.route_name,
+                'time_taken': route.time_taken,
+                'fells': route.fells,
+                'completed': route.completed,
+            }
+            for route in routes
+        ]
+
+        data = {
+            'user_name': training.user.name,
+            'activity_date': training.date.strftime('%d de %B de %Y a las %H:%M'),
+            'activity_title': training.name,
+            'total_time_climbed': total_time_climbed,
+            'routes_count': routes_count,
+            'routes': route_data,  # Añadir la lista de rutas al JSON de respuesta
         }
 
         return Response(data)

@@ -67,3 +67,16 @@ export const getTrainingStats = async () => {
         throw error;
     }
 };
+
+export const getTrainingDetails = async (training_id) => { // Cambia `trainingId` por `training_id`
+    try {
+      const response = await sendAuthenticatedRequest(
+        `http://localhost:8000/api/training/${training_id}/details/`, // Cambia aquí también
+        'GET'
+      );
+      return response;
+    } catch (error) {
+      console.error('Error fetching training details:', error);
+      throw error;
+    }
+};

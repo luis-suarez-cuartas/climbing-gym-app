@@ -3,8 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@emotion/react": "^11.13.0",
-    "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^5.16.5",
     "@mui/material": "^5.16.5",
     "@popperjs/core": "^2.11.8",
@@ -25,6 +23,7 @@
     "react-router-dom": "^6.25.1",
     "react-scripts": "^5.0.1",
     "reactstrap": "^9.2.2",
+    "recharts": "^2.12.7",
     "sass": "^1.77.1",
     "styled-components": "^6.1.12",
     "web-vitals": "^2.1.4",
