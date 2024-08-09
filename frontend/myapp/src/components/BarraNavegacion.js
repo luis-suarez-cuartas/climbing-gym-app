@@ -6,12 +6,21 @@ import { logout } from '../services/auth';
 const headerStyles = css`
   position: fixed;
   background-color: #000; /* Negro */
-  margin: 0px auto 150px;
-  display: flex;
-  justify-content: center;
   width: 100%;
   padding: 20px 0; /* Aumentar el padding para hacer la barra más ancha */
   z-index: 8;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const navContainerStyles = css`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1300px;
+  padding: 0 20px;
 `;
 
 const logoStyles = css`
@@ -19,70 +28,50 @@ const logoStyles = css`
   max-height: 50px; /* Establecer una altura máxima para la imagen */
 `;
 
-const navStyles = css`
-  max-width: 1300px;
-  color: #fff; /* Blanco */
-  font-weight: 500;
+const ulStyles = css`
   display: flex;
-  justify-content: space-between;
-  margin: auto 0;
-  align-content: center;
-  width: 100%;
+  list-style-type: none;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+`;
 
-  ul {
-    display: flex;
-    list-style-type: none;
-    gap: 2rem;
-    margin-top: 5px;
-  }
+const linkStyles = css`
+  height: 50px;
+  color: #fff; /* Blanco */
+  text-decoration: none;
 
-  a {
-    height: 50px;
-    color: #fff; /* Blanco */
-    text-decoration: none;
-
-    :hover {
-      color: #1a47ff; /* Azul claro para el hover */
-    }
+  :hover {
+    color: #1a47ff; /* Azul claro para el hover */
   }
 `;
 
-const buttonStyles = css`
+const buttonContainerStyles = css`
   display: flex;
-  justify-content: center;
   gap: 1rem;
-  align-content: center;
-  width: 300px;
+  align-items: center;
+  margin-left: auto; /* Empuja los botones a la derecha */
+`;
 
-  a, button {
-    border: 1px solid gray;
-    width: 5rem;
-    height: 1.8rem;
-    border-radius: 8px;
-    text-decoration: none;
-    text-align: center;
-    padding-top: 5px;
-    color: #fff; /* Color blanco por defecto */
-    background-color: transparent;
-    cursor: pointer;
-    
-    :hover {
-      background-color: #1f2024;
-      color: white;
-    }
-  }
+const buttonStyles = css`
+  border: 1px solid gray;
+  width: 5rem;
+  height: 1.8rem;
+  border-radius: 8px;
+  text-decoration: none;
+  text-align: center;
+  padding-top: 5px;
+  color: #fff; /* Color blanco por defecto */
+  background-color: transparent;
+  cursor: pointer;
 
-  #signout {
+  :hover {
+    background-color: #1f2024;
     color: white;
-    background-color: transparent;
-
-    :hover {
-      background-color: #1f2024;
-      color: white;
-    }
   }
 
-  #signin {
+  &.signin {
     color: white; /* Blanco para Sign In */
     background-color: transparent;
 
@@ -103,35 +92,35 @@ export function BarraNavegacion() {
 
   return (
     <header css={headerStyles}>
-      <nav css={navStyles}>
-        <ul>
+      <div css={navContainerStyles}>
+        <ul css={ulStyles}>
           <li>
             <img src="imagenes/logo.png" alt="logo" css={logoStyles} />
           </li>
           <li>
-           <Link to="/publications">Publications</Link>
+            <Link to="/publications" css={linkStyles}>Publications</Link>
           </li>
           <li>
-            <Link to="/profile">Perfil</Link>
+            <Link to="/profile" css={linkStyles}>Perfil</Link>
           </li>
           <li>
-            <Link to="/entrenamiento">Entrenamiento</Link>
+            <Link to="/entrenamiento" css={linkStyles}>Entrenamiento</Link>
           </li>
           <li>
-            <Link to="/ranking">Ranking</Link>
+            <Link to="/ranking" css={linkStyles}>Ranking</Link>
           </li>
           <li>
-            <a href="./index.html">Novedades</a>
+            <a href="./index.html" css={linkStyles}>Novedades</a>
           </li>
           <li>
-            <a href="./index.html">Servicio</a>
+            <a href="./index.html" css={linkStyles}>Servicio</a>
           </li>
         </ul>
-        <div css={buttonStyles}>
-          <Link to="/login" id="signin">Log In</Link>
-          <button onClick={handleLogout} id="signout">Log Out</button>
+        <div css={buttonContainerStyles}>
+          <Link to="/login" css={buttonStyles} className="signin">Log In</Link>
+          <button onClick={handleLogout} css={buttonStyles}>Log Out</button>
         </div>
-      </nav>
+      </div>
     </header>
   );
 }

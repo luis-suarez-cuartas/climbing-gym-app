@@ -1,241 +1,99 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { getUserPublications } from '../../services/publication';
+import moment from 'moment';
 
 const MainProfile = () => {
-  const [like1, setLike1] = useState(0);
-  const [like2, setLike2] = useState(0);
+  const [publications, setPublications] = useState([]);
 
-  const handleLike1 = () => setLike1(like1 + 1);
-  const handleLike2 = () => setLike2(like2 + 1);
+  useEffect(() => {
+    getUserPublications()
+      .then(data => {
+        setPublications(data);
+      })
+      .catch(error => {
+        console.error('Error fetching user publications:', error);
+      });
+  }, []);
 
   return (
     <Container>
-      <div>
-        <Article>
-          <SharedActor>
-            <a href="#">
-              <img src="/images/fotocv.jpg" alt="Profile" />
-              <div>
-                <h3>
-                  Jorge Morais
-                  <br />
-                  <div>
-                    <img src="/images/clock.png" alt="Clock" />
-                    <span>about 3 hours ago</span>
-                    <img src="/images/unlock.png" alt="Unlock" />
-                    <span>just me</span>
-                  </div>
-                </h3>
-              </div>
+      {publications && Array.isArray(publications) && publications.length > 0 ? (
+        publications.map(pub => (
+          <Article key={pub.id}>
+            <SharedActor>
               <button>
-                <img src="/images/expand_more_black_24dp.svg" alt="Expand" />
+                <img src="/imagenes/fotocv.jpg" alt="Profile" />
+                <div>
+                  <h3>
+                    {pub.user_name || 'Unknown User'}
+                    <br />
+                    <div>
+                      <img src="/imagenes/clock.png" alt="Clock" />
+                      <span>{moment(pub.created_at).fromNow()}</span>
+                      <img src={pub.is_public ? "/imagenes/language.png" : "/imagenes/unlock.png"} alt={pub.is_public ? "Public" : "Private"} />
+                      <span>{pub.is_public ? "Public" : "Just me"}</span>
+                    </div>
+                  </h3>
+                </div>
               </button>
-            </a>
-          </SharedActor>
-          <MessageBox>
-            <span>This publication is set up in private mode, only I can see!</span>
-          </MessageBox>
-          <ActionsPub>
-            <div>
-              <img src="/images/like.png" alt="Like" />
-              <span>
-                <b>{like1}</b> likes
-              </span>
-            </div>
-            <div>
-              <span>0 comments</span>
-              <span>0 shares</span>
-            </div>
-          </ActionsPub>
-          <ArticleButtons>
-            <button onClick={handleLike1}>
-              <img src="/images/like.png" alt="Like" />
-              <span>Like</span>
-            </button>
-            <button>
-              <img src="/images/comente.png" alt="Comment" />
-              <span>Comment</span>
-            </button>
-            <button>
-              <img src="/images/share.png" alt="Share" />
-              <span>Share</span>
-            </button>
-          </ArticleButtons>
-        </Article>
-      </div>
-      <div>
-        <Article>
-          <SharedActor>
-            <a href="#">
-              <img src="/images/fotocv.jpg" alt="Profile" />
+            </SharedActor>
+            <MessageBox>
+              <span>{pub.training_name || 'No content available'}</span>
+            </MessageBox>
+            <ActionsPub>
               <div>
-                <h3>
-                  Jorge Morais
-                  <br />
-                  <div>
-                    <img src="/images/clock.png" alt="Clock" />
-                    <span>about 3 hours ago</span>
-                    <img src="/images/unlock.png" alt="Unlock" />
-                    <span>just me</span>
-                  </div>
-                </h3>
+                <img src="/imagenes/like.png" alt="Like" />
+                <span>
+                  <b>0</b> likes
+                </span>
               </div>
+            </ActionsPub>
+            <ArticleButtons>
               <button>
-                <img src="/images/expand_more_black_24dp.svg" alt="Expand" />
+                <img src="/imagenes/like.png" alt="Like" />
+                <span>Like</span>
               </button>
-            </a>
-          </SharedActor>
-          <MessageBox>
-            <span>This publication is set up in private mode, only I can see!</span>
-          </MessageBox>
-          <ActionsPub>
-            <div>
-              <img src="/images/like.png" alt="Like" />
-              <span>
-                <b>{like1}</b> likes
-              </span>
-            </div>
-            <div>
-              <span>0 comments</span>
-              <span>0 shares</span>
-            </div>
-          </ActionsPub>
-          <ArticleButtons>
-            <button onClick={handleLike1}>
-              <img src="/images/like.png" alt="Like" />
-              <span>Like</span>
-            </button>
-            <button>
-              <img src="/images/comente.png" alt="Comment" />
-              <span>Comment</span>
-            </button>
-            <button>
-              <img src="/images/share.png" alt="Share" />
-              <span>Share</span>
-            </button>
-          </ArticleButtons>
-        </Article>
-      </div>
-      <div>
-        <Article>
-          <SharedActor>
-            <a href="#">
-              <img src="/images/fotocv.jpg" alt="Profile" />
+              <button>
+                <img src="/imagenes/comente.png" alt="Comment" />
+                <span>Comment</span>
+              </button>
               <div>
-                <h3>
-                  Jorge Morais
-                  <br />
-                  <div>
-                    <img src="/images/clock.png" alt="Clock" />
-                    <span>about 1 day ago</span>
-                    <img src="/images/language.png" alt="Public" />
-                    <span>Public</span>
-                  </div>
-                </h3>
-              </div>
-              <button>
-                <img src="/images/expand_more_black_24dp.svg" alt="Expand" />
-              </button>
-            </a>
-          </SharedActor>
-          <MessageBox>
-            <span>This publication is public, everyone can see!</span>
-          </MessageBox>
-          <ActionsPub>
-            <div>
-              <img src="/images/like.png" alt="Like" />
-              <span>
-                <b>{like2}</b> likes
-              </span>
-            </div>
-            <div>
-              <span>55 comments</span>
-              <span>12 shares</span>
-            </div>
-          </ActionsPub>
-          <ArticleButtons>
-            <button onClick={handleLike2}>
-              <img src="/images/like.png" alt="Like" />
-              <span>Like</span>
-            </button>
-            <button>
-              <img src="/images/comente.png" alt="Comment" />
-              <span>Comment</span>
-            </button>
-            <button>
-              <img src="/images/share.png" alt="Share" />
-              <span>Share</span>
-            </button>
-          </ArticleButtons>
-        </Article>
-      </div>
+                  <span>0 comments</span>
+                  <span>0 shares</span>
+                </div>
+            </ArticleButtons>
+          </Article>
+        ))
+      ) : (
+        <p>No publications available</p>
+      )}
     </Container>
   );
 };
 
 const Container = styled.div`
   grid-area: main;
+  background-color: #FFFFFF;  /* Fondo gris oscuro */
+  padding: 20px;  /* Añadido padding para un mejor aspecto */
 `;
 
 const CommonCard = styled.div`
   text-align: center;
   overflow: hidden;
   margin-bottom: 8px;
-  background-color: #fff;
+  background-color: #FFFFFF;  /* Color naranja brillante */
   border-radius: 5px;
   position: relative;
   border: none;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15), 0 0 0 rgb(0, 0, 0, 0.20);
 `;
 
-const ShareBox = styled(CommonCard)`
-  display: flex;
-  align-items: center;
-  color: #958b7b;
-  margin: 0 0 8px;
-  background: white;
-  justify-content: space-between;
-
-  div {
-    button {
-      outline: none;
-      color: rgba(0, 0, 0, 0.6);
-      font-size: 12px;
-      line-height: 1;
-      min-height: 60px;
-      background: transparent;
-      border: none;
-      display: inline-flex;
-      align-items: center;
-      font-weight: 600;
-
-      &:hover {
-        background-color: rgba(0, 0, 0, 0.09);
-      }
-    }
-    &:first-child {
-      display: flex;
-      align-items: center;
-      padding: 8px 10px 0px 10px;
-      img {
-        margin-right: 4px;
-      }
-      button {
-        flex-grow: 1;
-        border-radius: 20px;
-        padding-left: 10px;
-      }
-    }
-    &:nth-child(2) {
-      color: rgba(0, 0, 0, 0.6);
-    }
-  }
-`;
-
 const Article = styled(CommonCard)`
   padding: 0;
   margin: 18px 0 18px;
   overflow: visible;
+  background-color: #E5E8E8;
 `;
 
 const SharedActor = styled.div`
@@ -245,7 +103,7 @@ const SharedActor = styled.div`
   margin-bottom: 8px;
   align-items: center;
   display: flex;
-  a {
+  button {
     margin-right: 12px;
     flex-grow: 1;
     overflow: hidden;
@@ -253,7 +111,9 @@ const SharedActor = styled.div`
     text-decoration: none;
     justify-content: space-between;
     align-items: center;
-
+    background: none;
+    border: none;
+    cursor: pointer;
     img {
       width: 48px;
       height: 48px;
@@ -267,13 +127,11 @@ const SharedActor = styled.div`
       margin-left: 8px;
       overflow: hidden;
       justify-content: column;
-
       h3 {
         text-align: left;
         font-size: 18px;
         font-weight: 800;
-        color: #5ab2da;
-
+        color: #000;  /* Nombre del usuario en negro */
         div {
           display: flex;
           align-items: center;
@@ -292,24 +150,6 @@ const SharedActor = styled.div`
           align-items: center;
         }
       }
-    }
-  }
-
-  button {
-    position: absolute;
-    right: 12px;
-    top: 0;
-    background: transparent;
-    border: none;
-    outline: none;
-
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.09);
-    }
-    img {
-      border: none;
-      width: 24px;
-      height: 24px;
     }
   }
 `;
@@ -331,7 +171,6 @@ const ActionsPub = styled.div`
   align-items: center;
   margin-right: 10px;
   padding: 0px 8px 16px 16px;
-
   img {
     border: none;
     width: 16px;
@@ -354,10 +193,12 @@ const ArticleButtons = styled.div`
     text-align: center;
     padding: 5px 36px;
     margin-bottom: 16px;
+     
+    background-color: #FF9966;
     border: none;
     border-radius: 20px;
     &:hover {
-      background-color: rgba(0, 0, 0, 0.09);
+      background-color: #005582;
     }
 
     img {

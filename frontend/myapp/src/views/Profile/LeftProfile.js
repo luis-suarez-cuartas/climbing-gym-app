@@ -1,7 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { sendAuthenticatedRequest } from '../../services/auth'; // Asegúrate de importar la función correctamente
 
 const LeftProfile = () => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const response = await sendAuthenticatedRequest('http://localhost:8000/api/auth/profile/', 'GET');
+        setUser(response);
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <Container>
       <ArtCard>
@@ -9,20 +29,19 @@ const LeftProfile = () => {
           <CardBackground />
           <h1>
             <Photo />
-            <NameCard>Jorge Morais</NameCard>
+            <NameCard>{user.name}</NameCard>
           </h1>
           <a href="#">
-            <LinkCard>jorge@gmail.com</LinkCard>
+            <LinkCard>{user.email}</LinkCard>
           </a>
-          
         </UserInfo>
         <Widget>
-        <EditarButton>Editar</EditarButton>
+          <EditarButton>Editar</EditarButton>
         </Widget>
       </ArtCard>
     </Container>
   );
-}
+};
 
 const Container = styled.div`
   grid-area: leftside;
@@ -75,18 +94,14 @@ const NameCard = styled.div`
   font-family: Arial;
   font-size: 24px;
   font-weight: bold;
-  color: #5ab2da;
+  color: #000; /* Cambiado a negro */
   line-height: 1.5;
 `;
 
 const LinkCard = styled.div`
   font-size: 14px;
   line-height: 1.5;
-`;
-
-const TitleCardPro = styled.div`
-  font-size: 12px;
-  color: #808080;
+  color: #000; /* Cambiado a negro */
 `;
 
 const Widget = styled.div`
@@ -94,63 +109,21 @@ const Widget = styled.div`
   padding-bottom: 20px;
   color: #808080;
   margin-left: 10px;
-
-  & > a {
-    text-decoration: none;
-    font-size: 14px;
-    display: flex;
-    justify-content: space-between;
-    padding: 4px 12px;
-
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.08);
-    }
-
-    div {
-      display: flex;
-      align-items: center;
-    }
-  }
-
-  & span {
-    margin-left: 10px;
-  }
 `;
 const EditarButton = styled.button`
   display: block;
   margin: 20px auto;
   padding: 10px 20px;
-  background-color: #0073b1;
-  color: white;
-  border: none;
+  background-color: #FF6633;
+  color: white;  /* Cambia el color del texto a negro */
+  border: 2px solid black;  /* Añade un borde de color negro */
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
 
   &:hover {
     background-color: #005582;
-  }
-`;
-const StatusCard = styled.div`
-  text-decoration: none;
-  display: flex;
-  font-size: 14px;
-  padding: 10px 10px 10px 10px;
-  align-items: center;
-  justify-content: space-between;
-  word-wrap: none;
-  word-break: none;
-
-  div {
-    display: flex;
-    align-items: center;
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.08);
-    }
-  }
-
-  span {
-    align-items: center;
+    color: white;  /* Opcional: Cambia el color del texto a blanco cuando se hace hover */
   }
 `;
 

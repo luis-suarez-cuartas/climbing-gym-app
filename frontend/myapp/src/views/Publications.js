@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { BarraNavegacion } from '../components/BarraNavegacion';
-import { getPublicPublications } from '../services/publication';
+import { getPublicPublications, likePublication } from '../services/publication';
 import moment from 'moment';
 
 const Publications = () => {
@@ -16,6 +16,19 @@ const Publications = () => {
         console.error('Error fetching public publications:', error);
       });
   }, []);
+
+  const handleLike = async (publicationId) => {
+    try {
+      const response = await likePublication(publicationId);
+      setPublications(prevPublications =>
+        prevPublications.map(pub =>
+          pub.id === publicationId ? { ...pub, likes_count: response.likes_count } : pub
+        )
+      );
+    } catch (error) {
+      console.error('Error liking publication:', error);
+    }
+  };
 
   return (
     <div>
@@ -53,12 +66,12 @@ const Publications = () => {
                 <div>
                   <img src="/imagenes/like.png" alt="Like" />
                   <span>
-                    <b>0</b> likes
+                    <b>{pub.likes_count}</b> likes
                   </span>
                 </div>
               </ActionsPub>
               <ArticleButtons>
-                <button>
+                <button onClick={() => handleLike(pub.id)}>
                   <img src="/imagenes/like.png" alt="Like" />
                   <span>Like</span>
                 </button>
@@ -82,11 +95,14 @@ const Publications = () => {
   );
 };
 
+// Component styles as before...
+
+
 const Container = styled.div`
   grid-area: main;
   width: 75%;
   margin: 0 auto;
-  background-color: #d3d3d3;  /* Fondo gris oscuro */
+  background-color: #FFFFFF;  /* Fondo gris oscuro */
   padding: 20px;  /* Añadido padding para un mejor aspecto */
 `;
 
@@ -94,7 +110,7 @@ const CommonCard = styled.div`
   text-align: center;
   overflow: hidden;
   margin-bottom: 8px;
-  background-color: #FFA500;  /* Color naranja brillante */
+  background-color: #FFFFFF;  /* Color naranja brillante */
   border-radius: 5px;
   position: relative;
   border: none;
@@ -105,6 +121,7 @@ const Article = styled(CommonCard)`
   padding: 0;
   margin: 18px 0 18px;
   overflow: visible;
+  background-color: #E5E8E8;
 `;
 
 const SharedActor = styled.div`
@@ -219,6 +236,7 @@ const ArticleButtons = styled.div`
   button {
     text-align: center;
     padding: 5px 36px;
+    background-color: #FF9966;
     margin-bottom: 16px;
     border: none;
     border-radius: 20px;

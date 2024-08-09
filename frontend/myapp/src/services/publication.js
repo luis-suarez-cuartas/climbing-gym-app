@@ -30,3 +30,31 @@ export const getPublicPublications = async () => {
     }
 };
 
+
+
+export const getUserPublications = async () => {
+    try {
+        const response = await sendAuthenticatedRequest(
+            'http://localhost:8000/api/publication/user/',
+            'GET'
+        );
+        console.log('User publications fetched successfully:', response);
+        return response;
+    } catch (error) {
+        console.error('Error fetching user publications:', error);
+        throw error;
+    }
+};
+
+export const likePublication = async (publicationId) => {
+    try {
+        const response = await sendAuthenticatedRequest(
+            `http://localhost:8000/api/publication/${publicationId}/like/`,
+            'POST'
+        );
+        return response;
+    } catch (error) {
+        console.error('Error liking publication:', error);
+        throw error;
+    }
+};

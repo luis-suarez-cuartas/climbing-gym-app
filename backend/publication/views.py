@@ -1,7 +1,7 @@
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from .models import Publication
+from .models import Publication, Like
 from .serializers import PublicationSerializer
 from training.models import Training
 
@@ -36,3 +36,33 @@ class PublicPublicationListView(generics.ListAPIView):
 
     def get_queryset(self):
         return Publication.objects.filter(is_public=True).order_by('-created_at')
+    
+
+
+
+class UserPublicationListView(generics.ListAPIView):
+    serializer_class = PublicationSerializer
+    permission_classes = [IsAuthenticated]  # Requiere autenticación
+
+    def get_queryset(self):
+        return Publication.objects.filter(user=self.request.user).order_by('-created_at')
+    
+
+
+class LikePublicationView(generics.GenericAPIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        publication_id = kwargs.get('pk')
+        user = request.user
+        try:
+            publication = Publication.objects.get(id=publication_id)
+            # Verificar si el usuario ya ha dado like a esta publicación
+            like, created = Like.objects.get_or_create(user=user, publication=publication)
+            if not created:
+                return Response({"detail": "Already liked"}, status=status.HTTP_400_BAD_REQUEST)
+            
+            return Response({"likes_count": publication.likes.count()}, status=status.HTTP_201_CREATED)
+        except Publication.DoesNotExist:
+            return Response({"detail": "Publication not found"}, status=status.HTTP_404_NOT_FOUND)
+        
