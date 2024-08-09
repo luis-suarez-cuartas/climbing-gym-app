@@ -1,82 +1,67 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { getTrainingStats } from '../../services/train'; 
 
 const RightProfile = () => {
+  const [stats, setStats] = useState({
+    this_week: { trainings: 0, routes: 0, duration: 0 },
+    this_month: { trainings: 0, routes: 0, duration: 0 },
+    total: { trainings: 0, routes: 0, duration: 0 },
+  });
+
+  useEffect(() => {
+    getTrainingStats()
+      .then(data => setStats(data))
+      .catch(error => console.error('Error fetching training stats:', error));
+  }, []);
+
   return (
     <Container>
       <DashboardCard>
         <div>
-          <Activities>
-            <div>
-              <h3>
-                Activities <br />
-                <span>23/100</span>
-              </h3>
-            </div>
-            <div>
-              <p>50%</p>
-            </div>
-          </Activities>
-          <Projects>
-            <h3>
-              Projects<br />
-              <span>23/100</span>
-            </h3>
-            <p>50%</p>
-          </Projects>
-        </div>
-        <TotalCard>
-          <h3>
-            Total<br />
-            <span>23/100</span>
-          </h3>
-          <p>50%</p>
-        </TotalCard>
-
-        <div>
           <ActivitieMetrics>
-            <h5>Activities</h5>
+            <h5>This week</h5>
             <div>
-              <p>To do</p>
-              <span>5</span>
+              <p>Trainings</p>
+              <span>{stats.this_week.trainings}</span>
             </div>
             <div>
-              <p>Pending </p>
-              <span>5</span>
+              <p>Routes </p>
+              <span>{stats.this_week.routes}</span>
             </div>
             <div>
-              <p>Done </p>
-              <span>5</span>
+              <p>Duration</p>
+              <span>{stats.this_week.duration}</span>
             </div>
           </ActivitieMetrics>
           <ProjectMetrics>
-            <h5>Projects</h5>
+            <h5>This month</h5>
             <div>
-              <p>To do</p>
-              <span>5</span>
+              <p>Trainings</p>
+              <span>{stats.this_month.trainings}</span>
             </div>
             <div>
-              <p>Pending </p>
-              <span>5</span>
+              <p>Routes</p>
+              <span>{stats.this_month.routes}</span>
             </div>
             <div>
-              <p>Done </p>
-              <span>5</span>
+              <p>Duration</p>
+              <span>{stats.this_month.duration}</span>
             </div>
           </ProjectMetrics>
           <TotalMetrics>
             <h5>Total</h5>
             <div>
-              <p>To do</p>
-              <span>5</span>
+              <p>Trainings</p>
+              <span>{stats.total.trainings}</span>
             </div>
             <div>
-              <p>Pending </p>
-              <span>5</span>
+              <p>Routes</p>
+              <span>{stats.total.routes}</span>
             </div>
             <div>
-              <p>Done </p>
-              <span>5</span>
+              <p>Duration</p>
+              <span>{stats.total.duration}</span>
             </div>
           </TotalMetrics>
         </div>
@@ -107,6 +92,7 @@ const RightProfile = () => {
   );
 };
 
+
 const Container = styled.div`
   grid-area: rightside;
   font-family: Arial;
@@ -126,71 +112,6 @@ const DashboardCard = styled.div`
   & > div {
     display: flex;
     justify-content: space-between;
-  }
-`;
-
-const Activities = styled.div`
-  display: flex;
-  width: 50%;
-  height: 20px;
-  background-color: #649ed9;
-  text-decoration: none;
-  text-align: left;
-  font-size: 14px;
-  color: #fff;
-  border-radius: 6px;
-  padding: 20px;
-  margin-right: 4px;
-  margin-bottom: 4px;
-  align-items: center;
-
-  & p {
-    display: flex;
-    font-size: 18px;
-    margin-left: 20px;
-    align-items: center;
-  }
-`;
-
-const Projects = styled.div`
-  display: flex;
-  width: 50%;
-  height: 20px;
-  background-color: #505559;
-  text-decoration: none;
-  text-align: left;
-  font-size: 14px;
-  color: #fff;
-  border-radius: 6px;
-  padding: 20px;
-  margin-bottom: 4px;
-  align-items: center;
-
-  & p {
-    display: flex;
-    font-size: 18px;
-    margin-left: 20px;
-    align-items: center;
-  }
-`;
-
-const TotalCard = styled.div`
-  display: flex;
-  height: 20px;
-  background-color: #6383a6;
-  text-decoration: none;
-  text-align: left;
-  font-size: 14px;
-  color: #fff;
-  border-radius: 6px;
-  padding: 20px;
-  align-items: center;
-
-  & p {
-    display: flex;
-    font-size: 18px;
-    margin-left: 30px;
-    align-items: center;
   }
 `;
 

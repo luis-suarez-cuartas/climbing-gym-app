@@ -54,3 +54,16 @@ export const loadSession = async (sessionId, data) => {
         throw error;
     }
 };
+
+export const getTrainingStats = async () => {
+    try {
+        const response = await sendAuthenticatedRequest(
+            'http://localhost:8000/api/training/stats/',
+            'GET'
+        );
+        return response;
+    } catch (error) {
+        console.error('Error fetching training stats:', error);
+        throw error;
+    }
+};
