@@ -45,6 +45,7 @@ const LeftProfile = () => {
 
 const Container = styled.div`
   grid-area: leftside;
+
 `;
 
 const ArtCard = styled.div`
@@ -52,10 +53,10 @@ const ArtCard = styled.div`
   overflow: hidden;
   margin-bottom: 8px;
   background-color: #fff;
+  border: 1.5px solid #FF6633;
   border-radius: 6px;
   transition: box-shadow 83ms;
   position: relative;
-  border: none;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15), 0 0 0 rgb(0, 0, 0, 0.20);
 `;
 

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { getUserPublications } from '../../services/publication';
 import moment from 'moment';
 
 const MainProfile = () => {
   const [publications, setPublications] = useState([]);
+  const [visibleCount, setVisibleCount] = useState(4); // Estado para controlar el número de publicaciones visibles
 
   useEffect(() => {
     getUserPublications()
@@ -16,84 +18,106 @@ const MainProfile = () => {
       });
   }, []);
 
+  const handleShowMore = () => {
+    setVisibleCount(prevCount => prevCount + 4); // Mostrar 4 publicaciones más cada vez que se presiona el botón "More"
+  };
+
   return (
     <Container>
       {publications && Array.isArray(publications) && publications.length > 0 ? (
-        publications.map(pub => (
-          <Article key={pub.id}>
-            <SharedActor>
-              <button>
-                <img src="/imagenes/profile.jpg" alt="Profile" />
-                <div>
-                  <h3>
-                    {pub.user_name || 'Unknown User'}
-                    <br />
+        publications.slice(0, visibleCount).map(pub => (
+          pub.training_id ? (
+            <ArticleContainer key={pub.id}>
+              <Article to={`/sesion/${pub.training_id}`} as={Link}>
+                <SharedActor>
+                  <button>
+                    <img src="/imagenes/profile.jpg" alt="Profile" />
                     <div>
-                      <img src="/imagenes/clock.png" alt="Clock" />
-                      <span>{moment(pub.created_at).fromNow()}</span>
-                      <img src={pub.is_public ? "/imagenes/language.png" : "/imagenes/unlock.png"} alt={pub.is_public ? "Public" : "Private"} />
-                      <span>{pub.is_public ? "Public" : "Just me"}</span>
+                      <h3>
+                        {pub.user_name || 'Unknown User'}
+                        <br />
+                        <div>
+                          <img src="/imagenes/clock.png" alt="Clock" />
+                          <span>{moment(pub.created_at).fromNow()}</span>
+                          <img src={pub.is_public ? "/imagenes/language.png" : "/imagenes/unlock.png"} alt={pub.is_public ? "Public" : "Private"} />
+                          <span>{pub.is_public ? "Public" : "Just me"}</span>
+                        </div>
+                      </h3>
                     </div>
-                  </h3>
-                </div>
-              </button>
-            </SharedActor>
-            <MessageBox>
-              <span>{pub.training_name || 'No content available'}</span>
-            </MessageBox>
-            <ActionsPub>
-              <div>
-                <img src="/imagenes/like.png" alt="Like" />
-                <span>
-                  <b>0</b> likes
-                </span>
-              </div>
-            </ActionsPub>
-            <ArticleButtons>
-              <button>
-                <img src="/imagenes/like.png" alt="Like" />
-                <span>Like</span>
-              </button>
-              <button>
-                <img src="/imagenes/comente.png" alt="Comment" />
-                <span>Comment</span>
-              </button>
-              <div>
-                  <span>0 comments</span>
-                  <span>0 shares</span>
-                </div>
-            </ArticleButtons>
-          </Article>
+                  </button>
+                </SharedActor>
+                <MessageBox>
+                  <span>{pub.training_name || 'No content available'}</span>
+                </MessageBox>
+                <ActionsPub>
+                  <div>
+                    <img src="/imagenes/like.png" alt="Like" />
+                    <span>
+                      <b>0</b> likes
+                    </span>
+                  </div>
+                </ActionsPub>
+                <ArticleButtons>
+                  <button>
+                    <img src="/imagenes/like.png" alt="Like" />
+                    <span>Like</span>
+                  </button>
+                  <button>
+                    <img src="/imagenes/comente.png" alt="Comment" />
+                    <span>Comment</span>
+                  </button>
+                  <div>
+                    <span>0 comments</span>
+                  
+                  </div>
+                </ArticleButtons>
+              </Article>
+            </ArticleContainer>
+          ) : (
+            <p key={pub.id}>Training ID no disponible</p>
+          )
         ))
       ) : (
         <p>No publications available</p>
+      )}
+
+      {visibleCount < publications.length && (
+        <MoreButton onClick={handleShowMore}>More</MoreButton>
       )}
     </Container>
   );
 };
 
+// Estilos
 const Container = styled.div`
   grid-area: main;
-  background-color: #FFFFFF;  /* Fondo gris oscuro */
-  padding: 20px;  /* Añadido padding para un mejor aspecto */
+  background-color: #FFFFFF;
+  padding: 20px;
+   padding: 0; /* Ajustar padding */
+  margin: 0;  /* A
 `;
 
-const CommonCard = styled.div`
-  text-align: center;
-  overflow: hidden;
-  margin-bottom: 8px;
-  background-color: #FFFFFF;  /* Color naranja brillante */
+const ArticleContainer = styled.div`
+  margin: 18px 0; /* Margen entre publicaciones */
+  padding: 16px;
+  background-color: #F5F5F5; /* Fondo gris muy claro */
   border-radius: 5px;
-  position: relative;
-  border: none;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15), 0 0 0 rgb(0, 0, 0, 0.20);
+  border: 1px solid #FF6633; /* Borde naranja que rodea la publicación */
 `;
 
-const Article = styled(CommonCard)`
+const Article = styled.div`
   padding: 0;
-  margin: 18px 0 18px;
-  overflow: visible;
-  background-color: #E5E8E8;
+  cursor: pointer; /* Cambiar el cursor para indicar que es clicable */
+
+  /* Eliminar subrayado azul de enlaces */
+  a {
+    text-decoration: none;
+  
+  }
+
+  a:hover {
+    color: #FF6633; /* Cambia el color al pasar el ratón por encima */
+  }
 `;
 
 const SharedActor = styled.div`
@@ -162,8 +186,18 @@ const MessageBox = styled.div`
   margin-left: 8px;
   text-align: left;
   color: rgba(0, 0, 0, 0.5);
-`;
 
+  /* Aplicar estilo a los enlaces en MessageBox */
+  a {
+    text-decoration: none !important;
+    color: #333; /* Cambia el color a algo más neutro */
+  }
+
+  a:hover {
+    color: #FF6633; /* Cambia el color al pasar el ratón por encima */
+    text-decoration: none !important; /* Asegura que tampoco se subraye al pasar el cursor */
+  }
+`;
 const ActionsPub = styled.div`
   display: flex;
   justify-content: space-between;
@@ -193,7 +227,6 @@ const ArticleButtons = styled.div`
     text-align: center;
     padding: 5px 36px;
     margin-bottom: 16px;
-     
     background-color: #FF9966;
     border: none;
     border-radius: 20px;
@@ -207,6 +240,24 @@ const ArticleButtons = styled.div`
       height: 16px;
       margin-right: 6px;
     }
+  }
+`;
+
+// Estilo del botón "More"
+const MoreButton = styled.button`
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #FF6633;
+  color: white;
+  border: 2px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+
+  &:hover {
+    background-color: #005582;
+    color: white;
   }
 `;
 

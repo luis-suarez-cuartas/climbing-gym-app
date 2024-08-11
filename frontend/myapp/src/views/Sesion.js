@@ -11,18 +11,20 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend
-} from "recharts";
+  Legend,
+  PieChart,
+  Pie
+} from 'recharts';
 import TrainingDetailTable from '../components/TrainingDetailTable';
 
 const Sesion = () => {
-  const { training_id } = useParams(); // Correcto uso de `training_id`
+  const { training_id } = useParams();
   const [trainingData, setTrainingData] = useState(null);
 
   useEffect(() => {
     const fetchTrainingDetails = async () => {
       try {
-        const data = await getTrainingDetails(training_id); // Correcto uso de `training_id`
+        const data = await getTrainingDetails(training_id);
         setTrainingData(data);
       } catch (error) {
         console.error('Error fetching training details:', error);
@@ -36,21 +38,34 @@ const Sesion = () => {
     return <div>Loading...</div>;
   }
 
-  // Preparar datos para el gráfico de barras usando el nombre real de la ruta
+  // Preparar datos para el gráfico de barras
   const chartData = trainingData.routes.map(route => ({
-    name: route.route_name, // Usa el nombre real de la ruta
+    name: route.route_name,
     timeTaken: route.time_taken,
   }));
 
-  const colors = [
+  const barColors = [
     "#FF6633",
-    "#FF6633",
-    "#FF6633",
-    "#FF6633",
-    "#FF6633",
-    "#FF6633",
-    "#FF6633",
-    "#FF6633",
+    "#FFB399",
+    "#FF33FF",
+    "#FFFF99",
+    "#00B3E6",
+    "#E6B333",
+    "#3366E6",
+    "#99FF99",
+    "#B34D4D"
+  ];
+
+  // Preparar datos para el gráfico de pastel
+  const gradeData = Object.keys(trainingData.grade_percentages).map(grade => ({
+    name: grade,
+    value: trainingData.grade_percentages[grade],
+  }));
+
+  const pieColors = [
+    '#FF6633', '#FFB399', '#FF33FF', '#FFFF99', 
+    '#00B3E6', '#E6B333', '#3366E6', '#99FF99', 
+    '#B34D4D'
   ];
 
   return (
@@ -86,7 +101,7 @@ const Sesion = () => {
           </StatItem>
         </ActivityStats>
 
-        {/* Añadir gráfico de barras con más espacio y centrado */}
+        {/* Gráfico de barras */}
         <ChartContainer>
           <BarChart width={600} height={300} data={chartData} barCategoryGap="1%">
             <CartesianGrid strokeDasharray="3" />
@@ -96,10 +111,32 @@ const Sesion = () => {
             <Legend iconType="circle" />
             <Bar dataKey="timeTaken">
               {chartData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+                <Cell key={`cell-${index}`} fill={barColors[index % barColors.length]} />
               ))}
             </Bar>
           </BarChart>
+        </ChartContainer>
+
+        {/* Gráfico de pastel */}
+        <ChartContainer>
+          <PieChart width={400} height={400}>
+            <Pie
+              data={gradeData}
+              cx={200}
+              cy={200}
+              labelLine={false}
+              label={({ name, value }) => `${name}: ${value.toFixed(1)}%`}
+              outerRadius={150}
+              fill="#8884d8"
+              dataKey="value"
+            >
+              {gradeData.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={pieColors[index % pieColors.length]} />
+              ))}
+            </Pie>
+            <Tooltip />
+            <Legend />
+          </PieChart>
         </ChartContainer>
 
         {/* Añadir tabla de detalles */}
@@ -108,6 +145,7 @@ const Sesion = () => {
     </Container>
   );
 };
+
 
 const Container = styled.div`
   display: flex;

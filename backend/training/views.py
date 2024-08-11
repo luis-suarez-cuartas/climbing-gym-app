@@ -6,8 +6,8 @@ from django.utils import timezone
 from django.db.models import Sum
 from rest_framework.views import APIView
 from .models import Training, ClimbedRouteTrainingSession
-from .serializers import TrainingSerializer
-
+from .serializers import TrainingSerializer, TrainingDetailSerializer
+from collections import Counter
 class UnloadedTrainingListView(generics.ListAPIView):
     serializer_class = TrainingSerializer
     permission_classes = [IsAuthenticated]
@@ -51,6 +51,12 @@ class TrainingStatsView(APIView):
         trainings_total = Training.objects.filter(user=user)
         routes_total = ClimbedRouteTrainingSession.objects.filter(training_session__in=trainings_total)
         duration_total = trainings_total.aggregate(Sum('duration'))['duration__sum'] or 0
+        
+        grade_counter = Counter(route.climbed_route.grade for route in routes_total)
+        routes_total_count = routes_total.count()
+        grade_percentages = {
+            grade: (count / routes_total_count) * 100 for grade, count in grade_counter.items()
+        }
 
         data = {
             'this_week': {
@@ -67,12 +73,13 @@ class TrainingStatsView(APIView):
                 'trainings': trainings_total.count(),
                 'routes': routes_total.count(),
                 'duration': duration_total,
-            }
+            },
+            'grade_percentages': grade_percentages  # Add grade percentages to the response
+
+            
         }
-
         return Response(data)
-    
-
+ 
 class TrainingDetailView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -82,7 +89,13 @@ class TrainingDetailView(APIView):
         total_time_climbed = routes.aggregate(Sum('time_taken'))['time_taken__sum'] or 0
         routes_count = routes.count()
 
-        # Preparar datos para el frontend, incluyendo fells y completed para cada ruta
+        # Calcular porcentajes de grados
+        grade_counter = Counter(route.climbed_route.grade for route in routes)
+        grade_percentages = {
+            grade: (count / routes_count) * 100 for grade, count in grade_counter.items()
+        }
+
+        # Preparar datos para el frontend
         route_data = [
             {
                 'route_name': route.climbed_route.route_name,
@@ -99,7 +112,8 @@ class TrainingDetailView(APIView):
             'activity_title': training.name,
             'total_time_climbed': total_time_climbed,
             'routes_count': routes_count,
-            'routes': route_data,  # Añadir la lista de rutas al JSON de respuesta
+            'routes': route_data,
+            'grade_percentages': grade_percentages,  # Añadir el porcentaje de grados al JSON de respuesta
         }
 
         return Response(data)

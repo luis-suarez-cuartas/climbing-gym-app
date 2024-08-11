@@ -7,21 +7,36 @@ export const storeTokens = ({ access, refresh }) => {
 export const getAccessToken = () => {
     return localStorage.getItem('accessToken');
 };
-
-export const sendAuthenticatedRequest = (url, method, data) => {  // Añadido parámetro method
+export const sendAuthenticatedRequest = (url, method = 'GET', data = null) => { 
     const accessToken = getAccessToken();
-    return fetch(url, {
-        method: method,  // Usar el método pasado como argumento
-        headers: {
-            'Authorization': `Bearer ${accessToken}`,
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => response.json())
-    .catch(error => console.error('Error with fetch:', error));
-};
+    const headers = {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+    };
 
+    const options = {
+        method: method,
+        headers: headers,
+    };
+
+    if (method !== 'GET' && data) {
+        options.body = JSON.stringify(data);
+    }
+
+    return fetch(url, options)
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(error => {
+                    throw new Error(error.detail || 'Request failed');
+                });
+            }
+            return response.json();
+        })
+        .catch(error => {
+            console.error('Error with fetch:', error);
+            throw error;
+        });
+};
 
 export const loginRequest = (url, data) => {
     return fetch(url, {

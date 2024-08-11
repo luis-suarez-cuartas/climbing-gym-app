@@ -1,19 +1,32 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import LeftProfile from './LeftProfile';
 import RightProfile from './RightProfile';
 import MainProfile from './MainProfile';
 import { BarraNavegacion } from '../../components/BarraNavegacion';
 
+const GlobalStyle = createGlobalStyle`
+  a {
+    text-decoration: none !important;
+    color: inherit;
+  }
+
+  a:hover {
+    text-decoration: none !important;
+    color: #FF6633 !important;
+  }
+`;
+
 const Profile = () => {
   return (
     <Container>
-       <BarraNavegacion />
-       <br />
-        <br />
-        <br />
-        <br />
-        <br />
+      <GlobalStyle /> {/* Añade la regla global */}
+      <BarraNavegacion />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
       <Layout>
         <LeftProfile />
         <MainProfile />

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { getTrainingStats } from '../../services/train'; 
 
 const RightProfile = () => {
@@ -9,11 +10,45 @@ const RightProfile = () => {
     total: { trainings: 0, routes: 0, duration: 0 },
   });
 
+  const [gradeData, setGradeData] = useState([]);
+
   useEffect(() => {
     getTrainingStats()
-      .then(data => setStats(data))
+      .then(data => {
+        setStats(data);
+
+        // Formatear los datos del porcentaje de grados para el gráfico de pastel
+        const formattedData = Object.keys(data.grade_percentages).map(key => ({
+          name: key,
+          value: data.grade_percentages[key],
+        }));
+        setGradeData(formattedData);
+      })
       .catch(error => console.error('Error fetching training stats:', error));
   }, []);
+
+  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#FF3333', '#33FF33', '#3333FF'];
+
+  const renderCustomizedLabel = ({
+    cx, cy, midAngle, innerRadius, outerRadius, percent, index, name
+  }) => {
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x = cx + radius * Math.cos(-midAngle * Math.PI / 180);
+    const y = cy + radius * Math.sin(-midAngle * Math.PI / 180);
+
+    return (
+      <text
+        x={x}
+        y={y}
+        fill="black"
+        textAnchor={x > cx ? 'start' : 'end'}
+        dominantBaseline="central"
+        fontSize={12}
+      >
+        {`${name}: ${(percent * 100).toFixed(1)}%`}
+      </text>
+    );
+  };
 
   return (
     <Container>
@@ -69,11 +104,34 @@ const RightProfile = () => {
       <BirthdayCard>
         <div>
           <img src="/images/bolo-de-aniversario.png" alt="" />
-          <span>Birthdays</span>
+          <span>Grades</span>
         </div>
       </BirthdayCard>
       <BirthdayInfo>
-        <p>None of your friends have their birthday today</p>
+        {gradeData.length > 0 ? (
+          <ResponsiveContainer width="100%" height={350}>
+            <PieChart>
+              <Pie
+                data={gradeData}
+                cx="50%"
+                cy="50%"
+                labelLine={false}
+                label={renderCustomizedLabel}
+                outerRadius={120}
+                fill="#8884d8"
+                dataKey="value"
+              >
+                {gradeData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+              <Tooltip />
+              <Legend />
+            </PieChart>
+          </ResponsiveContainer>
+        ) : (
+          <p>No grade data available</p>
+        )}
       </BirthdayInfo>
 
       <PendencesCard>
@@ -92,7 +150,6 @@ const RightProfile = () => {
   );
 };
 
-
 const Container = styled.div`
   grid-area: rightside;
   font-family: Arial;
@@ -105,7 +162,7 @@ const DashboardCard = styled.div`
   background-color: #fff;
   border-radius: 5px;
   position: relative;
-  border: none;
+  border: 1.5px solid #FF6633;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15), 0 0 0 rgb(0, 0, 0, 0.20);
   padding: 12px;
 
@@ -119,7 +176,7 @@ const ActivitieMetrics = styled.div`
   display: flex;
   width: 33%;
   flex-direction: column;
-  border: 3px solid #FF6633;
+  border: 3px solid orange;
   border-radius: 6px;
   margin-top: 4px;
   margin-right: 4px;
@@ -157,7 +214,7 @@ const ProjectMetrics = styled.div`
   display: flex;
   width: 33%;
   flex-direction: column;
-  border: 3px solid #FF6633;
+  border: 3px solid orange;
   border-radius: 6px;
   margin-top: 4px;
   margin-right: 4px;
@@ -192,7 +249,7 @@ const TotalMetrics = styled.div`
   display: flex;
   width: 33%;
   flex-direction: column;
-  border: 3px solid #FF6633;
+  border: 3px solid orange;
   border-radius: 6px;
   margin-top: 4px;
   font-size: 12px;
@@ -233,6 +290,7 @@ const BirthdayCard = styled.div`
   padding: 15px;
   border-bottom: 5px solid rgba(0, 0, 0, 0.15);
   justify-content: center;
+  border: 1.5px solid #FF6633;
 
   & div {
     display: flex;
@@ -251,6 +309,7 @@ const BirthdayInfo = styled.div`
   background-color: #fff;
   border-radius: 0 0 5px 5px;
   border-top: none;
+  border: 1.5px solid #FF6633;
   position: relative;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15), 0 0 0 rgb(0, 0, 0, 0.20);
   padding: 20px;
@@ -303,7 +362,4 @@ const DateLine = styled.div`
     margin-left: 5px;
   }
 `;
-
-
-
 export default RightProfile;
