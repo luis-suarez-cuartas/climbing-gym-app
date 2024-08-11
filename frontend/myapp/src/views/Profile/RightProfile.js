@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { getTrainingStats } from '../../services/train'; 
+import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
+import { getTrainingStats } from '../../services/train';
+import { sendAuthenticatedRequest } from '../../services/auth';  // Asegúrate de importar correctamente
 
 const RightProfile = () => {
   const [stats, setStats] = useState({
@@ -11,13 +12,13 @@ const RightProfile = () => {
   });
 
   const [gradeData, setGradeData] = useState([]);
+  const [weeklyData, setWeeklyData] = useState([]);
 
   useEffect(() => {
     getTrainingStats()
       .then(data => {
         setStats(data);
 
-        // Formatear los datos del porcentaje de grados para el gráfico de pastel
         const formattedData = Object.keys(data.grade_percentages).map(key => ({
           name: key,
           value: data.grade_percentages[key],
@@ -25,6 +26,10 @@ const RightProfile = () => {
         setGradeData(formattedData);
       })
       .catch(error => console.error('Error fetching training stats:', error));
+
+    sendAuthenticatedRequest('http://localhost:8000/api/training/climbing-time/', 'GET')
+      .then(data => setWeeklyData(data))
+      .catch(error => console.error('Error fetching weekly climbing data:', error));
   }, []);
 
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#FF3333', '#33FF33', '#3333FF'];
@@ -101,12 +106,14 @@ const RightProfile = () => {
           </TotalMetrics>
         </div>
       </DashboardCard>
+
       <BirthdayCard>
         <div>
           <img src="/images/bolo-de-aniversario.png" alt="" />
           <span>Grades</span>
         </div>
       </BirthdayCard>
+
       <BirthdayInfo>
         {gradeData.length > 0 ? (
           <ResponsiveContainer width="100%" height={350}>
@@ -137,14 +144,24 @@ const RightProfile = () => {
       <PendencesCard>
         <div>
           <img src="/images/flexible.png" alt="" />
-          <span>Pendences</span>
+          <span>Tiempo escalando</span>
         </div>
       </PendencesCard>
-      <DateLine>
-        <p>Qua, 28 de Jul 2021</p>
-      </DateLine>
+
       <PendencesInfo>
-        <p>You have no pending issues</p>
+        {weeklyData.length > 0 ? (
+          <ResponsiveContainer width="100%" height={400}>
+            <BarChart data={weeklyData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="week_end" tick={false} />
+              <YAxis label={{ value: 'Tiempo escalado (mins)', angle: -90, position: 'insideLeft' }} />
+              <Tooltip />
+              <Bar dataKey="total_time" fill="#FF6633" />
+            </BarChart>
+          </ResponsiveContainer>
+        ) : (
+          <p>No climbing data available</p>
+        )}
       </PendencesInfo>
     </Container>
   );
@@ -153,18 +170,20 @@ const RightProfile = () => {
 const Container = styled.div`
   grid-area: rightside;
   font-family: Arial;
+  padding: 20px; /* Agrega padding alrededor del contenedor */
+  background-color: #f4f4f4; /* Color de fondo para todo el contenedor */
 `;
 
 const DashboardCard = styled.div`
   text-align: center;
   overflow: hidden;
-  margin-bottom: 8px;
+  margin-bottom: 16px; /* Aumenta el margen inferior para dar espacio */
   background-color: #fff;
-  border-radius: 5px;
+  border-radius: 10px; /* Aumenta el borde redondeado */
   position: relative;
   border: 1.5px solid #FF6633;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15), 0 0 0 rgb(0, 0, 0, 0.20);
-  padding: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Aumenta la sombra para mayor contraste */
+  padding: 20px; /* Aumenta el padding para más espacio interno */
 
   & > div {
     display: flex;
@@ -176,13 +195,13 @@ const ActivitieMetrics = styled.div`
   display: flex;
   width: 33%;
   flex-direction: column;
-  border: 3px solid orange;
+  border: 2px solid orange; /* Disminuye el grosor del borde */
   border-radius: 6px;
   margin-top: 4px;
   margin-right: 4px;
   position: relative;
-  font-size: 12px;
-  padding-bottom: 15px;
+  font-size: 14px; /* Aumenta el tamaño de la fuente */
+  padding-bottom: 20px; /* Aumenta el padding inferior */
 
   div {
     display: flex;
@@ -214,12 +233,12 @@ const ProjectMetrics = styled.div`
   display: flex;
   width: 33%;
   flex-direction: column;
-  border: 3px solid orange;
+  border: 2px solid orange;
   border-radius: 6px;
   margin-top: 4px;
   margin-right: 4px;
-  font-size: 12px;
-  padding-bottom: 15px;
+  font-size: 14px;
+  padding-bottom: 20px;
 
   div {
     display: flex;
@@ -249,11 +268,11 @@ const TotalMetrics = styled.div`
   display: flex;
   width: 33%;
   flex-direction: column;
-  border: 3px solid orange;
+  border: 2px solid orange;
   border-radius: 6px;
   margin-top: 4px;
-  font-size: 12px;
-  padding-bottom: 15px;
+  font-size: 14px;
+  padding-bottom: 20px;
 
   div {
     display: flex;
@@ -285,10 +304,10 @@ const BirthdayCard = styled.div`
   text-align: center;
   overflow: hidden;
   background-color: #fff;
-  border-radius: 5px 5px 0 0;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15), 0 0 0 rgb(0, 0, 0, 0.20);
+  border-radius: 10px 10px 0 0;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
   padding: 15px;
-  border-bottom: 5px solid rgba(0, 0, 0, 0.15);
+  border-bottom: 5px solid rgba(0, 0, 0, 0.1);
   justify-content: center;
   border: 1.5px solid #FF6633;
 
@@ -305,14 +324,14 @@ const BirthdayCard = styled.div`
 const BirthdayInfo = styled.div`
   text-align: center;
   overflow: hidden;
-  margin-bottom: 8px;
+  margin-bottom: 16px; /* Aumenta el margen inferior */
   background-color: #fff;
-  border-radius: 0 0 5px 5px;
+  border-radius: 0 0 10px 10px; /* Aumenta el borde redondeado */
   border-top: none;
   border: 1.5px solid #FF6633;
   position: relative;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15), 0 0 0 rgb(0, 0, 0, 0.20);
-  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+  padding: 25px; /* Aumenta el padding */
 `;
 
 const PendencesCard = styled.div`
@@ -320,8 +339,9 @@ const PendencesCard = styled.div`
   text-align: center;
   overflow: hidden;
   background-color: #fff;
-  border-radius: 5px 5px 0 0;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15), 0 0 0 rgb(0, 0, 0, 0.20);
+  border: 1.5px solid #FF6633;
+  border-radius: 10px 10px 0 0;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
   padding: 15px;
   margin-bottom: 1px;
   justify-content: center;
@@ -339,13 +359,14 @@ const PendencesCard = styled.div`
 const PendencesInfo = styled.div`
   text-align: center;
   overflow: hidden;
-  margin-bottom: 8px;
+  margin-bottom: 16px;
   background-color: #fff;
-  border-radius: 0 0 5px 5px;
+  border-radius: 0 0 10px 10px;
+  border: 1.5px solid #FF6633;
   border-top: none;
   position: relative;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15), 0 0 0 rgb(0, 0, 0, 0.20);
-  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+  padding: 30px; /* Aumenta el padding */
 `;
 
 const DateLine = styled.div`
@@ -362,4 +383,5 @@ const DateLine = styled.div`
     margin-left: 5px;
   }
 `;
+
 export default RightProfile;

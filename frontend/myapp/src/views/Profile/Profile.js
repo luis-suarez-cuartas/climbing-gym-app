@@ -47,8 +47,9 @@ const Layout = styled.div`
   grid-template-areas: "leftside main rightside";
   grid-template-columns: minmax(350px, 6fr) minmax(350px, 12fr) minmax(350px, 7fr);
   column-gap: 25px;
-  row-gap: 25px;
+  row-gap: 0; /* Elimina cualquier espacio entre las filas */
   margin: 25px 10px;
+  align-items: start; /* Alinea los elementos en la parte superior */
   @media (max-width: 768px) {
     display: flex;
     flex-direction: column;

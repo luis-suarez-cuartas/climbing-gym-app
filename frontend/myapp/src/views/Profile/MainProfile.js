@@ -6,7 +6,7 @@ import moment from 'moment';
 
 const MainProfile = () => {
   const [publications, setPublications] = useState([]);
-  const [visibleCount, setVisibleCount] = useState(4);
+  const [visibleCount, setVisibleCount] = useState(5);
 
   useEffect(() => {
     getUserPublications()
@@ -19,7 +19,7 @@ const MainProfile = () => {
   }, []);
 
   const handleShowMore = () => {
-    setVisibleCount(prevCount => prevCount + 4);
+    setVisibleCount(prevCount => prevCount + 5);
   };
 
   return (
@@ -92,10 +92,14 @@ const Container = styled.div`
   grid-area: main;
   background-color: #FFFFFF;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; 
+  min-height: calc(100vh - 150px);
 `;
 
 const ArticleContainer = styled.div`
-  margin: 18px 0;
+  margin: 0 0 18px 0;
   padding: 16px;
   background-color: #F5F5F5;
   border-radius: 5px;
@@ -248,7 +252,7 @@ const MoreButton = styled.button`
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
-
+  z-index: 999;
   &:hover {
     background-color: #005582;
     color: white;

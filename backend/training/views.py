@@ -117,3 +117,26 @@ class TrainingDetailView(APIView):
         }
 
         return Response(data)
+
+
+class WeeklyClimbingTimeView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        now = timezone.now()
+
+        weekly_data = []
+        for week in range(8):
+            start_of_week = now - timezone.timedelta(weeks=week+1)
+            end_of_week = now - timezone.timedelta(weeks=week)
+            trainings = Training.objects.filter(user=user, date__gte=start_of_week, date__lt=end_of_week)
+            total_time = ClimbedRouteTrainingSession.objects.filter(training_session__in=trainings).aggregate(Sum('time_taken'))['time_taken__sum'] or 0
+            weekly_data.append({
+                'week_start': start_of_week.strftime('%Y-%m-%d'),
+                'week_end': end_of_week.strftime('%Y-%m-%d'),
+                'total_time': total_time
+            })
+
+        weekly_data.reverse()  # Reverses the list so the most recent week is last
+        return Response(weekly_data)
