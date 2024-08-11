@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { BarraNavegacion } from '../components/BarraNavegacion';
 import { getPublicPublications, likePublication } from '../services/publication';
 import moment from 'moment';
-
 const Publications = () => {
   const [publications, setPublications] = useState([]);
 
@@ -46,7 +45,7 @@ const Publications = () => {
               <Article to={`/sesion/${pub.training_id}`} key={pub.id}> {/* Enlace correcto usando `Link` */}
                 <SharedActor>
                   <button>
-                    <img src="/imagenes/fotocv.jpg" alt="Profile" />
+                    <img src={pub.profile_picture ? pub.profile_picture : "/imagenes/fotocv.jpg"} alt="Profile" />
                     <div>
                       <h3>
                         {pub.user_name || 'Unknown User'}
@@ -99,8 +98,6 @@ const Publications = () => {
     </div>
   );
 };
-
-
 const Container = styled.div`
   grid-area: main;
   width: 75%;

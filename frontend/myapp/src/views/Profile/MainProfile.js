@@ -6,7 +6,7 @@ import moment from 'moment';
 
 const MainProfile = () => {
   const [publications, setPublications] = useState([]);
-  const [visibleCount, setVisibleCount] = useState(4); // Estado para controlar el número de publicaciones visibles
+  const [visibleCount, setVisibleCount] = useState(4);
 
   useEffect(() => {
     getUserPublications()
@@ -19,7 +19,7 @@ const MainProfile = () => {
   }, []);
 
   const handleShowMore = () => {
-    setVisibleCount(prevCount => prevCount + 4); // Mostrar 4 publicaciones más cada vez que se presiona el botón "More"
+    setVisibleCount(prevCount => prevCount + 4);
   };
 
   return (
@@ -31,7 +31,7 @@ const MainProfile = () => {
               <Article to={`/sesion/${pub.training_id}`} as={Link}>
                 <SharedActor>
                   <button>
-                    <img src="/imagenes/profile.jpg" alt="Profile" />
+                    <img src={pub.profile_picture ? pub.profile_picture : "/imagenes/clock.jpg"} alt="Profile" />
                     <div>
                       <h3>
                         {pub.user_name || 'Unknown User'}
@@ -68,7 +68,6 @@ const MainProfile = () => {
                   </button>
                   <div>
                     <span>0 comments</span>
-                  
                   </div>
                 </ArticleButtons>
               </Article>
@@ -93,30 +92,26 @@ const Container = styled.div`
   grid-area: main;
   background-color: #FFFFFF;
   padding: 20px;
-   padding: 0; /* Ajustar padding */
-  margin: 0;  /* A
 `;
 
 const ArticleContainer = styled.div`
-  margin: 18px 0; /* Margen entre publicaciones */
+  margin: 18px 0;
   padding: 16px;
-  background-color: #F5F5F5; /* Fondo gris muy claro */
+  background-color: #F5F5F5;
   border-radius: 5px;
-  border: 1px solid #FF6633; /* Borde naranja que rodea la publicación */
+  border: 1px solid #FF6633;
 `;
 
 const Article = styled.div`
   padding: 0;
-  cursor: pointer; /* Cambiar el cursor para indicar que es clicable */
+  cursor: pointer;
 
-  /* Eliminar subrayado azul de enlaces */
   a {
     text-decoration: none;
-  
   }
 
   a:hover {
-    color: #FF6633; /* Cambia el color al pasar el ratón por encima */
+    color: #FF6633;
   }
 `;
 
@@ -155,7 +150,7 @@ const SharedActor = styled.div`
         text-align: left;
         font-size: 18px;
         font-weight: 800;
-        color: #000;  /* Nombre del usuario en negro */
+        color: #000;
         div {
           display: flex;
           align-items: center;
@@ -187,17 +182,17 @@ const MessageBox = styled.div`
   text-align: left;
   color: rgba(0, 0, 0, 0.5);
 
-  /* Aplicar estilo a los enlaces en MessageBox */
   a {
     text-decoration: none !important;
-    color: #333; /* Cambia el color a algo más neutro */
+    color: #333;
   }
 
   a:hover {
-    color: #FF6633; /* Cambia el color al pasar el ratón por encima */
-    text-decoration: none !important; /* Asegura que tampoco se subraye al pasar el cursor */
+    color: #FF6633;
+    text-decoration: none !important;
   }
 `;
+
 const ActionsPub = styled.div`
   display: flex;
   justify-content: space-between;
@@ -243,7 +238,6 @@ const ArticleButtons = styled.div`
   }
 `;
 
-// Estilo del botón "More"
 const MoreButton = styled.button`
   display: block;
   margin: 20px auto;

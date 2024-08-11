@@ -7,7 +7,6 @@ from rest_framework.permissions import IsAuthenticated
 import logging
 
 logger = logging.getLogger(__name__)
-
 class RegisterView(APIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data)
@@ -16,7 +15,6 @@ class RegisterView(APIView):
             logger.info(f"New user registered: {user.email}")
             return Response({"user": serializer.data}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 class LoginView(APIView):
     def post(self, request):
         serializer = MyTokenObtainPairSerializer(data=request.data)

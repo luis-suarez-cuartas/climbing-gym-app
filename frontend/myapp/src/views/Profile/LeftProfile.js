@@ -28,7 +28,7 @@ const LeftProfile = () => {
         <UserInfo>
           <CardBackground />
           <h1>
-            <Photo />
+            <Photo style={{ backgroundImage: `url(http://localhost:8000${user.profile_picture})` }} />
             <NameCard>{user.name}</NameCard>
           </h1>
           <a href="#">
@@ -45,7 +45,6 @@ const LeftProfile = () => {
 
 const Container = styled.div`
   grid-area: leftside;
-
 `;
 
 const ArtCard = styled.div`
@@ -77,7 +76,6 @@ const CardBackground = styled.div`
 
 const Photo = styled.div`
   box-shadow: none;
-  background-image: url("/imagenes/profile.jpg");
   width: 150px;
   height: 150px;
   box-sizing: border-box;
@@ -95,14 +93,14 @@ const NameCard = styled.div`
   font-family: Arial;
   font-size: 24px;
   font-weight: bold;
-  color: #000; /* Cambiado a negro */
+  color: #000;
   line-height: 1.5;
 `;
 
 const LinkCard = styled.div`
   font-size: 14px;
   line-height: 1.5;
-  color: #000; /* Cambiado a negro */
+  color: #000;
 `;
 
 const Widget = styled.div`
@@ -111,20 +109,21 @@ const Widget = styled.div`
   color: #808080;
   margin-left: 10px;
 `;
+
 const EditarButton = styled.button`
   display: block;
   margin: 20px auto;
   padding: 10px 20px;
   background-color: #FF6633;
-  color: white;  /* Cambia el color del texto a negro */
-  border: 2px solid black;  /* Añade un borde de color negro */
+  color: white;
+  border: 2px solid black;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
 
   &:hover {
     background-color: #005582;
-    color: white;  /* Opcional: Cambia el color del texto a blanco cuando se hace hover */
+    color: white;
   }
 `;
 

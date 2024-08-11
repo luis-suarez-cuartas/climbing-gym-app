@@ -6,12 +6,17 @@ from authentication.models import CustomUser  # Asegúrate de que el import usa 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ('email', 'password', 'name')
+        fields = ('email', 'password', 'profile_picture','name')
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
-        return CustomUser.objects.create_user(**validated_data)
-
+        # Asigna una foto de perfil por defecto
+        default_profile_picture = 'profile_pictures/default_profile.jpg'  # Ruta relativa a MEDIA_ROOT
+        user = CustomUser.objects.create_user(
+            **validated_data,
+            profile_picture=default_profile_picture
+        )
+        return user
 
 class MyTokenObtainPairSerializer(serializers.Serializer):
     email = serializers.EmailField()
