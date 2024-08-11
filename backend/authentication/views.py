@@ -44,3 +44,23 @@ class UserProfileView(APIView):
         user = request.user
         serializer = UserSerializer(user)
         return Response(serializer.data)
+class EditProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request):
+        user = request.user
+        
+        # Log para depuración
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.info(f"Datos recibidos en la solicitud: {request.data}")
+
+        # Serializar los datos
+        serializer = UserSerializer(user, data=request.data, partial=True)  # 'partial=True' permite actualizaciones parciales
+        if serializer.is_valid():
+            serializer.save()
+            logger.info(f"Perfil actualizado: {serializer.data}")
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            logger.info(f"Errores de validación: {serializer.errors}")
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

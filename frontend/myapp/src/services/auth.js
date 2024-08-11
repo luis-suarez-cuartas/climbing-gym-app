@@ -11,8 +11,12 @@ export const sendAuthenticatedRequest = (url, method = 'GET', data = null) => {
     const accessToken = getAccessToken();
     const headers = {
         'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json'
     };
+
+    // Solo establecemos el 'Content-Type' si los datos no son de tipo FormData
+    if (!(data instanceof FormData)) {
+        headers['Content-Type'] = 'application/json';
+    }
 
     const options = {
         method: method,
@@ -20,7 +24,8 @@ export const sendAuthenticatedRequest = (url, method = 'GET', data = null) => {
     };
 
     if (method !== 'GET' && data) {
-        options.body = JSON.stringify(data);
+        // Si los datos son de tipo FormData, los pasamos directamente como cuerpo
+        options.body = data instanceof FormData ? data : JSON.stringify(data);
     }
 
     return fetch(url, options)
@@ -37,6 +42,7 @@ export const sendAuthenticatedRequest = (url, method = 'GET', data = null) => {
             throw error;
         });
 };
+
 
 export const loginRequest = (url, data) => {
     return fetch(url, {

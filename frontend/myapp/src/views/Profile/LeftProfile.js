@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom'; // Importa useNavigate
 import { sendAuthenticatedRequest } from '../../services/auth'; // Asegúrate de importar la función correctamente
 
 const LeftProfile = () => {
   const [user, setUser] = useState(null);
+  const navigate = useNavigate(); // Inicializa useNavigate
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -17,6 +19,10 @@ const LeftProfile = () => {
 
     fetchUserProfile();
   }, []);
+
+  const handleEditClick = () => {
+    navigate('/profile/edit'); // Redirige al usuario a la ventana de edición de perfil
+  };
 
   if (!user) {
     return <div>Loading...</div>;
@@ -36,7 +42,7 @@ const LeftProfile = () => {
           </a>
         </UserInfo>
         <Widget>
-          <EditarButton>Editar</EditarButton>
+          <EditarButton onClick={handleEditClick}>Editar</EditarButton> {/* Añade onClick */}
         </Widget>
       </ArtCard>
     </Container>

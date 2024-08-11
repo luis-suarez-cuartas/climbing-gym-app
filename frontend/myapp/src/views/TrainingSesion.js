@@ -211,6 +211,12 @@ const TrainingSesion = () => {
                 color="secondary"
                 type="submit"
                 disabled={isSubmitting}
+                sx={{
+                  backgroundColor: '#FF6633',
+                  '&:hover': {
+                    backgroundColor: '#CC5527', // Un color más oscuro para el hover
+                  },
+                }}
               >
                 Submit
               </Button>
