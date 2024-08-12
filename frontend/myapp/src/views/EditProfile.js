@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { BarraNavegacion } from '../components/BarraNavegacion';
 import { sendAuthenticatedRequest } from '../services/auth'; // Asegúrate de importar la función correctamente
 
@@ -76,6 +76,10 @@ const EditProfile = () => {
           <Input type="text" name="name" value={formData.name} onChange={handleChange} required />
           <Label>Profile Picture</Label>
           <Input type="file" name="profile_picture" accept="image/*" onChange={handleChange} />
+          {/* Enlace para cambiar la contraseña */}
+          <PasswordChangeLink to="/profile/change-password">
+            Change Password
+          </PasswordChangeLink>
           <SubmitButton type="submit">Save Changes</SubmitButton>
         </Form>
       </Container>
@@ -92,8 +96,8 @@ const Wrapper = styled.div`
 
 const Container = styled.div`
   width: 100%;
-  max-width: 800px;  /* Aumenta el ancho máximo del formulario */
-  margin: 100px auto 0;  /* Espaciado superior para que no lo tape la barra de navegación */
+  max-width: 800px;
+  margin: 100px auto 0;
   padding: 40px;
   background-color: #f9f9f9;
   border-radius: 5px;
@@ -106,30 +110,42 @@ const Form = styled.form`
 `;
 
 const Label = styled.label`
-  font-size: 18px;  /* Incrementa el tamaño de la fuente */
-  margin-bottom: 10px;  /* Incrementa el margen inferior */
+  font-size: 18px;
+  margin-bottom: 10px;
 `;
 
 const Input = styled.input`
-  padding: 12px;  /* Incrementa el padding */
+  padding: 12px;
   margin-bottom: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  font-size: 16px;  /* Incrementa el tamaño de la fuente */
+  font-size: 16px;
 `;
 
 const SubmitButton = styled.button`
-  padding: 12px 24px;  /* Incrementa el padding */
-  background-color: #FF6633; /* Color naranja */
+  padding: 12px 24px;
+  background-color: #FF6633;
   color: white;
   border: 2px solid black;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 18px;  /* Incrementa el tamaño de la fuente */
+  font-size: 18px;
 
   &:hover {
     background-color: #005582;
     color: white;
+  }
+`;
+
+const PasswordChangeLink = styled(Link)`
+  margin-top: 15px;
+  margin-bottom: 30px; /* Incrementa el espacio debajo del enlace */
+  color: #005582;
+  text-decoration: none;
+  font-size: 16px;
+
+  &:hover {
+    text-decoration: underline;
   }
 `;
 
