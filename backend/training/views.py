@@ -140,3 +140,5 @@ class WeeklyClimbingTimeView(APIView):
 
         weekly_data.reverse()  # Reverses the list so the most recent week is last
         return Response(weekly_data)
+    
+

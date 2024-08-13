@@ -13,7 +13,6 @@ export const sendAuthenticatedRequest = (url, method = 'GET', data = null) => {
         'Authorization': `Bearer ${accessToken}`,
     };
 
-    // Solo establecemos el 'Content-Type' si los datos no son de tipo FormData
     if (!(data instanceof FormData)) {
         headers['Content-Type'] = 'application/json';
     }
@@ -24,7 +23,6 @@ export const sendAuthenticatedRequest = (url, method = 'GET', data = null) => {
     };
 
     if (method !== 'GET' && data) {
-        // Si los datos son de tipo FormData, los pasamos directamente como cuerpo
         options.body = data instanceof FormData ? data : JSON.stringify(data);
     }
 
@@ -35,13 +33,18 @@ export const sendAuthenticatedRequest = (url, method = 'GET', data = null) => {
                     throw new Error(error.detail || 'Request failed');
                 });
             }
-            return response.json();
+            // Si la respuesta es 204 No Content, no intentes procesarla como JSON
+            if (response.status === 204) {
+                return null; // O simplemente `return;` si no esperas nada
+            }
+            return response.json(); // Procesar las respuestas normales
         })
         .catch(error => {
             console.error('Error with fetch:', error);
             throw error;
         });
 };
+
 
 
 export const loginRequest = (url, data) => {

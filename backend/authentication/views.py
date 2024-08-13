@@ -85,3 +85,29 @@ class ChangePasswordView(APIView):
         user.set_password(new_password)
         user.save()
         return Response({"detail": "Password updated successfully"}, status=status.HTTP_200_OK)
+    
+
+class DeleteAccountView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, *args, **kwargs):
+        user = request.user
+        
+        # Revocar tokens de refresh
+        try:
+            refresh_token = request.data.get("refresh_token")
+            if refresh_token:
+                token = RefreshToken(refresh_token)
+                token.blacklist()
+                logger.info(f"Refresh token for user {user.email} blacklisted.")
+        except Exception as e:
+            logger.error(f"Error revoking token for user {user.email}: {e}")
+            return Response({"detail": "Error revoking token."}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Logout (invalidar el token de acceso también podría hacerse aquí si es necesario)
+
+        # Eliminar el usuario
+        user_email = user.email  # Guardamos el email para el log
+        user.delete()
+        logger.info(f"User {user_email} deleted their account.")
+        return Response({"detail": "Cuenta eliminada exitosamente"}, status=status.HTTP_204_NO_CONTENT)

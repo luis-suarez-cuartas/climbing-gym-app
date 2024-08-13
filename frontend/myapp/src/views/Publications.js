@@ -6,6 +6,7 @@ import { getPublicPublications, likePublication } from '../services/publication'
 import moment from 'moment';
 const Publications = () => {
   const [publications, setPublications] = useState([]);
+  
 
   useEffect(() => {
     getPublicPublications()

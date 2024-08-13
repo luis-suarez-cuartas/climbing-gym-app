@@ -7,6 +7,7 @@ urlpatterns = [
     path('update-training/<int:pk>/', UpdateTrainingView.as_view(), name='update-training'),
     path('stats/', TrainingStatsView.as_view(), name='training-stats'),
     path('<int:training_id>/details/', TrainingDetailView.as_view(), name='training-detail'),
-     path('climbing-time/', WeeklyClimbingTimeView.as_view(), name='climbing-time'),
+    path('climbing-time/', WeeklyClimbingTimeView.as_view(), name='climbing-time'),
+  
 ]
 

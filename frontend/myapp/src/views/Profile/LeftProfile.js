@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom'; // Importa useNavigate
-import { sendAuthenticatedRequest } from '../../services/auth'; // Asegúrate de importar la función correctamente
+import { useNavigate } from 'react-router-dom';
+import { sendAuthenticatedRequest, logout } from '../../services/auth';
 
 const LeftProfile = () => {
   const [user, setUser] = useState(null);
-  const navigate = useNavigate(); // Inicializa useNavigate
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -21,7 +22,54 @@ const LeftProfile = () => {
   }, []);
 
   const handleEditClick = () => {
-    navigate('/profile/edit'); // Redirige al usuario a la ventana de edición de perfil
+    navigate('/profile/edit');
+  };
+
+  const handleSettingsClick = () => {
+    console.log('Ajustes clicked');
+  };
+
+  const handleChangePasswordClick = () => {
+    navigate('/profile/change-password');
+  };
+
+  const handleDeleteAccountClick = () => {
+    setIsModalVisible(true); // Mostrar el modal
+  };
+
+  const handleAcceptDelete = async () => {
+    try {
+        const refreshToken = localStorage.getItem('refreshToken');
+        const accessToken = localStorage.getItem('accessToken');
+
+        // Logout (esto revoca el refresh token)
+        await fetch('http://localhost:8000/api/auth/logout/', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ refresh_token: refreshToken }),
+        });
+       
+        await sendAuthenticatedRequest('http://localhost:8000/api/auth/delete-account/', 'DELETE');
+
+        // Limpiar los tokens locales
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        
+        // Redirigir al usuario a la página de inicio de sesión
+        navigate('/login');
+    } catch (error) {
+        console.error('Error eliminando la cuenta:', error);
+    } finally {
+        setIsModalVisible(false);
+    }
+};
+
+
+  const handleRejectDelete = () => {
+    setIsModalVisible(false); // Ocultar el modal
   };
 
   if (!user) {
@@ -42,9 +90,35 @@ const LeftProfile = () => {
           </a>
         </UserInfo>
         <Widget>
-          <EditarButton onClick={handleEditClick}>Editar</EditarButton> {/* Añade onClick */}
+          <EditarButton onClick={handleEditClick}>Editar</EditarButton>
         </Widget>
       </ArtCard>
+
+      <SettingsSection>
+        <SettingsItem onClick={handleSettingsClick}>
+          <SettingsIcon src="/images/ajustes.png" alt="Icono de ajustes" />
+          Ajustes
+        </SettingsItem>
+        <SettingsItem onClick={handleChangePasswordClick}>
+          Cambiar Contraseña
+        </SettingsItem>
+        <SettingsItem onClick={handleDeleteAccountClick}>
+          Eliminar Cuenta
+        </SettingsItem>
+      </SettingsSection>
+
+      {/* Modal para confirmar la eliminación de la cuenta */}
+      {isModalVisible && (
+        <ModalOverlay>
+          <ModalContent>
+            <ModalMessage>¿Está seguro de que desea eliminar su cuenta?</ModalMessage>
+            <ModalButtons>
+              <ModalButton onClick={handleAcceptDelete} primary>Aceptar</ModalButton>
+              <ModalButton onClick={handleRejectDelete}>Rechazar</ModalButton>
+            </ModalButtons>
+          </ModalContent>
+        </ModalOverlay>
+      )}
     </Container>
   );
 };
@@ -133,4 +207,80 @@ const EditarButton = styled.button`
   }
 `;
 
+// Nueva sección de ajustes
+const SettingsSection = styled.div`
+  margin-top: 20px;
+  border: 1.5px solid #FF6633;
+  border-radius: 6px;
+`;
+
+const SettingsItem = styled.div`
+  padding: 20px;
+  border-bottom: 1px solid #FF6633;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    background-color: #FF6633;
+    color: white;
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+`;
+
+const SettingsIcon = styled.img`
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+`;
+
+const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+`;
+
+const ModalContent = styled.div`
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+`;
+
+const ModalMessage = styled.p`
+  font-size: 18px;
+  margin-bottom: 20px;
+`;
+
+const ModalButtons = styled.div`
+  display: flex;
+  justify-content: space-around;
+`;
+
+const ModalButton = styled.button`
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: ${props => (props.primary ? '#FF6633' : '#cccccc')};
+  color: white;
+
+  &:hover {
+    background-color: ${props => (props.primary ? '#d9541e' : '#b3b3b3')};
+  }
+`;
 export default LeftProfile;

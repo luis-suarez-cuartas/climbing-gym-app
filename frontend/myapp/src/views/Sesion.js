@@ -38,7 +38,6 @@ const Sesion = () => {
     return <div>Loading...</div>;
   }
 
-  // Preparar datos para el gráfico de barras
   const chartData = trainingData.routes.map(route => ({
     name: route.route_name,
     timeTaken: route.time_taken,
@@ -56,7 +55,6 @@ const Sesion = () => {
     "#B34D4D"
   ];
 
-  // Preparar datos para el gráfico de pastel
   const gradeData = Object.keys(trainingData.grade_percentages).map(grade => ({
     name: grade,
     value: trainingData.grade_percentages[grade],
@@ -69,113 +67,106 @@ const Sesion = () => {
   ];
 
   return (
-    <Container>
-      <BarraNavegacion />
-      <br />
-      <br />
-      <br />
-      <CardContainer>
-        <UserInfo>
-          <ProfileImage src="/imagenes/profile.jpg" alt="User Profile" />
-          <UserDetails>
-            <UserName>{trainingData.user_name}</UserName>
-            <ActivityInfo>
-              <ActivityDate>{trainingData.activity_date}</ActivityDate>
-            </ActivityInfo>
-          </UserDetails>
-        </UserInfo>
-        <ActivityTitle>{trainingData.activity_title}</ActivityTitle>
+    <div>
+      <FixedNavBar>
+        <BarraNavegacion />
+      </FixedNavBar>
+      <ContentWrapper>
+        <CardContainer>
+          <UserInfo>
+            <ProfileImage src={trainingData.profile_picture || "/imagenes/profile.jpg"} alt="User Profile" />
+            <UserDetails>
+              <UserName>{trainingData.user_name}</UserName>
+              <ActivityInfo>
+                <ActivityDate>{trainingData.activity_date}</ActivityDate>
+              </ActivityInfo>
+            </UserDetails>
+          </UserInfo>
+          <ActivityTitle>{trainingData.activity_title}</ActivityTitle>
 
-        <ActivityStats>
-          <StatItem>
-            <StatLabel>Duración total</StatLabel>
-            <StatValue>{trainingData.total_duration} min</StatValue>
-          </StatItem>
-          <StatItem>
-            <StatLabel>Tiempo escalando</StatLabel>
-            <StatValue>{trainingData.total_time_climbed} s</StatValue>
-          </StatItem>
-          <StatItem>
-            <StatLabel>Vías escaladas</StatLabel>
-            <StatValue>{trainingData.routes_count}</StatValue>
-          </StatItem>
-        </ActivityStats>
+          <ActivityStats>
+            <StatItem>
+              <StatLabel>Duración total</StatLabel>
+              <StatValue>{trainingData.total_duration} min</StatValue>
+            </StatItem>
+            <StatItem>
+              <StatLabel>Tiempo escalando</StatLabel>
+              <StatValue>{trainingData.total_time_climbed} s</StatValue>
+            </StatItem>
+            <StatItem>
+              <StatLabel>Vías escaladas</StatLabel>
+              <StatValue>{trainingData.routes_count}</StatValue>
+            </StatItem>
+          </ActivityStats>
 
-        {/* Gráfico de barras */}
-        <ChartContainer>
-          <BarChart width={600} height={300} data={chartData} barCategoryGap="1%">
-            <CartesianGrid strokeDasharray="3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend iconType="circle" />
-            <Bar dataKey="timeTaken">
-              {chartData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={barColors[index % barColors.length]} />
-              ))}
-            </Bar>
-          </BarChart>
-        </ChartContainer>
+          <ChartContainer>
+            <BarChart width={600} height={300} data={chartData} barCategoryGap="1%">
+              <CartesianGrid strokeDasharray="3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Legend iconType="circle" />
+              <Bar dataKey="timeTaken">
+                {chartData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={barColors[index % barColors.length]} />
+                ))}
+              </Bar>
+            </BarChart>
+          </ChartContainer>
 
-        {/* Gráfico de pastel */}
-        <ChartContainer>
-          <PieChart width={400} height={400}>
-            <Pie
-              data={gradeData}
-              cx={200}
-              cy={200}
-              labelLine={false}
-              label={({ name, value }) => `${name}: ${value.toFixed(1)}%`}
-              outerRadius={150}
-              fill="#8884d8"
-              dataKey="value"
-            >
-              {gradeData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={pieColors[index % pieColors.length]} />
-              ))}
-            </Pie>
-            <Tooltip />
-            <Legend />
-          </PieChart>
-        </ChartContainer>
+          <ChartContainer>
+            <PieChart width={400} height={400}>
+              <Pie
+                data={gradeData}
+                cx={200}
+                cy={200}
+                labelLine={false}
+                label={({ name, value }) => `${name}: ${value.toFixed(1)}%`}
+                outerRadius={150}
+                fill="#8884d8"
+                dataKey="value"
+              >
+                {gradeData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={pieColors[index % pieColors.length]} />
+                ))}
+              </Pie>
+              <Tooltip />
+              <Legend />
+            </PieChart>
+          </ChartContainer>
 
-        {/* Añadir tabla de detalles */}
-        <TrainingDetailTable routes={trainingData.routes} />
-      </CardContainer>
-    </Container>
+          <TrainingDetailTable routes={trainingData.routes} />
+        </CardContainer>
+      </ContentWrapper>
+    </div>
   );
 };
 
+const FixedNavBar = styled.div`
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  height: 100vh;
-  width: 100vw;
-  background-color: #f0f0f0;
-  padding-top: 60px;
-  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: #000; /* Asegura que el fondo sea consistente */
+  padding: 20px 0;
+`;
+
+const ContentWrapper = styled.div`
+  padding-top: 80px; /* Ajusta según la altura de tu barra de navegación */
+  background-color: #FFFFFF;
+  width: 75%;
+  margin: 0 auto;
 `;
 
 const CardContainer = styled.div`
-  width: 100%;
-  margin: 20px auto;
-  padding: 40px 20px;
-  border: 1px solid #d3d3d3;
-  border-radius: 10px;
+  margin: 18px 0 18px;
+  overflow: visible;
   font-family: Arial, sans-serif;
   background-color: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: none;
   text-align: center;
-`;
-
-const ActivityTitle = styled.h2`
-  margin: 50px 0 30px;
-  font-size: 24px;
-  font-weight: bold;
+   grid-area: main;
 `;
 
 const UserInfo = styled.div`
@@ -211,7 +202,12 @@ const ActivityInfo = styled.div`
   font-size: 16px;
 `;
 
-const ActivityDate = styled.span`
+const ActivityDate = styled.span``;
+
+const ActivityTitle = styled.h2`
+  margin: 50px 0 30px;
+  font-size: 24px;
+  font-weight: bold;
 `;
 
 const ActivityStats = styled.div`
@@ -240,7 +236,7 @@ const ChartContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 40px 0; /* Aumenta el espacio alrededor de la gráfica */
+  margin: 40px 0;
 `;
 
 export default Sesion;
