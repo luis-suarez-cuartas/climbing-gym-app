@@ -67,6 +67,25 @@ export const loginRequest = (url, data) => {
     .catch(error => console.error('Error with fetch:', error));
 };
 
+
+export const adminLoginRequest = (data) => {
+    return fetch('http://localhost:8000/api/auth/admin/login/', {  // URL específica para admin login
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.json().then(error => {
+                throw new Error(error.detail || 'Admin login failed');
+            });
+        }
+        return response.json();
+    })
+    .catch(error => console.error('Error with fetch:', error));
+};
 export const logout = async () => {
     const refreshToken = localStorage.getItem('refreshToken');
     const accessToken = localStorage.getItem('accessToken');

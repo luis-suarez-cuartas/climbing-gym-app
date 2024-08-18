@@ -1,41 +1,42 @@
 // views/AdminLogin.js
 
 import { Link } from 'react-router-dom';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { storeTokens, loginRequest } from '../services/auth';
+import { storeTokens, adminLoginRequest } from '../services/auth'; // Asegúrate de importar adminLoginRequest
 import { BarraNavegacion } from '../components/BarraNavegacion';
-import '../assets/css/login.css';
 
 function AdminLogin() {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: ''
-  });
-  const [error, setError] = useState('');
-  const navigate = useNavigate();
+    const [formData, setFormData] = useState({
+        email: '',
+        password: ''
+    });
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
-  };
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setError('');
-    try {
-      const data = await loginRequest('http://localhost:8000/api/auth/admin/login/', formData);
-      console.log('Admin login successful:', data);
-      storeTokens(data);
-      navigate('/admin/dashboard');  // Redirect to admin dashboard
-    } catch (error) {
-      console.error('Admin login error:', error);
-      setError('Failed to login. Please check your credentials.');
-    }
-  };
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        setError('');
+        try {
+            const data = await adminLoginRequest(formData);
+            console.log('Admin login successful:', data);
+            storeTokens(data);
+            navigate('/admin/dashboard');  // Redirige al panel de administración
+        } catch (error) {
+            console.error('Admin login error:', error);
+            setError('Failed to login. Please check your credentials.');
+        }
+    };
+
+
 
   return (
     <div className="container">
