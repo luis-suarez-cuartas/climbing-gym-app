@@ -1,225 +1,152 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
-import DataGrid, {
-  Column,
-  Editing,
-  Texts,
-  Pager,
-  Paging,
-  FilterRow,
-  RequiredRule,
-  CustomRule,
-  Selection
-} from "devextreme-react/data-grid";
-import TextBox from "devextreme-react/text-box";
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { BarraNavegacion } from '../components/BarraNavegacion';
+import { getUserRankings } from '../services/ranking';
 
+const Rankings = () => {
+  const [selectedTab, setSelectedTab] = useState('TimeClimbing');
+  const [rankingsData, setRankingsData] = useState([]);
 
+  useEffect(() => {
+    getUserRankings()
+      .then(data => {
+        console.log('Data fetched from API:', data);
+        setRankingsData(data);
+      })
+      .catch(error => {
+        console.error('Error fetching user rankings:', error);
+      });
+  }, []);
 
-import notify from "devextreme/ui/notify";
-import DataSource from "devextreme/data/data_source";
-
-const UNIQUE_ROLES_ERROR = "Please use unique role names";
-
-var dataGrid;
-
-const dataSource = {
-  load: (loadOptions) => {
-    console.log("load");
-    
-  }
-};
-
-const isRoleEditable = (role) => {
-  return !role.IsBasic && !role.IsDefault;
-};
-
-const checkAllowEdit = (data) => isRoleEditable(data.row.data);
-
-const Ranking = () => {
-  const [selectedRoleRights, setSelectedRoleRights] = useState();
-  const [selectedRole, setSelectedRole] = useState();
-  const selectedRoleRef = useRef();
-  const [abc, setAbc] = useState("some text");
-  // const [selectedRoleUserNr, setSelectedRoleUserNr] = useState(roleUserNr);
-  // const [roles, setRoles] = useState(dummyRoles);
-  // const [rights, setRights] = useState(dummyRights);
-  // const [isError, setIsError] = useState(false);
-  const [areRightDisabled, setAreRightsDisabled] = useState(false);
-
-  // const buildRolePrivileges = (selectedRole) => {
-  //   setSelectedRoleRights(
-  //     rights.map((right) => ({
-  //       ...right,
-  //       Active: !!selectedRole.Rights.some((r) => r.Id == right.Id)
-  //     }))
-  //   );
-  // };
-
-  // const updateRolesRights = async (right, isActive) => {
-  //   const newRole = {
-  //     ...selectedRole,
-  //     Rights: isActive
-  //       ? [...selectedRole.Rights, right]
-  //       : selectedRole.Rights.filter((right) => right.Id !== right.Id)
-  //   };
-
-  //   let rightEnumList = newRole.Rights.map((a) => a.Id);
-  //   // await httpUtils.postRequest(
-  //   //   "/api/helper/UpdateRights/" + selectedRole.Id,
-  //   //   rightEnumList
-  //   // );
-
-  //   notify("Change saved...", "success", 600);
-  // };
-
-  // const isRoleNameDuplicate = (roleData) => {
-  //   return dataSourceRole
-  //     .items()
-  //     .find((role) => role.Name === roleData.Name && role.Id !== roleData.Id);
-  // };
-
-  // const removeRole = (roleId) => {
-  //   const newRoles = roles.filter((role) => role.Id !== roleId);
-
-  //   setRoles(newRoles);
-
-  //   if (selectedRole.Id === roleId) {
-  //     setCurrentRole(roles[0]);
-  //   }
-  // };
-
-  // const onInitNewRow = () => setAreRightsDisabled(true);
-
-  // const onRowInserted = () => setAreRightsDisabled(false);
-
-  // const onEditCanceled = () => setAreRightsDisabled(false);
-
-  const onInitialized = (e) => {
-    //based on https://js.devexpress.com/Demos/WidgetsGallery/Demo/DataGrid/DeferredSelection/React/Light/
-    dataGrid = e.component;
+  const handleTabClick = (tab) => {
+    setSelectedTab(tab);
   };
 
-  const onSelectionChange = (data) => {
-    dataGrid.getSelectedRowsData().then((rowData) => {
-      if (!rowData[0]) {
-        return;
-      }
-      setCurrentRole(rowData[0]);
-    });
+  const renderRanking = () => {
+    let filteredData = [];
+
+    if (selectedTab === 'TimeClimbing') {
+      filteredData = rankingsData.slice().sort((a, b) => b.total_time_climbed - a.total_time_climbed);
+      console.log('Rendering TimeClimbing Data:', filteredData);
+    } else if (selectedTab === 'RoutesClimbed') {
+      filteredData = rankingsData.slice().sort((a, b) => b.total_routes_climbed - a.total_routes_climbed);
+      console.log('Rendering RoutesClimbed Data:', filteredData);
+    }
+
+    return <RankingList data={filteredData} selectedTab={selectedTab} />;
   };
-
-  const setCurrentRole = (role) => {
-    // selectedRoleRef.current = role;
-    setAbc(role.CompanyName);
-    setSelectedRole(role);
-    // buildRolePrivileges(role);
-  };
-
-  // const getRights = async () => {
-  //   const response = await httpUtils.getRequest("/odata/rights");
-  //   setRights(response.data.value);
-  // };
-
-  // useEffect(() => {
-  //   getRights();
-  // }, []);
-
-  // useEffect(() => {
-  //   buildRolePrivileges(selectedRole);
-  // }, [rights]);
-
-  // useEffect(() => {
-  //   //GET NR OF USERS WITH GIVEN ROLE
-  //   //setSelectedRoleUserNr()
-  // }, [selectedRoleRights]);
 
   return (
-    <React.Fragment>
-      {/* <h2 className={"content-block"}>Role Detail</h2>
-      <div className={"content-block"}>
-        <div className={"dx-card responsive-paddings"}> */}
-      <DataGrid
-        dataSource={dataSource}
-        hoverStateEnabled={true}
-        onSelectionChanged={onSelectionChange}
-        // onInitNewRow={onInitNewRow}
-        // onRowInserted={onRowInserted}
-        // onEditCanceled={onEditCanceled}
-        onInitialized={onInitialized}
-        // onRowRemoved={(data) => removeRole(data?.data.Id)}
-        // onRowUpdated={(data) => onRoleEdit(data?.data)}
-        //selectedRowKeys={selectedRole || roles[0]}
-        // columnHidingEnabled={true}
-      >
-        <Selection mode="single" deferred={true} repaintChangesOnly={true} />
-        <Paging defaultPageSize={10} />
-        <Pager showPageSizeSelector={true} showInfo={true} />
-        <FilterRow visible={true} />
-        <Editing
-          mode="inline"
-          refreshMode="reshape"
-          allowDeleting={checkAllowEdit}
-          allowAdding={true}
-          allowUpdating={checkAllowEdit}
-          useIcons={true}
-        >
-          {/* <Texts
-                confirmDeleteMessage={`${selectedRoleUserNr} users are assigned and will be transferred to role "standard user"`}
-              /> */}
-        </Editing>
-        {/* <Column dataField="ID">
-              <RequiredRule />
-              <CustomRule
-                type="custom"
-                message={UNIQUE_ROLES_ERROR}
-                validationCallback={(data) => !isRoleNameDuplicate(data.data)}
-              />
-            </Column>
-            <Column dataField="CompanyName">
-              <RequiredRule />
-            </Column> */}
-      </DataGrid>
-      <TextBox placeholder="Enter full name here..." value={abc} />
-      {/* </div>
-      </div> */}
-      {/* <h2 className={"content-block"}>{`Privileges ${
-        selectedRole.Name ? `for ${selectedRole.Name}` : ""
-      }`}</h2>
-      <div className={"content-block"}>
-        <div className={"dx-card responsive-paddings"}>
-          <DataGrid
-            hoverStateEnabled={true}
-            dataSource={dataSource}
-            onRowUpdating={(data) =>
-              updateRolesRights(data.oldData, data.newData.Active)
-            }
-            disabled={areRightDisabled}
-          >
-            <Paging defaultPageSize={10} />
-            <Pager showPageSizeSelector={true} showInfo={true} />
-            <FilterRow visible={true} />
-            <Editing
-              mode="cell"
-              refreshMode="reshape"
-              allowUpdating={isRoleEditable(selectedRole)}
-            >
-              <Texts confirmDeleteMessage="Are you sure you want to remove privilege?" />
-            </Editing>
-            <Column
-              dataField="Name"
-              caption="Privilege Name"
-              allowEditing={false}
-            />
-            <Column
-              dataField="Description"
-              caption="Short Description"
-              allowEditing={false}
-            />
-            <Column dataField="Active" caption="Active" width={125} />
-          </DataGrid>
-        </div>
-      </div> */}
-    </React.Fragment>
+    <div>
+      <BarraNavegacion />
+      <Container>
+        <Tabs>
+          <Tab selected={selectedTab === 'TimeClimbing'} onClick={() => handleTabClick('TimeClimbing')}>
+            Time Climbing
+          </Tab>
+          <Tab selected={selectedTab === 'RoutesClimbed'} onClick={() => handleTabClick('RoutesClimbed')}>
+            Routes Climbed
+          </Tab>
+        </Tabs>
+        {renderRanking()}
+      </Container>
+    </div>
   );
 };
 
-export default Ranking;
+const RankingList = ({ data = [], selectedTab }) => {
+  console.log('Data passed to RankingList:', data);
+  return (
+    <RankingContainer>
+      {data.map((item, index) => {
+        const imageUrl = item.image ? `http://localhost:8000${item.image}` : "/imagenes/fotocv.jpg";
+        return (
+          <RankingItem key={index}>
+            <RankingPosition>{index + 1}. </RankingPosition>
+            <RankingImage src={imageUrl} alt={item.user_name} />
+            <Name>{item.user_name}</Name>
+            <Points>{selectedTab === 'TimeClimbing' ? item.total_time_climbed : item.total_routes_climbed}</Points>
+          </RankingItem>
+        );
+      })}
+    </RankingContainer>
+  );
+};
+
+// Styled Components...
+
+const Container = styled.div`
+  width: 75%;
+  margin: 0 auto;
+  background-color: #FFFFFF;
+  padding: 20px;
+  margin-top: 100px;
+  border: 2px solid orange;
+  border-radius: 10px;
+`;
+
+const Tabs = styled.div`
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+`;
+
+const Tab = styled.button`
+  background-color: ${(props) => (props.selected ? '#FF9966' : '#E5E8E8')};
+  color: #000;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+
+  &:hover {
+    background-color: #FF9966;
+  }
+`;
+
+const RankingContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 20px;
+`;
+
+const RankingItem = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #F3F4F6;
+  border-radius: 10px;
+  border: 1px solid #CCC;
+`;
+
+const RankingPosition = styled.span`
+  font-size: 18px;
+  font-weight: bold;
+  margin-right: 10px;
+`;
+
+const RankingImage = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 15px;
+`;
+
+const Name = styled.span`
+  font-size: 18px;
+  font-weight: bold;
+  flex-grow: 1;
+`;
+
+const Points = styled.span`
+  font-size: 18px;
+  color: #555;
+  margin-left: auto;
+`;
+
+export default Rankings;

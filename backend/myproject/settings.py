@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'authentication',
     'training',
     'publication',
+    'ranking',
     'corsheaders',
 ]
 

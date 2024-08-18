@@ -96,7 +96,7 @@ const LeftProfile = () => {
 
       <SettingsSection>
         <SettingsItem onClick={handleSettingsClick}>
-          <SettingsIcon src="/images/ajustes.png" alt="Icono de ajustes" />
+          <SettingsIcon src="/imagenes/ajustes.png" alt="Icono de ajustes" />
           Ajustes
         </SettingsItem>
         <SettingsItem onClick={handleChangePasswordClick}>

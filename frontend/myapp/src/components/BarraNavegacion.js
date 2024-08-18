@@ -5,10 +5,12 @@ import { logout } from '../services/auth';
 
 const headerStyles = css`
   position: fixed;
+  top: 0;  /* Asegura que la barra esté en la parte superior */
+  left: 0; /* Asegura que la barra esté alineada a la izquierda */
   background-color: #000; /* Negro */
   width: 100%;
   padding: 20px 0; /* Aumentar el padding para hacer la barra más ancha */
-  z-index: 8;
+  z-index: 1000; /* Asegura que la barra esté encima del contenido */
   display: flex;
   justify-content: space-between;
   align-items: center;

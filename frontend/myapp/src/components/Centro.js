@@ -34,13 +34,16 @@ export function GrowthSection() {
         <h1>Supera tus límites</h1> 
         <h3 className="description">
           Use URL parameters to deliver dynamic & personalized images. Works
-          perfectly for email marketing campaigns, E-commerce stores, or blogs
-          at scale..
+          perfectly for email marketing campaigns, E-commerce storess
         </h3>
+       
       </div>
       <div>
         <img src="imagenes/autobelay.jpg" alt="" />
+      
       </div>
+      
+      
     </section>
   );
 }
