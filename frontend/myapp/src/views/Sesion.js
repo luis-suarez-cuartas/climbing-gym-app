@@ -68,9 +68,13 @@ const Sesion = () => {
 
   return (
     <div>
-      <FixedNavBar>
-        <BarraNavegacion />
-      </FixedNavBar>
+      <BarraNavegacion />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+    <div style={appStyles}>
       <ContentWrapper>
         <CardContainer>
           <UserInfo>
@@ -139,23 +143,30 @@ const Sesion = () => {
         </CardContainer>
       </ContentWrapper>
     </div>
+  </div>
   );
 };
 
-const FixedNavBar = styled.div`
+const navStyles = {
+  position: 'fixed',
+  top: 0,
+  width: '100%',
+  zIndex: 1000,
+  backgroundColor: '#000'
+};
 
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 1000;
-  background-color: #000; /* Asegura que el fondo sea consistente */
-  padding: 20px 0;
-`;
+const appStyles = {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  flexDirection: 'column',
+  paddingTop: '60px'
+};
 
 const ContentWrapper = styled.div`
   padding-top: 80px; /* Ajusta según la altura de tu barra de navegación */
   background-color: #FFFFFF;
-  width: 75%;
+  width: 90%; /* Ajustado a 90% para mayor uso del espacio */
   margin: 0 auto;
 `;
 
@@ -166,7 +177,6 @@ const CardContainer = styled.div`
   background-color: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
-   grid-area: main;
 `;
 
 const UserInfo = styled.div`
@@ -238,5 +248,6 @@ const ChartContainer = styled.div`
   align-items: center;
   margin: 40px 0;
 `;
+
 
 export default Sesion;

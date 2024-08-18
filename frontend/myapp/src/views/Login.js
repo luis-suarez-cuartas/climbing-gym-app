@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { storeTokens, loginRequest } from '../services/auth';
+import { BarraNavegacion } from '../components/BarraNavegacion';
 import '../assets/css/login.css';
 
 function Login() {
@@ -37,14 +38,13 @@ function Login() {
 
   return (
     <div className="container">
+      <BarraNavegacion />
       <div className="container-login">
         <div className="wrap-login">
           <form className="login-form" onSubmit={handleSubmit}>
             <span className="login-form-title">Welcome</span>
-            <span className="login-form-title">
-              <img src="/path/to/your/logo.png" alt="Logo" />
-            </span>
-
+            <br />
+            <br />
             <div className="wrap-input">
               <input
                 className={formData.email !== '' ? "has-val input" : "input"}
