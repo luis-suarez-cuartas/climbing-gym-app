@@ -1,12 +1,15 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import UserSerializer, MyTokenObtainPairSerializer
+from .serializers import UserSerializer, MyTokenObtainPairSerializer, AdminTokenObtainPairSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, BasePermission
+from .models import CustomUser  # Importa tu modelo de usuario personalizado
 import logging
 
 logger = logging.getLogger(__name__)
+
+# Vista para el registro de usuarios normales
 class RegisterView(APIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data)
@@ -15,6 +18,8 @@ class RegisterView(APIView):
             logger.info(f"New user registered: {user.email}")
             return Response({"user": serializer.data}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# Vista para el login de usuarios normales
 class LoginView(APIView):
     def post(self, request):
         serializer = MyTokenObtainPairSerializer(data=request.data)
@@ -23,8 +28,9 @@ class LoginView(APIView):
             return Response(serializer.validated_data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+# Vista para el logout de usuarios
 class LogoutView(APIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         try:
@@ -35,8 +41,8 @@ class LogoutView(APIView):
             return Response(status=status.HTTP_205_RESET_CONTENT)
         except Exception as e:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-        
 
+# Vista para ver el perfil del usuario
 class UserProfileView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -44,6 +50,8 @@ class UserProfileView(APIView):
         user = request.user
         serializer = UserSerializer(user)
         return Response(serializer.data)
+
+# Vista para editar el perfil del usuario
 class EditProfileView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -51,8 +59,6 @@ class EditProfileView(APIView):
         user = request.user
         
         # Log para depuración
-        import logging
-        logger = logging.getLogger(__name__)
         logger.info(f"Datos recibidos en la solicitud: {request.data}")
 
         # Serializar los datos
@@ -65,8 +71,7 @@ class EditProfileView(APIView):
             logger.info(f"Errores de validación: {serializer.errors}")
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-
+# Vista para cambiar la contraseña del usuario
 class ChangePasswordView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -85,8 +90,8 @@ class ChangePasswordView(APIView):
         user.set_password(new_password)
         user.save()
         return Response({"detail": "Password updated successfully"}, status=status.HTTP_200_OK)
-    
 
+# Vista para eliminar la cuenta del usuario
 class DeleteAccountView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -111,3 +116,44 @@ class DeleteAccountView(APIView):
         user.delete()
         logger.info(f"User {user_email} deleted their account.")
         return Response({"detail": "Cuenta eliminada exitosamente"}, status=status.HTTP_204_NO_CONTENT)
+
+# Clase para verificar si el usuario es superusuario
+class IsAdminUser(BasePermission):
+    def has_permission(self, request, view):
+        return request.user and request.user.is_superuser
+
+# Vista específica para superusuarios
+class AdminOnlyView(APIView):
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
+    def get(self, request):
+        # Lógica solo accesible para superusuarios
+        return Response({"detail": "Contenido solo para superusuarios"}, status=status.HTTP_200_OK)
+
+# Vista para registrar superusuarios
+class AdminRegisterView(APIView):
+    permission_classes = [IsAuthenticated, IsAdminUser]  # Solo los superusuarios pueden registrar otros superusuarios
+
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            # Crear el superusuario
+            user = CustomUser.objects.create_superuser(
+                email=serializer.validated_data['email'],
+                password=serializer.validated_data['password'],
+                name=serializer.validated_data['name'],
+                # Otros campos adicionales si los tienes
+            )
+            logger.info(f"New superuser registered: {user.email}")
+            return Response({"user": serializer.data}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# Vista para login de superusuarios
+class AdminLoginView(APIView):
+    def post(self, request):
+        serializer = AdminTokenObtainPairSerializer(data=request.data)
+        if serializer.is_valid():
+            data = serializer.validated_data
+            logger.info(f"Superuser logged in: {data['email']}")
+            return Response(data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

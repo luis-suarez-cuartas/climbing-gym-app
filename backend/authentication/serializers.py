@@ -55,18 +55,21 @@ class MyTokenObtainPairSerializer(serializers.Serializer):
             }
         raise serializers.ValidationError('Unable to log in with provided credentials.')
 
-class MyTokenObtainPairSerializer(serializers.Serializer):
+
+class AdminTokenObtainPairSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField()
 
     def validate(self, attrs):
         user = authenticate(email=attrs['email'], password=attrs['password'])
-        if user:
+        if user and user.is_superuser:
             refresh = RefreshToken.for_user(user)
             return {
                 'refresh': str(refresh),
                 'access': str(refresh.access_token),
                 'name': user.name,
-                'email': user.email
+                'email': user.email,
+                'is_superuser': user.is_superuser,
+                'is_staff': user.is_staff
             }
         raise serializers.ValidationError('Unable to log in with provided credentials.')
