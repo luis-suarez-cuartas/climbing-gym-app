@@ -9,9 +9,15 @@ import TrainingSesion from './views/TrainingSesion';
 import Publications from './views/Publications';
 import Ranking from './views/Ranking';
 import PrivateRoute from './hooks/PrivateRoute';
+import AdminPrivateRoute from './hooks/AdminPrivateRoute';
+import AdminPublicRoute from './hooks/AdminPublicRoute';
 import Sesion from './views/Sesion';
 import EditProfile from './views/EditProfile';
 import ChangePassword from './views/ChangePassword';
+import AdminLogin from './views/AdminLogin';
+import AdminRegister from './views/AdminRegister';
+
+
 
 function AppRouter() {
   return (
@@ -27,7 +33,9 @@ function AppRouter() {
         <Route path="/entrenamiento" element={<PrivateRoute component={TrainingSesion} />} />
         <Route path="/publications" element={<PrivateRoute component={Publications} />} />
         <Route path="/ranking" element={<Ranking />} />
-        <Route path="*" element={<Navigate to="/" replace />} /> {/* Redirige cualquier otra ruta a la página de inicio */}
+        <Route path="/admin/login" element={<AdminPublicRoute component={AdminLogin} restricted={true} />} />
+        <Route path="/admin/register" element={<AdminPublicRoute component={AdminRegister} restricted={true} />} />
+        <Route path="*" element={<Navigate to="/" replace />} /> 
       </Routes>
     </BrowserRouter>
   );

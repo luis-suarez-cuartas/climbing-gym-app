@@ -1,3 +1,4 @@
+// services/auth.js
 
 export const storeTokens = ({ access, refresh }) => {
     localStorage.setItem('accessToken', access);
@@ -7,6 +8,16 @@ export const storeTokens = ({ access, refresh }) => {
 export const getAccessToken = () => {
     return localStorage.getItem('accessToken');
 };
+
+export const getUser = () => {
+    return JSON.parse(localStorage.getItem('user')); // Obtiene el objeto del usuario desde localStorage
+};
+
+export const isAdmin = () => {
+    const user = getUser();
+    return user && user.is_superuser; // Verifica si el usuario es un superusuario
+};
+
 export const sendAuthenticatedRequest = (url, method = 'GET', data = null) => { 
     const accessToken = getAccessToken();
     const headers = {
@@ -33,19 +44,16 @@ export const sendAuthenticatedRequest = (url, method = 'GET', data = null) => {
                     throw new Error(error.detail || 'Request failed');
                 });
             }
-            // Si la respuesta es 204 No Content, no intentes procesarla como JSON
             if (response.status === 204) {
-                return null; // O simplemente `return;` si no esperas nada
+                return null;
             }
-            return response.json(); // Procesar las respuestas normales
+            return response.json();
         })
         .catch(error => {
             console.error('Error with fetch:', error);
             throw error;
         });
 };
-
-
 
 export const loginRequest = (url, data) => {
     return fetch(url, {
@@ -75,8 +83,8 @@ export const logout = async () => {
             const errorText = await response.text();
             console.error('Logout failed:', errorText);
         }
-
     }
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
+    localStorage.removeItem('user'); // Elimina también los datos del usuario
 };
