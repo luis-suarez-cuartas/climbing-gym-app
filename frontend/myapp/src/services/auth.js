@@ -1,8 +1,14 @@
-// services/auth.js
-
-export const storeTokens = ({ access, refresh }) => {
+export const storeTokens = ({ access, refresh }, user) => {
     localStorage.setItem('accessToken', access);
     localStorage.setItem('refreshToken', refresh);
+    
+    // Asegurarse de que el usuario es válido antes de almacenarlo
+    if (user) {
+        localStorage.setItem('user', JSON.stringify(user));
+        console.log('User stored:', user);
+    } else {
+        console.error('No user data provided to storeTokens');
+    }
 };
 
 export const getAccessToken = () => {
@@ -10,7 +16,9 @@ export const getAccessToken = () => {
 };
 
 export const getUser = () => {
-    return JSON.parse(localStorage.getItem('user')); // Obtiene el objeto del usuario desde localStorage
+    const user = localStorage.getItem('user');
+    console.log('Retrieved user from localStorage:', user); // Log para verificar qué se obtiene
+    return user ? JSON.parse(user) : null; // Asegúrate de devolver un objeto o null si no existe
 };
 
 export const isAdmin = () => {
@@ -67,25 +75,40 @@ export const loginRequest = (url, data) => {
     .catch(error => console.error('Error with fetch:', error));
 };
 
-
-export const adminLoginRequest = (data) => {
-    return fetch('http://localhost:8000/api/auth/admin/login/', {  // URL específica para admin login
+export const adminLoginRequest = async (data) => {
+    const response = await fetch('http://localhost:8000/api/auth/admin/login/', {  
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data)
-    })
-    .then(response => {
-        if (!response.ok) {
-            return response.json().then(error => {
-                throw new Error(error.detail || 'Admin login failed');
-            });
-        }
-        return response.json();
-    })
-    .catch(error => console.error('Error with fetch:', error));
+        body: JSON.stringify(data),
+    });
+    
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || 'Admin login failed');
+    }
+
+    const result = await response.json();
+
+    // Verifica que el resultado contenga el usuario
+    if (result.access && result.refresh && result.email) {
+        storeTokens({
+            access: result.access,
+            refresh: result.refresh
+        }, {
+            email: result.email,
+            name: result.name,
+            is_superuser: result.is_superuser,
+            is_staff: result.is_staff,
+        });
+    } else {
+        console.error('Admin login successful but user data is incomplete:', result);
+    }
+
+    return result;
 };
+
 export const logout = async () => {
     const refreshToken = localStorage.getItem('refreshToken');
     const accessToken = localStorage.getItem('accessToken');

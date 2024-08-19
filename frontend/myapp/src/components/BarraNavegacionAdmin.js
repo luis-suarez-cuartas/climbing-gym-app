@@ -127,10 +127,10 @@ export function BarraNavegacionAdmin() {
               <Link to="/ranking" css={linkStyles}>Ranking</Link>
             </li>
             <li>
-              <a href="./index.html" css={linkStyles}>Usuarios</a>
+              <Link to="/admin/users" css={linkStyles}>Usuarios</Link>
             </li>
             <li>
-              <a href="./index.html" css={linkStyles}>Home</a>
+               <Link to="/admin/homePage" css={linkStyles}>Home</Link>
             </li>
           </ul>
         </div>

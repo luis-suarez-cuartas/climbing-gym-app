@@ -18,15 +18,14 @@ function AdminHomePage() {
         <br />
         <br />
         <Dashboard>
-            <DashboardTitle>Página de administración</DashboardTitle>
             <DashboardGrid>
                 <DashboardItem onClick={() => navigate('/admin/solicitudes')}>
-                    <ItemImage src="/icons/solicitudes-icon.png" alt="Solicitudes de registro" />
+                    <ItemImage src="/imagenes/solicitudes-icon.png" alt="Solicitudes de registro" />
                     <ItemTitle>Solicitudes de registro</ItemTitle>
                     <ItemDescription>Aquí podrás aceptar o rechazar una solicitud de registro</ItemDescription>
                 </DashboardItem>
-                <DashboardItem onClick={() => navigate('/admin/usuarios')}>
-                    <ItemImage src="/icons/usuarios-icon.png" alt="Usuarios" />
+                <DashboardItem onClick={() => navigate('/admin/users')}>
+                    <ItemImage src="/imagenes/imagenUsuarios.png" alt="Usuarios" />
                     <ItemTitle>Usuarios</ItemTitle>
                     <ItemDescription>Aquí podrás buscar y visualizar a todos los usuarios y sus datos</ItemDescription>
                 </DashboardItem>
@@ -68,10 +67,6 @@ const Dashboard = styled.div`
     text-align: center;
 `;
 
-const DashboardTitle = styled.h1`
-    font-size: 2rem;
-    margin-bottom: 20px;
-`;
 
 const DashboardGrid = styled.div`
     display: grid;
