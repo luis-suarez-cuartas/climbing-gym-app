@@ -13,7 +13,7 @@ import logging
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ('email', 'password', 'profile_picture', 'name')
+        fields = ('id','email', 'password', 'profile_picture', 'name')
         extra_kwargs = {
             'password': {'write_only': True},
             'profile_picture': {'required': False}

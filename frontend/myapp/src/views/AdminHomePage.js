@@ -30,9 +30,9 @@ function AdminHomePage() {
                     <ItemDescription>Aquí podrás buscar y visualizar a todos los usuarios y sus datos</ItemDescription>
                 </DashboardItem>
                 <DashboardItem onClick={() => navigate('/admin/reservas')}>
-                    <ItemImage src="/icons/reservas-icon.png" alt="Reservas" />
-                    <ItemTitle>Reservas</ItemTitle>
-                    <ItemDescription>Aquí podrás buscar, visualizar y modificar cualquier reserva</ItemDescription>
+                    <ItemImage src="/imagenes/rutas.jpg" alt="Rutas" />
+                    <ItemTitle>Rutas</ItemTitle>
+                    <ItemDescription>Aquí podrás añadir las nuevas rutas de escalada</ItemDescription>
                 </DashboardItem>
                 <DashboardItem onClick={() => navigate('/admin/pistas')}>
                     <ItemImage src="/icons/pistas-icon.png" alt="Pistas" />

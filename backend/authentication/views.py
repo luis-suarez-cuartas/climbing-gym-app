@@ -168,3 +168,15 @@ class ListUsersView(APIView):
         serializer = UserSerializer(users, many=True)
         return Response(serializer.data)
     
+
+
+class DeleteUserView(APIView):
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
+    def delete(self, request, user_id):
+        try:
+            user = CustomUser.objects.get(id=user_id)
+            user.delete()
+            return Response({"detail": "Usuario eliminado exitosamente"}, status=status.HTTP_204_NO_CONTENT)
+        except CustomUser.DoesNotExist:
+            return Response({"detail": "Usuario no encontrado"}, status=status.HTTP_404_NOT_FOUND)
