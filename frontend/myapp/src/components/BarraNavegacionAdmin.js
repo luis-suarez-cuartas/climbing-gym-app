@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { Link, useNavigate } from 'react-router-dom';
-import { logout } from '../services/auth';
+import { Link } from 'react-router-dom';
 
 const headerStyles = css`
   position: fixed;
@@ -9,7 +8,8 @@ const headerStyles = css`
   left: 0;
   background-color: #000;
   width: 100%;
-  padding: 20px 0;
+  height: 90px; /* Fija la altura para evitar cambios */
+  padding: 0 20px;
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -19,22 +19,27 @@ const navContainerStyles = css`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-grow: 1;
-  padding: 0 20px;
+  width: 100%;
 `;
 
 const logoContainerStyles = css`
   display: flex;
   align-items: center;
+  height: 100%; /* Mantén la altura del contenedor del logo */
 `;
 
 const logoStyles = css`
-  max-height: 50px;
+  height: 50px; /* Fija la altura del logo */
+  width: auto;
+  max-width: 150px; /* Fija un ancho máximo */
+  object-fit: contain; /* Asegura que el logo se ajuste al contenedor */
+  vertical-align: middle;
 `;
 
 const navLinksContainerStyles = css`
   display: flex;
   justify-content: center;
+  flex-grow: 1;
 `;
 
 const ulStyles = css`
@@ -48,8 +53,10 @@ const ulStyles = css`
 
 const linkStyles = css`
   height: 50px;
+  line-height: 70px; /* Alinea verticalmente el texto de los enlaces */
   color: #fff;
   text-decoration: none;
+  transition: color 0.3s ease;
 
   :hover {
     color: #1a47ff;
@@ -60,19 +67,16 @@ const buttonContainerStyles = css`
   display: flex;
   align-items: center;
 `;
-
 const buttonStyles = css`
   border: 1px solid gray;
-  width: 5rem;
-  height: 1.8rem;
+  width: 7rem; /* Aumenta el ancho del botón */
+  height: 2.5rem;
   border-radius: 8px;
   text-decoration: none;
   text-align: center;
-  display: inline-flex; /* Asegura alineación similar para ambos */
+  display: inline-flex;
   justify-content: center;
   align-items: center;
-  line-height: 1; /* Asegura que la altura de línea no afecte */
-  padding: 0; /* Remueve padding adicional que podría causar diferencias */
   color: #fff;
   background-color: #FF6633;
   cursor: pointer;
@@ -84,7 +88,7 @@ const buttonStyles = css`
 
   &.signin {
     color: white;
-    background-color: #FF6633; /* Asegura que también sea naranja */
+    background-color: #FF6633;
     border: 1px solid gray;
 
     :hover {
@@ -94,23 +98,20 @@ const buttonStyles = css`
   }
 `;
 
-export function BarraNavegacion() {
-  const navigate = useNavigate();
-
-  const handleLogout = async () => {
-    await logout();
-    navigate('/');
-  };
-
+export function BarraNavegacionAdmin() {
   return (
     <header css={headerStyles}>
       <div css={navContainerStyles}>
-        {/* Div para el logo alineado a la izquierda */}
         <div css={logoContainerStyles}>
-          <img src="/imagenes/logo.png" alt="logo" css={logoStyles} />
+          <img 
+            src="/imagenes/logo.png" 
+            alt="logo" 
+            css={logoStyles} 
+           
+          
+          />
         </div>
 
-        {/* Div para los enlaces de navegación alineados al centro */}
         <div css={navLinksContainerStyles}>
           <ul css={ulStyles}>
             <li>
@@ -120,13 +121,13 @@ export function BarraNavegacion() {
               <Link to="/profile" css={linkStyles}>Perfil</Link>
             </li>
             <li>
-              <Link to="/entrenamiento" css={linkStyles}>Entrenamiento</Link>
+              <Link to="/usuarios" css={linkStyles}>Entrenamiento</Link>
             </li>
             <li>
               <Link to="/ranking" css={linkStyles}>Ranking</Link>
             </li>
             <li>
-              <a href="./index.html" css={linkStyles}>Novedades</a>
+              <a href="./index.html" css={linkStyles}>Usuarios</a>
             </li>
             <li>
               <a href="./index.html" css={linkStyles}>Home</a>
@@ -134,14 +135,13 @@ export function BarraNavegacion() {
           </ul>
         </div>
 
-        {/* Div para los botones alineados a la derecha */}
         <div css={buttonContainerStyles}>
           <ul css={ulStyles}>
             <li>
-              <Link to="/login" css={buttonStyles} className="signin">Log In</Link>
+              <Link to="/admin/login" css={buttonStyles} className="adminSignin">Iniciar sesión</Link>
             </li>
             <li>
-              <button onClick={handleLogout} css={buttonStyles}>Log Out</button>
+              <Link to="/admin/register" css={buttonStyles} className="adminRegister">Registrarse</Link>
             </li>
           </ul>
         </div>

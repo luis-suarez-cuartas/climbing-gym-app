@@ -16,6 +16,7 @@ import EditProfile from './views/EditProfile';
 import ChangePassword from './views/ChangePassword';
 import AdminLogin from './views/AdminLogin';
 import AdminRegister from './views/AdminRegister';
+import AdminHomePage from './views/AdminHomePage';
 
 
 
@@ -35,6 +36,7 @@ function AppRouter() {
         <Route path="/ranking" element={<Ranking />} />
         <Route path="/admin/login" element={<AdminPublicRoute component={AdminLogin} restricted={true} />} />
         <Route path="/admin/register" element={<AdminPublicRoute component={AdminRegister} restricted={true} />} />
+        <Route path="/admin/homePage" element={<AdminPublicRoute component={AdminHomePage} />} />
         <Route path="*" element={<Navigate to="/" replace />} /> 
       </Routes>
     </BrowserRouter>

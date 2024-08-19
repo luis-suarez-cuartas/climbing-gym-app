@@ -34,6 +34,9 @@ const ChangePassword = () => {
     return (
         <Wrapper>
             <BarraNavegacion />
+            <br />
+            <br />
+            <br />
             <Container>
                 <Form onSubmit={handleSubmit}>
                     <Label>Current Password</Label>

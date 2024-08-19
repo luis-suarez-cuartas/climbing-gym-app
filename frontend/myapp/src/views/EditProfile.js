@@ -68,6 +68,9 @@ const EditProfile = () => {
   return (
     <Wrapper>
       <BarraNavegacion />
+      <br />
+        <br />
+        <br />
       <Container>
         <Form onSubmit={handleSubmit}>
           <Label>Email</Label>

@@ -27,7 +27,7 @@ function AdminRegister() {
         try {
             const result = await registerAdmin(formData);
             console.log('New admin registered successfully:', result);
-            navigate('/admin/dashboard');  // Redirige al panel de administración
+            navigate('/admin/homePage'); 
         } catch (error) {
             console.error('Admin registration error:', error);
             setError('Failed to register admin. Please try again.');

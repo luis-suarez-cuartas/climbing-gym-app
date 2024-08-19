@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { storeTokens, adminLoginRequest } from '../services/auth'; // Asegúrate de importar adminLoginRequest
-import { BarraNavegacion } from '../components/BarraNavegacion';
+import { BarraNavegacionAdmin } from '../components/BarraNavegacionAdmin';  
 
 function AdminLogin() {
     const [formData, setFormData] = useState({
@@ -29,7 +29,7 @@ function AdminLogin() {
             const data = await adminLoginRequest(formData);
             console.log('Admin login successful:', data);
             storeTokens(data);
-            navigate('/admin/dashboard');  // Redirige al panel de administración
+            navigate('/admin/homePage');  // Redirige al panel de administración
         } catch (error) {
             console.error('Admin login error:', error);
             setError('Failed to login. Please check your credentials.');
@@ -40,7 +40,7 @@ function AdminLogin() {
 
   return (
     <div className="container">
-      <BarraNavegacion />
+      <BarraNavegacionAdmin />
       <div className="container-login">
         <div className="wrap-login">
           <form className="login-form" onSubmit={handleSubmit}>
