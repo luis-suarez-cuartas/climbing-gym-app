@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 import { BarraNavegacion } from '../components/BarraNavegacion';
 import { getPublicPublications, likePublication } from '../services/publication';
 import moment from 'moment';
+
 const Publications = () => {
   const [publications, setPublications] = useState([]);
-  
 
   useEffect(() => {
     getPublicPublications()
@@ -43,27 +43,29 @@ const Publications = () => {
         {publications && Array.isArray(publications) && publications.length > 0 ? (
           publications.map(pub => (
             pub.training_id ? (
-              <Article to={`/sesion/${pub.training_id}`} key={pub.id}> {/* Enlace correcto usando `Link` */}
-                <SharedActor>
-                  <button>
-                    <img src={pub.profile_picture ? pub.profile_picture : "/imagenes/fotocv.jpg"} alt="Profile" />
-                    <div>
-                      <h3>
-                        {pub.user_name || 'Unknown User'}
-                        <br />
-                        <div>
-                          <img src="/imagenes/clock.png" alt="Clock" />
-                          <span>{moment(pub.created_at).fromNow()}</span>
-                          <img src="/imagenes/language.png" alt="Public" />
-                          <span>Public</span>
-                        </div>
-                      </h3>
-                    </div>
-                  </button>
-                </SharedActor>
-                <MessageBox>
-                  <span>{pub.training_name || 'No content available'}</span>
-                </MessageBox>
+              <ArticleContainer key={pub.id}>
+                <Article to={`/sesion/${pub.training_id}`}> {/* Enlace correcto usando `Link` */}
+                  <SharedActor>
+                    <button>
+                      <img src={pub.profile_picture ? pub.profile_picture : "/imagenes/fotocv.jpg"} alt="Profile" />
+                      <div>
+                        <h3>
+                          {pub.user_name || 'Unknown User'}
+                          <br />
+                          <div>
+                            <img src="/imagenes/clock.png" alt="Clock" />
+                            <span>{moment(pub.created_at).fromNow()}</span>
+                            <img src="/imagenes/language.png" alt="Public" />
+                            <span>Public</span>
+                          </div>
+                        </h3>
+                      </div>
+                    </button>
+                  </SharedActor>
+                  <MessageBox>
+                    <span>{pub.training_name || 'No content available'}</span>
+                  </MessageBox>
+                </Article>
                 <ActionsPub>
                   <div>
                     <img src="/imagenes/like.png" alt="Like" />
@@ -85,7 +87,7 @@ const Publications = () => {
                     <span>0 comments</span>
                   </div>
                 </ArticleButtons>
-              </Article>
+              </ArticleContainer>
             ) : (
               <p key={pub.id}>Training ID no disponible</p>
             )
@@ -98,6 +100,7 @@ const Publications = () => {
     </div>
   );
 };
+
 const Container = styled.div`
   grid-area: main;
   width: 75%;
@@ -106,14 +109,17 @@ const Container = styled.div`
   padding: 20px;
 `;
 
-const Article = styled(Link)`  /* Cambiado de CommonCard a Link */
+const ArticleContainer = styled.div`
+  margin: 18px 0;
+  background-color: #E5E8E8;
+`;
+
+const Article = styled(Link)`
   display: block;
   text-decoration: none;
-  color: inherit;  /* Mantener el color del texto por defecto */
+  color: inherit;
   padding: 0;
-  margin: 18px 0 18px;
-  overflow: visible;
-  background-color: #E5E8E8;
+  margin-bottom: 10px;
 `;
 
 const SharedActor = styled.div`
