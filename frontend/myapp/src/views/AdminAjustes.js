@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { BarraNavegacionAdmin } from '../components/BarraNavegacionAdmin';
 
@@ -12,7 +13,7 @@ const AdminAjustes = () => {
           <Title>AJUSTES</Title>
         </Section>
         <Section>
-          <Option>Cambiar Contraseña</Option>
+          <Link to="/admin/change-password">Cambiar Contraseña</Link>
         </Section>
         <Section>
           <Option>Registrar Administrador</Option>
