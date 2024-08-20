@@ -23,6 +23,7 @@ import AdminAddRoute from './views/AdminAddRoute';
 import AdminStats from './views/AdminStats';
 import AdminAjustes from './views/AdminAjustes';
 import AdminChangePassword from './views/AdminChangePassword';
+import AdminChangeProfilePicture from './views/AdminChangeProfilePicture';
 
 
 function AppRouter() {
@@ -48,6 +49,7 @@ function AppRouter() {
         <Route path="/admin/route-percentages" element={<AdminPrivateRoute component={AdminStats} />} />
         <Route path="/admin/ajustes" element={<AdminPrivateRoute component={AdminAjustes} />} />
         <Route path="/admin/change-password" element={<AdminPrivateRoute component={AdminChangePassword} />} />
+        <Route path="/admin/change-profile-picture" element={<AdminChangeProfilePicture />} />
         <Route path="*" element={<Navigate to="/" replace />} /> 
       </Routes>
     </BrowserRouter>

@@ -1,5 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import status
 from .serializers import UserSerializer, MyTokenObtainPairSerializer, AdminTokenObtainPairSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -210,3 +211,20 @@ class AdminChangePasswordView(APIView):
         user.set_password(new_password)
         user.save()
         return Response({"detail": "Password updated successfully"}, status=status.HTTP_200_OK)
+
+class UpdateProfilePictureView(APIView):
+    permission_classes = [IsAuthenticated, IsAdminUser]
+    parser_classes = [MultiPartParser, FormParser]
+
+    def put(self, request):
+        user = request.user
+        profile_picture = request.FILES.get('profile_picture')
+
+        if not profile_picture:
+            return Response({"detail": "No profile picture provided"}, status=status.HTTP_400_BAD_REQUEST)
+
+        user.profile_picture = profile_picture
+        user.save()
+
+        serializer = UserSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)

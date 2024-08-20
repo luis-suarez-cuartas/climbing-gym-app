@@ -1,9 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { BarraNavegacionAdmin } from '../components/BarraNavegacionAdmin';
 
 const AdminAjustes = () => {
+
+  const navigate = useNavigate();
+
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
+
   return (
     <Wrapper>
       <BarraNavegacionAdmin />
@@ -13,13 +20,19 @@ const AdminAjustes = () => {
           <Title>AJUSTES</Title>
         </Section>
         <Section>
-          <Link to="/admin/change-password">Cambiar Contraseña</Link>
+          <Option onClick={() => handleNavigation('/admin/change-password')}>
+            Cambiar Contraseña
+          </Option>
         </Section>
         <Section>
-          <Option>Registrar Administrador</Option>
+          <Option onClick={() => handleNavigation('/admin/register')}>
+            Añadir administrador
+          </Option>
         </Section>
         <Section>
-          <Option>Añadir Foto Perfil</Option>
+        <Option onClick={() => handleNavigation('/admin/change-profile-picture')}>
+            Actualizar foto de perfil
+          </Option>
         </Section>
         <Section>
           <Option>Actividad</Option>
