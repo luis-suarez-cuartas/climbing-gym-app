@@ -1,12 +1,12 @@
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated,BasePermission
 from rest_framework.response import Response
-from .models import Publication, Like
+from .models import Publication, Like, Comment
 from .serializers import PublicationSerializer
 from training.models import Training
 from authentication.views import IsAdminUser 
 from rest_framework.generics import ListAPIView
-
+from .serializers import CommentSerializer
 class CreatePublicationView(generics.CreateAPIView):
     serializer_class = PublicationSerializer
     permission_classes = [IsAuthenticated]
@@ -110,5 +110,24 @@ class AdminDeletePublicationView(generics.DestroyAPIView):
             publication = self.get_queryset().get(id=publication_id)
             publication.delete()
             return Response({"detail": "Publication deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+        except Publication.DoesNotExist:
+            return Response({"detail": "Publication not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+
+
+class CreateCommentView(generics.CreateAPIView):
+    serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticated]
+
+    def create(self, request, *args, **kwargs):
+        publication_id = kwargs.get('pk')
+        user = request.user
+        text = request.data.get('text')
+
+        try:
+            publication = Publication.objects.get(id=publication_id)
+            comment = Comment.objects.create(user=user, publication=publication, text=text)
+            serializer = self.get_serializer(comment)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         except Publication.DoesNotExist:
             return Response({"detail": "Publication not found"}, status=status.HTTP_404_NOT_FOUND)

@@ -1,6 +1,6 @@
 
 from rest_framework import serializers
-from .models import Publication
+from .models import Publication, Comment
 
 class PublicationSerializer(serializers.ModelSerializer):
     user_name = serializers.CharField(source='user.name', read_only=True)
@@ -12,3 +12,11 @@ class PublicationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Publication
         fields = ['id', 'user_name', 'profile_picture', 'training_name', 'training_id', 'created_at', 'is_public', 'likes_count']
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    user_name = serializers.CharField(source='user.name', read_only=True)
+
+    class Meta:
+        model = Comment
+        fields = ['id', 'user_name', 'text', 'created_at']

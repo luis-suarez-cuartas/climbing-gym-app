@@ -2,16 +2,23 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { BarraNavegacion } from '../components/BarraNavegacion';
-import { getPublicPublications, likePublication } from '../services/publication';
+import { getPublicPublications, likePublication, commentPublication } from '../services/publication';
 import moment from 'moment';
 
 const Publications = () => {
   const [publications, setPublications] = useState([]);
+  const [commenting, setCommenting] = useState(null);
+  const [commentText, setCommentText] = useState('');
 
   useEffect(() => {
     getPublicPublications()
       .then(data => {
-        setPublications(data);
+        // Asegúrate de que cada publicación tenga un array de comentarios
+        const publicationsWithComments = data.map(pub => ({
+          ...pub,
+          comments: pub.comments || [] // Asegura que comments sea un array
+        }));
+        setPublications(publicationsWithComments);
       })
       .catch(error => {
         console.error('Error fetching public publications:', error);
@@ -31,6 +38,21 @@ const Publications = () => {
     }
   };
 
+  const handleComment = async (publicationId) => {
+    try {
+      const response = await commentPublication(publicationId, commentText);
+      setPublications(prevPublications =>
+        prevPublications.map(pub =>
+          pub.id === publicationId ? { ...pub, comments: [...(pub.comments || []), response] } : pub
+        )
+      );
+      setCommentText('');
+      setCommenting(null);
+    } catch (error) {
+      console.error('Error commenting on publication:', error);
+    }
+  };
+
   return (
     <div>
       <BarraNavegacion />
@@ -44,7 +66,7 @@ const Publications = () => {
           publications.map(pub => (
             pub.training_id ? (
               <ArticleContainer key={pub.id}>
-                <Article to={`/sesion/${pub.training_id}`}> {/* Enlace correcto usando `Link` */}
+                <Article to={`/sesion/${pub.training_id}`}>
                   <SharedActor>
                     <button>
                       <img src={pub.profile_picture ? pub.profile_picture : "/imagenes/fotocv.jpg"} alt="Profile" />
@@ -79,14 +101,24 @@ const Publications = () => {
                     <img src="/imagenes/like.png" alt="Like" />
                     <span>Like</span>
                   </button>
-                  <button>
+                  <button onClick={() => setCommenting(pub.id)}>
                     <img src="/imagenes/comente.png" alt="Comment" />
                     <span>Comment</span>
                   </button>
-                  <div>
-                    <span>0 comments</span>
-                  </div>
                 </ArticleButtons>
+                {commenting === pub.id && (
+                  <CommentBox>
+                    <textarea
+                      value={commentText}
+                      onChange={(e) => setCommentText(e.target.value)}
+                      placeholder="Write a comment..."
+                    />
+                    <CommentButtons>
+                      <button onClick={() => handleComment(pub.id)}>Comment</button>
+                      <button onClick={() => setCommenting(null)}>Cancel</button>
+                    </CommentButtons>
+                  </CommentBox>
+                )}
               </ArticleContainer>
             ) : (
               <p key={pub.id}>Training ID no disponible</p>
@@ -129,6 +161,7 @@ const SharedActor = styled.div`
   margin-bottom: 8px;
   align-items: center;
   display: flex;
+
   button {
     margin-right: 12px;
     flex-grow: 1;
@@ -140,12 +173,14 @@ const SharedActor = styled.div`
     background: none;
     border: none;
     cursor: pointer;
+
     img {
       width: 48px;
       height: 48px;
       border: 2px solid #000;
       border-radius: 50%;
     }
+
     & > div {
       display: flex;
       flex-grow: 1;
@@ -153,21 +188,25 @@ const SharedActor = styled.div`
       margin-left: 8px;
       overflow: hidden;
       justify-content: column;
+
       h3 {
         text-align: left;
         font-size: 18px;
         font-weight: 800;
         color: #000;
+
         div {
           display: flex;
           align-items: center;
         }
+
         img {
           width: 16px;
           height: 16px;
           border: none;
           margin-right: 2px;
         }
+
         span {
           margin-left: 0px;
           margin-right: 15px;
@@ -197,16 +236,94 @@ const ActionsPub = styled.div`
   align-items: center;
   margin-right: 10px;
   padding: 0px 8px 16px 16px;
+
   img {
     border: none;
     width: 16px;
     height: 16px;
     margin-right: 5px;
   }
+
   div {
     display: flex;
+
     span {
       margin-right: 8px;
+    }
+  }
+`;
+
+const ArticleButtons = styled.div`
+  display: flex;
+  justify-content: space-around;
+  text-decoration: none;
+
+  button {
+    text-align: center;
+    padding: 5px 36px;
+    background-color: #FF9966;
+    margin-bottom: 16px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.09);
+    }
+
+    img {
+      border: none;
+      width: 16px;
+      height: 16px;
+      margin-right: 6px;
+    }
+  }
+`;
+
+const CommentBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 10px 20px;
+  background-color: #F5F5F5;
+  border-radius: 5px;
+  margin: 10px 0;
+
+  textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none;
+  }
+`;
+
+const CommentButtons = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+
+  button {
+    padding: 8px 16px;
+    margin-left: 10px;
+    background-color: #FF6633;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+
+    &:hover {
+      background-color: #FF4500;
+    }
+
+    &:nth-child(2) {
+      background-color: #ccc;
+      color: #333;
+
+      &:hover {
+        background-color: #bbb;
+      }
     }
   }
 `;
@@ -224,30 +341,6 @@ const MoreButton = styled.button`
 
   &:hover {
     background-color: #005582;
-  }
-`;
-
-const ArticleButtons = styled.div`
-  display: flex;
-  justify-content: space-around;
-  text-decoration: none;
-  button {
-    text-align: center;
-    padding: 5px 36px;
-    background-color: #FF9966;
-    margin-bottom: 16px;
-    border: none;
-    border-radius: 20px;
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.09);
-    }
-
-    img {
-      border: none;
-      width: 16px;
-      height: 16px;
-      margin-right: 6px;
-    }
   }
 `;
 

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import CreatePublicationView, PublicPublicationListView, UserPublicationListView, LikePublicationView,  AdminUserPublicationListView, AdminAllPublicationsListView, AdminDeletePublicationView, DeleteUserPublicationView
+from .views import CreatePublicationView, PublicPublicationListView, UserPublicationListView, LikePublicationView,  AdminUserPublicationListView, AdminAllPublicationsListView, AdminDeletePublicationView, DeleteUserPublicationView,  CreateCommentView
 
 urlpatterns = [
     path('create/', CreatePublicationView.as_view(), name='create_publication'),
@@ -10,5 +10,6 @@ urlpatterns = [
     path('admin/publications/', AdminAllPublicationsListView.as_view(), name='admin-all-publications'),
     path('admin/publications/<int:pk>/delete/', AdminDeletePublicationView.as_view(), name='admin-delete-publication'),
     path('user/publications/<int:pk>/delete/', DeleteUserPublicationView.as_view(), name='delete_user_publication'),
+    path('<int:pk>/comment/', CreateCommentView.as_view(), name='create_comment'),
 ]
 

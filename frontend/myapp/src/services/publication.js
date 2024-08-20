@@ -85,3 +85,18 @@ export const deleteUserPublication = async (publicationId) => {
       throw error;
     }
   };
+
+  export const commentPublication = async (publicationId, text) => {
+    try {
+        const response = await sendAuthenticatedRequest(
+            `http://localhost:8000/api/publication/${publicationId}/comment/`,
+            'POST',
+            { text }
+        );
+        console.log('Comment added successfully:', response);
+        return response;
+    } catch (error) {
+        console.error('Error commenting on publication:', error);
+        throw error;
+    }
+};
