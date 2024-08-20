@@ -69,3 +69,14 @@ export const getAllPublications = async () => {
 export const deletePublication = async (publicationId) => {
   return sendAuthenticatedRequest(`http://localhost:8000/api/publication/admin/publications/${publicationId}/delete/`, 'DELETE');
 };
+
+
+export const getAllClimbedRoutes = async () => {
+  try {
+      const response = await sendAuthenticatedRequest('http://localhost:8000/api/training/admin/routes/', 'GET');
+      return response;
+  } catch (error) {
+      console.error('Error fetching routes:', error);
+      throw error;
+  }
+};

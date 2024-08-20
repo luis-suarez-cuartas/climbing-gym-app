@@ -195,3 +195,9 @@ class RoutePercentageView(APIView):
         }
 
         return Response(route_percentages)
+    
+
+class ListAllRoutesView(generics.ListAPIView):
+    queryset = ClimbedRoute.objects.all()
+    serializer_class = ClimbedRouteSerializer
+    permission_classes = [IsAuthenticated, IsAdminUser] 

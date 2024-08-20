@@ -1,13 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { addClimbedRoute } from '../services/admin';
+import { addClimbedRoute, getAllClimbedRoutes } from '../services/admin';
 import { BarraNavegacionAdmin } from '../components/BarraNavegacionAdmin';
 
 const AdminAddRoute = () => {
     const [routeName, setRouteName] = useState('');
     const [grade, setGrade] = useState('');
+    const [routes, setRoutes] = useState([]);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        fetchRoutes();
+    }, []);
+
+    const fetchRoutes = async () => {
+        try {
+            const data = await getAllClimbedRoutes();
+            setRoutes(data);
+        } catch (error) {
+            console.error('Error fetching routes:', error);
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -15,7 +29,7 @@ const AdminAddRoute = () => {
             const data = { route_name: routeName, grade: grade };
             await addClimbedRoute(data);
             alert('Route added successfully!');
-            navigate('/admin/routes');  // Navigate to a route list page or anywhere you want after success
+            fetchRoutes();  // Refresh the list of routes after adding a new one
         } catch (error) {
             console.error('Error adding route:', error);
             alert('Failed to add route.');
@@ -25,25 +39,38 @@ const AdminAddRoute = () => {
     return (
         <Wrapper>
             <BarraNavegacionAdmin />
-            <Container>
-                <Form onSubmit={handleSubmit}>
-                    <Label>Route Name</Label>
-                    <Input
-                        type="text"
-                        value={routeName}
-                        onChange={(e) => setRouteName(e.target.value)}
-                        required
-                    />
-                    <Label>Grade</Label>
-                    <Input
-                        type="text"
-                        value={grade}
-                        onChange={(e) => setGrade(e.target.value)}
-                        required
-                    />
-                    <SubmitButton type="submit">Add Route</SubmitButton>
-                </Form>
-            </Container>
+            <MainContainer>
+                <LeftContainer>
+                    <Form onSubmit={handleSubmit}>
+                        <Label>Route Name</Label>
+                        <Input
+                            type="text"
+                            value={routeName}
+                            onChange={(e) => setRouteName(e.target.value)}
+                            required
+                        />
+                        <Label>Grade</Label>
+                        <Input
+                            type="text"
+                            value={grade}
+                            onChange={(e) => setGrade(e.target.value)}
+                            required
+                        />
+                        <SubmitButton type="submit">Add Route</SubmitButton>
+                    </Form>
+                </LeftContainer>
+                <RightContainer>
+                    <h2>All Climbed Routes</h2>
+                    <RoutesList>
+                        {routes.map(route => (
+                            <RouteItem key={route.id}>
+                                <span>{route.route_name}</span>
+                                <span>{route.grade}</span>
+                            </RouteItem>
+                        ))}
+                    </RoutesList>
+                </RightContainer>
+            </MainContainer>
         </Wrapper>
     );
 };
@@ -55,14 +82,26 @@ const Wrapper = styled.div`
     align-items: center;
 `;
 
-const Container = styled.div`
+const MainContainer = styled.div`
+    display: flex;
     width: 100%;
-    max-width: 800px;
+    max-width: 1200px;
     margin: 100px auto 0;
-    padding: 40px;
     background-color: #f9f9f9;
     border-radius: 5px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+`;
+
+const LeftContainer = styled.div`
+    flex: 1;
+    padding: 40px;
+`;
+
+const RightContainer = styled.div`
+    flex: 2;
+    padding: 40px;
+    background-color: #fff;
+    border-left: 1px solid #ccc;
 `;
 
 const Form = styled.form`
@@ -95,6 +134,30 @@ const SubmitButton = styled.button`
     &:hover {
         background-color: #005582;
         color: white;
+    }
+`;
+
+const RoutesList = styled.ul`
+    list-style: none;
+    padding: 0;
+    margin: 0;
+`;
+
+const RouteItem = styled.li`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc;
+
+    span {
+        font-size: 16px;
+        font-weight: bold;
+
+        &:last-child {
+            color: #555;
+            font-weight: normal;
+        }
     }
 `;
 
