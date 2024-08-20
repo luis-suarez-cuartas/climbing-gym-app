@@ -60,3 +60,12 @@ export const getUsers = async () => {
 export const getRoutePercentages = async () => {
   return sendAuthenticatedRequest('http://localhost:8000/api/training/admin/route-percentages/', 'GET');
 };
+
+export const getAllPublications = async () => {
+  return sendAuthenticatedRequest('http://localhost:8000/api/publication/admin/publications/', 'GET');
+};
+
+
+export const deletePublication = async (publicationId) => {
+  return sendAuthenticatedRequest(`http://localhost:8000/api/publication/admin/publications/${publicationId}/delete/`, 'DELETE');
+};

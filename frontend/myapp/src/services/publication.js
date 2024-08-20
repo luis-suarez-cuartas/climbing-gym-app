@@ -70,3 +70,5 @@ export const getTrainingDetails = async (training_id) => { // Cambia `trainingId
       throw error;
     }
 };
+
+

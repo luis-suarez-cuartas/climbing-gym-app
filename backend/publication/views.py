@@ -76,3 +76,25 @@ class AdminUserPublicationListView(ListAPIView):
     def get_queryset(self):
         user_id = self.kwargs['user_id']
         return Publication.objects.filter(user_id=user_id).order_by('-created_at')
+    
+class AdminAllPublicationsListView(ListAPIView):
+    serializer_class = PublicationSerializer
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
+    def get_queryset(self):
+        return Publication.objects.all().order_by('-created_at')
+    
+
+
+class AdminDeletePublicationView(generics.DestroyAPIView):
+    permission_classes = [IsAuthenticated, IsAdminUser]
+    queryset = Publication.objects.all()
+
+    def delete(self, request, *args, **kwargs):
+        publication_id = self.kwargs['pk']
+        try:
+            publication = self.get_queryset().get(id=publication_id)
+            publication.delete()
+            return Response({"detail": "Publication deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+        except Publication.DoesNotExist:
+            return Response({"detail": "Publication not found"}, status=status.HTTP_404_NOT_FOUND)

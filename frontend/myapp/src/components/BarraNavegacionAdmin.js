@@ -115,7 +115,7 @@ export function BarraNavegacionAdmin() {
         <div css={navLinksContainerStyles}>
           <ul css={ulStyles}>
             <li>
-              <Link to="/publications" css={linkStyles}>Publications</Link>
+              <Link to="/admin/publications" css={linkStyles}>Publications</Link>
             </li>
             <li>
               <Link to="/admin/users" css={linkStyles}>Usuarios</Link>
