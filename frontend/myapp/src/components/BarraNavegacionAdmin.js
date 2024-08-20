@@ -121,10 +121,10 @@ export function BarraNavegacionAdmin() {
               <Link to="/profile" css={linkStyles}>Perfil</Link>
             </li>
             <li>
-              <Link to="/usuarios" css={linkStyles}>Entrenamiento</Link>
+              <Link to="/usuarios" css={linkStyles}>Estadísticas</Link>
             </li>
             <li>
-              <Link to="/ranking" css={linkStyles}>Ranking</Link>
+              <Link to="/admin/addRoute" css={linkStyles}>Routes</Link>
             </li>
             <li>
               <Link to="/admin/users" css={linkStyles}>Usuarios</Link>

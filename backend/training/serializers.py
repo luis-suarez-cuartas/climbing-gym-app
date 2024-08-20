@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.db.models import Count, Sum
 from collections import Counter
-from .models import Training, ClimbedRouteTrainingSession
+from .models import Training, ClimbedRouteTrainingSession, ClimbedRoute
 
 class TrainingSerializer(serializers.ModelSerializer):
     class Meta:
@@ -50,3 +50,10 @@ class TrainingDetailSerializer(serializers.ModelSerializer):
             grade: (count / routes_count) * 100 for grade, count in grade_counter.items()
         }
         return grade_percentages
+    
+
+
+class ClimbedRouteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ClimbedRoute
+        fields = ['id', 'route_name', 'grade']

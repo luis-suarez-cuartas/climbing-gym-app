@@ -5,11 +5,12 @@ from rest_framework.response import Response
 from django.utils import timezone
 from django.db.models import Sum
 from rest_framework.views import APIView
-from .models import Training, ClimbedRouteTrainingSession
-from .serializers import TrainingSerializer, TrainingDetailSerializer
+from .models import Training, ClimbedRouteTrainingSession, ClimbedRoute
+from .serializers import TrainingSerializer, ClimbedRouteSerializer
 from collections import Counter
 from authentication.views import IsAdminUser 
 from authentication.models import CustomUser
+from authentication.views import IsAdminUser 
 
 class UnloadedTrainingListView(generics.ListAPIView):
     serializer_class = TrainingSerializer
@@ -167,3 +168,10 @@ class AdminUserTrainingStatsView(APIView):
             'total_duration': total_duration,
         }
         return Response(data)
+    
+
+
+class AdminAddClimbedRouteView(generics.CreateAPIView):
+    queryset = ClimbedRoute.objects.all()
+    serializer_class = ClimbedRouteSerializer
+    permission_classes = [IsAuthenticated, IsAdminUser]

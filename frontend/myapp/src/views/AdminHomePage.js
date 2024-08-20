@@ -29,7 +29,7 @@ function AdminHomePage() {
                     <ItemTitle>Usuarios</ItemTitle>
                     <ItemDescription>Aquí podrás buscar y visualizar a todos los usuarios y sus datos</ItemDescription>
                 </DashboardItem>
-                <DashboardItem onClick={() => navigate('/admin/reservas')}>
+                <DashboardItem onClick={() => navigate('/admin/addRoute')}>
                     <ItemImage src="/imagenes/rutas.jpg" alt="Rutas" />
                     <ItemTitle>Rutas</ItemTitle>
                     <ItemDescription>Aquí podrás añadir las nuevas rutas de escalada</ItemDescription>
@@ -40,8 +40,8 @@ function AdminHomePage() {
                     <ItemDescription>Aquí podrás visualizar, modificar, eliminar y crear las pistas</ItemDescription>
                 </DashboardItem>
                 <DashboardItem onClick={() => navigate('/admin/ajustes')}>
-                    <ItemImage src="/icons/ajustes-icon.png" alt="Ajustes" />
-                    <ItemTitle>Ajustes</ItemTitle>
+                    <ItemImage src="/imagenes/estadisticas.png" alt="Estadisticas" />
+                    <ItemTitle>Estadisticas</ItemTitle>
                     <ItemDescription>Aquí podrás acceder a los ajustes de los administradores</ItemDescription>
                 </DashboardItem>
                 <DashboardItem onClick={() => navigate('/admin/rankings')}>

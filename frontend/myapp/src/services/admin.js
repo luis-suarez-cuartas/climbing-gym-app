@@ -49,3 +49,10 @@ export const getUsers = async () => {
     return data;
   };
   
+  export const addClimbedRoute = async (data) => {
+    return sendAuthenticatedRequest(
+        'http://localhost:8000/api/training/admin/climbed-routes/add/',
+        'POST',
+        data
+    );
+};
