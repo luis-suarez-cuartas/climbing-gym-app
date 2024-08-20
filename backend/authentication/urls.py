@@ -1,6 +1,6 @@
 
 from django.urls import path
-from .views import RegisterView, LoginView, LogoutView, UserProfileView, EditProfileView, ChangePasswordView, DeleteAccountView,  AdminLoginView, AdminRegisterView, ListUsersView,DeleteUserView, AdminUserProfileView, AdminChangePasswordView
+from .views import RegisterView, LoginView, LogoutView, UserProfileView, EditProfileView, ChangePasswordView, DeleteAccountView,  AdminLoginView, AdminRegisterView, ListUsersView,DeleteUserView, AdminUserProfileView, AdminChangePasswordView, UpdateProfilePictureView
 
 urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
@@ -16,6 +16,7 @@ urlpatterns = [
     path('admin/users/<int:user_id>/delete/', DeleteUserView.as_view(), name='delete-user'),
     path('admin/users/<int:user_id>/profile/', AdminUserProfileView.as_view(), name='admin-user-profile'),
     path('admin/change-password/', AdminChangePasswordView.as_view(), name='admin-change-password'),
+     path('admin/change-profile-picture/', UpdateProfilePictureView.as_view(), name='change-profile-picture'),
 
 ]
 
