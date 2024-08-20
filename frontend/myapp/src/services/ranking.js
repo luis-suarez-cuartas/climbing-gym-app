@@ -15,3 +15,69 @@ export const getUserRankings = async () => {
         throw error;
     }
 };
+
+
+export const getMostTrainings = async () => {
+    try {
+        const response = await sendAuthenticatedRequest(
+            'http://localhost:8000/api/ranking/most-trainings/',
+            'GET'
+        );
+        return response;
+    } catch (error) {
+        console.error('Error fetching MostTrainings rankings:', error);
+        throw error;
+    }
+};
+
+export const getMostClimbedRoutes = async () => {
+    try {
+        const response = await sendAuthenticatedRequest(
+            'http://localhost:8000/api/ranking/most-climbed-routes/',
+            'GET'
+        );
+        return response;
+    } catch (error) {
+        console.error('Error fetching MostClimbedRoutes rankings:', error);
+        throw error;
+    }
+};
+
+export const getTotalTrainingTime = async () => {
+    try {
+        const response = await sendAuthenticatedRequest(
+            'http://localhost:8000/api/ranking/total-training-time/',
+            'GET'
+        );
+        return response;
+    } catch (error) {
+        console.error('Error fetching TotalTrainingTime rankings:', error);
+        throw error;
+    }
+};
+
+export const getMostPopularPublications = async () => {
+    try {
+        const response = await sendAuthenticatedRequest(
+            'http://localhost:8000/api/ranking/most-popular-publications/',
+            'GET'
+        );
+        return response;
+    } catch (error) {
+        console.error('Error fetching MostPopularPublications rankings:', error);
+        throw error;
+    }
+};
+
+export const getMostLikes = async () => {
+    try {
+        const response = await sendAuthenticatedRequest(
+            'http://localhost:8000/api/ranking/most-likes/',
+            'GET'
+        );
+        return response;
+    } catch (error) {
+        console.error('Error fetching MostLikes rankings:', error);
+        throw error;
+    }
+};

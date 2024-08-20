@@ -25,7 +25,7 @@ import AdminAjustes from './views/AdminAjustes';
 import AdminChangePassword from './views/AdminChangePassword';
 import AdminChangeProfilePicture from './views/AdminChangeProfilePicture';
 import AdminPublications from './views/AdminPublications';
-
+import AdminRanking from './views/AdminRanking';
 
 function AppRouter() {
   return (
@@ -52,6 +52,7 @@ function AppRouter() {
         <Route path="/admin/change-password" element={<AdminPrivateRoute component={AdminChangePassword} />} />
         <Route path="/admin/change-profile-picture" element={<AdminChangeProfilePicture />} />
         <Route path="/admin/publications" element={<AdminPublications />} />
+        <Route path="/admin/ranking" element={<AdminRanking />} />
         <Route path="*" element={<Navigate to="/" replace />} /> 
       </Routes>
     </BrowserRouter>
