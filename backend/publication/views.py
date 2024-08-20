@@ -1,9 +1,11 @@
 from rest_framework import generics, status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated,BasePermission
 from rest_framework.response import Response
 from .models import Publication, Like
 from .serializers import PublicationSerializer
 from training.models import Training
+from authentication.views import IsAdminUser 
+from rest_framework.generics import ListAPIView
 
 class CreatePublicationView(generics.CreateAPIView):
     serializer_class = PublicationSerializer
@@ -66,3 +68,11 @@ class LikePublicationView(generics.GenericAPIView):
         except Publication.DoesNotExist:
             return Response({"detail": "Publication not found"}, status=status.HTTP_404_NOT_FOUND)
         
+
+class AdminUserPublicationListView(ListAPIView):
+    serializer_class = PublicationSerializer
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
+    def get_queryset(self):
+        user_id = self.kwargs['user_id']
+        return Publication.objects.filter(user_id=user_id).order_by('-created_at')

@@ -1,52 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { BarraNavegacion } from '../components/BarraNavegacion';
-import { getPublicPublications, likePublication } from '../services/publication';
+import { Link, useParams } from 'react-router-dom';
+import { sendAuthenticatedRequest } from '../../services/auth';
 import moment from 'moment';
-const Publications = () => {
+
+const AdminMainProfile = () => {
   const [publications, setPublications] = useState([]);
-  
+  const [visibleCount, setVisibleCount] = useState(5);
+  const { userId } = useParams(); // Obtener el userId de los parámetros de la URL
 
   useEffect(() => {
-    getPublicPublications()
-      .then(data => {
-        setPublications(data);
-      })
-      .catch(error => {
-        console.error('Error fetching public publications:', error);
-      });
-  }, []);
+    const fetchUserPublications = async () => {
+      try {
+        const response = await sendAuthenticatedRequest(
+          `http://localhost:8000/api/publication/admin/users/${userId}/publications/`, 
+          'GET'
+        );
+        setPublications(response);
+      } catch (error) {
+        console.error('Error fetching user publications:', error);
+      }
+    };
 
-  const handleLike = async (publicationId) => {
-    try {
-      const response = await likePublication(publicationId);
-      setPublications(prevPublications =>
-        prevPublications.map(pub =>
-          pub.id === publicationId ? { ...pub, likes_count: response.likes_count } : pub
-        )
-      );
-    } catch (error) {
-      console.error('Error liking publication:', error);
-    }
+    fetchUserPublications();
+  }, [userId]);
+
+  const handleShowMore = () => {
+    setVisibleCount(prevCount => prevCount + 5);
   };
 
   return (
-    <div>
-      <BarraNavegacion />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <Container>
-        {publications && Array.isArray(publications) && publications.length > 0 ? (
-          publications.map(pub => (
-            pub.training_id ? (
-              <Article to={`/sesion/${pub.training_id}`} key={pub.id}> {/* Enlace correcto usando `Link` */}
+    <Container>
+      {publications && Array.isArray(publications) && publications.length > 0 ? (
+        publications.slice(0, visibleCount).map(pub => (
+          pub.training_id ? (
+            <ArticleContainer key={pub.id}>
+              <Article to={`/sesion/${pub.training_id}`} as={Link}>
                 <SharedActor>
                   <button>
-                    <img src={pub.profile_picture ? pub.profile_picture : "/imagenes/fotocv.jpg"} alt="Profile" />
+                    <img src={pub.profile_picture ? pub.profile_picture : "/imagenes/clock.jpg"} alt="Profile" />
                     <div>
                       <h3>
                         {pub.user_name || 'Unknown User'}
@@ -54,8 +46,8 @@ const Publications = () => {
                         <div>
                           <img src="/imagenes/clock.png" alt="Clock" />
                           <span>{moment(pub.created_at).fromNow()}</span>
-                          <img src="/imagenes/language.png" alt="Public" />
-                          <span>Public</span>
+                          <img src={pub.is_public ? "/imagenes/language.png" : "/imagenes/unlock.png"} alt={pub.is_public ? "Public" : "Private"} />
+                          <span>{pub.is_public ? "Public" : "Just me"}</span>
                         </div>
                       </h3>
                     </div>
@@ -68,12 +60,12 @@ const Publications = () => {
                   <div>
                     <img src="/imagenes/like.png" alt="Like" />
                     <span>
-                      <b>{pub.likes_count}</b> likes
+                      <b>0</b> likes
                     </span>
                   </div>
                 </ActionsPub>
                 <ArticleButtons>
-                  <button onClick={() => handleLike(pub.id)}>
+                  <button>
                     <img src="/imagenes/like.png" alt="Like" />
                     <span>Like</span>
                   </button>
@@ -86,34 +78,52 @@ const Publications = () => {
                   </div>
                 </ArticleButtons>
               </Article>
-            ) : (
-              <p key={pub.id}>Training ID no disponible</p>
-            )
-          ))
-        ) : (
-          <p>No public publications available</p>
-        )}
-        <MoreButton>More</MoreButton>
-      </Container>
-    </div>
+            </ArticleContainer>
+          ) : (
+            <p key={pub.id}>Training ID no disponible</p>
+          )
+        ))
+      ) : (
+        <p>No publications available</p>
+      )}
+
+      {visibleCount < publications.length && (
+        <MoreButton onClick={handleShowMore}>More</MoreButton>
+      )}
+    </Container>
   );
 };
+
+// Styled components
 const Container = styled.div`
   grid-area: main;
-  width: 75%;
-  margin: 0 auto;
   background-color: #FFFFFF;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; 
+  min-height: calc(100vh - 150px);
 `;
 
-const Article = styled(Link)`  /* Cambiado de CommonCard a Link */
-  display: block;
-  text-decoration: none;
-  color: inherit;  /* Mantener el color del texto por defecto */
+const ArticleContainer = styled.div`
+  margin: 0 0 18px 0;
+  padding: 16px;
+  background-color: #F5F5F5;
+  border-radius: 5px;
+  border: 1px solid #FF6633;
+`;
+
+const Article = styled.div`
   padding: 0;
-  margin: 18px 0 18px;
-  overflow: visible;
-  background-color: #E5E8E8;
+  cursor: pointer;
+
+  a {
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: #FF6633;
+  }
 `;
 
 const SharedActor = styled.div`
@@ -182,6 +192,16 @@ const MessageBox = styled.div`
   margin-left: 8px;
   text-align: left;
   color: rgba(0, 0, 0, 0.5);
+
+  a {
+    text-decoration: none !important;
+    color: #333;
+  }
+
+  a:hover {
+    color: #FF6633;
+    text-decoration: none !important;
+  }
 `;
 
 const ActionsPub = styled.div`
@@ -205,22 +225,6 @@ const ActionsPub = styled.div`
   }
 `;
 
-const MoreButton = styled.button`
-  display: block;
-  margin: 20px auto;
-  padding: 10px 20px;
-  background-color: #0073b1;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-
-  &:hover {
-    background-color: #005582;
-  }
-`;
-
 const ArticleButtons = styled.div`
   display: flex;
   justify-content: space-around;
@@ -228,12 +232,12 @@ const ArticleButtons = styled.div`
   button {
     text-align: center;
     padding: 5px 36px;
-    background-color: #FF9966;
     margin-bottom: 16px;
+    background-color: #FF9966;
     border: none;
     border-radius: 20px;
     &:hover {
-      background-color: rgba(0, 0, 0, 0.09);
+      background-color: #005582;
     }
 
     img {
@@ -245,4 +249,21 @@ const ArticleButtons = styled.div`
   }
 `;
 
-export default Publications;
+const MoreButton = styled.button`
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #FF6633;
+  color: white;
+  border: 2px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  z-index: 999;
+  &:hover {
+    background-color: #005582;
+    color: white;
+  }
+`;
+
+export default AdminMainProfile;

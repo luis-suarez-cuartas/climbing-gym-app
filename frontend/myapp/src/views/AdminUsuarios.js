@@ -3,12 +3,13 @@ import styled from 'styled-components';
 import { getUsers } from '../services/admin';
 import { sendAuthenticatedRequest } from '../services/auth';
 import { BarraNavegacionAdmin } from '../components/BarraNavegacionAdmin';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const AdminUsuarios = () => {
   const [users, setUsers] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -56,6 +57,10 @@ const AdminUsuarios = () => {
     setSelectedUserId(null);
   };
 
+  const handleViewProfile = (userId) => {
+    navigate(`/admin/users/${userId}/profile`);  // Redirigir a la página de perfil del usuario
+  };
+
   return (
     <Container>
       <BarraNavegacionAdmin />
@@ -81,7 +86,7 @@ const AdminUsuarios = () => {
                   <UserName>{user.name}</UserName>
                 </UserInfo>
                 <UserActions>
-                  <ActionLink to={`/admin/users/${user.id}/view`} color="blue">Ver</ActionLink>
+                  <ActionLink onClick={() => handleViewProfile(user.id)} color="blue">Ver</ActionLink>
                   <DeleteLink onClick={() => handleDeleteClick(user.id)} color="red">Eliminar</DeleteLink>
                 </UserActions>
               </UserItem>
@@ -182,11 +187,11 @@ const UserActions = styled.div`
   align-items: center;
 `;
 
-const ActionLink = styled(Link)`
+const ActionLink = styled.span`
   margin-left: 10px;
   font-weight: bold;
-  color: ${props => props.color};
-  text-decoration: none;
+  color: blue;
+  cursor: pointer;
 
   &:hover {
     text-decoration: underline;

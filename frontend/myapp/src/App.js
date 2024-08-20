@@ -18,6 +18,7 @@ import AdminLogin from './views/AdminLogin';
 import AdminRegister from './views/AdminRegister';
 import AdminHomePage from './views/AdminHomePage';
 import AdminUsuarios from './views/AdminUsuarios';
+import AdminProfile from './views/AdminProfile/AdminProfile';
 
 
 function AppRouter() {
@@ -35,9 +36,10 @@ function AppRouter() {
         <Route path="/publications" element={<PrivateRoute component={Publications} />} />
         <Route path="/ranking" element={<Ranking />} />
         <Route path="/admin/login" element={<AdminPublicRoute component={AdminLogin} restricted={true} />} />
-        <Route path="/admin/register" element={<AdminPublicRoute component={AdminRegister} restricted={true} />} />
+        <Route path="/admin/register" element={<AdminPrivateRoute component={AdminRegister} restricted={true} />} />
         <Route path="/admin/homePage" element={<AdminPublicRoute component={AdminHomePage} />} />
         <Route path="/admin/users" element={<AdminPrivateRoute component={AdminUsuarios} />} />
+        <Route path="/admin/users/:userId/profile" element={<AdminPrivateRoute component={AdminProfile} />} /> {/* Ruta añadida */}
         <Route path="*" element={<Navigate to="/" replace />} /> 
       </Routes>
     </BrowserRouter>

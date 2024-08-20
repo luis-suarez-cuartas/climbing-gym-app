@@ -35,8 +35,8 @@ function AdminHomePage() {
                     <ItemDescription>Aquí podrás añadir las nuevas rutas de escalada</ItemDescription>
                 </DashboardItem>
                 <DashboardItem onClick={() => navigate('/admin/pistas')}>
-                    <ItemImage src="/icons/pistas-icon.png" alt="Pistas" />
-                    <ItemTitle>Pistas</ItemTitle>
+                    <ItemImage src="/imagenes/publicacion.png" alt="Pistas" />
+                    <ItemTitle>Publications</ItemTitle>
                     <ItemDescription>Aquí podrás visualizar, modificar, eliminar y crear las pistas</ItemDescription>
                 </DashboardItem>
                 <DashboardItem onClick={() => navigate('/admin/ajustes')}>

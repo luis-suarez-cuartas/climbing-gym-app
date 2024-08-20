@@ -80,3 +80,17 @@ export const getTrainingDetails = async (training_id) => { // Cambia `trainingId
       throw error;
     }
 };
+
+
+export const getAdminUserTrainingStats = async (userId) => {
+    try {
+        const response = await sendAuthenticatedRequest(
+            `http://localhost:8000/api/admin/users/${userId}/stats/`, 
+            'GET'
+        );
+        return response;
+    } catch (error) {
+        console.error('Error fetching user training stats:', error);
+        throw error;
+    }
+};

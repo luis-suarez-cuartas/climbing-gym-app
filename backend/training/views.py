@@ -8,6 +8,9 @@ from rest_framework.views import APIView
 from .models import Training, ClimbedRouteTrainingSession
 from .serializers import TrainingSerializer, TrainingDetailSerializer
 from collections import Counter
+from authentication.views import IsAdminUser 
+from authentication.models import CustomUser
+
 class UnloadedTrainingListView(generics.ListAPIView):
     serializer_class = TrainingSerializer
     permission_classes = [IsAuthenticated]
@@ -142,3 +145,25 @@ class WeeklyClimbingTimeView(APIView):
         return Response(weekly_data)
     
 
+
+class AdminUserTrainingStatsView(APIView):
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
+    def get(self, request, user_id):
+        # Obtén el usuario en función del ID de manera consistente
+        user = get_object_or_404(CustomUser, id=user_id)
+        
+        # Calcula las estadísticas del usuario
+        trainings = Training.objects.filter(user=user)
+        total_trainings = trainings.count()
+        total_routes = ClimbedRouteTrainingSession.objects.filter(training_session__in=trainings).count()
+        total_duration = trainings.aggregate(Sum('duration'))['duration__sum'] or 0
+
+        # Serializa y retorna los datos
+        data = {
+            'user_name': user.name,
+            'total_trainings': total_trainings,
+            'total_routes': total_routes,
+            'total_duration': total_duration,
+        }
+        return Response(data)

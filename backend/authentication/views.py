@@ -6,6 +6,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated, BasePermission
 from .models import CustomUser  # Importa tu modelo de usuario personalizado
 import logging
+from django.shortcuts import get_object_or_404
 
 logger = logging.getLogger(__name__)
 
@@ -180,3 +181,12 @@ class DeleteUserView(APIView):
             return Response({"detail": "Usuario eliminado exitosamente"}, status=status.HTTP_204_NO_CONTENT)
         except CustomUser.DoesNotExist:
             return Response({"detail": "Usuario no encontrado"}, status=status.HTTP_404_NOT_FOUND)
+        
+
+class AdminUserProfileView(APIView):
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
+    def get(self, request, user_id):
+        user = get_object_or_404(CustomUser, id=user_id)  
+        serializer = UserSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
