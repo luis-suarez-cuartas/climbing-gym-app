@@ -201,3 +201,16 @@ class ListAllRoutesView(generics.ListAPIView):
     queryset = ClimbedRoute.objects.all()
     serializer_class = ClimbedRouteSerializer
     permission_classes = [IsAuthenticated, IsAdminUser] 
+
+
+class DeleteClimbedRouteView(APIView):
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
+    def delete(self, request, route_id):
+        try:
+            route = ClimbedRoute.objects.get(id=route_id)
+            route.delete()
+            return Response({"detail": "Route deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+        except ClimbedRoute.DoesNotExist:
+            return Response({"detail": "Route not found"}, status=status.HTTP_404_NOT_FOUND)
+        

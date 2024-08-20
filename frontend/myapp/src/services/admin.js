@@ -80,3 +80,8 @@ export const getAllClimbedRoutes = async () => {
       throw error;
   }
 };
+
+
+export const deleteClimbedRoute = async (routeId) => {
+  return sendAuthenticatedRequest(`http://localhost:8000/api/training/admin/routes/${routeId}/delete/`, 'DELETE');
+};

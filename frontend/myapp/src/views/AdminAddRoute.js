@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { addClimbedRoute, getAllClimbedRoutes } from '../services/admin';
+import { addClimbedRoute, getAllClimbedRoutes, deleteClimbedRoute } from '../services/admin';
 import { BarraNavegacionAdmin } from '../components/BarraNavegacionAdmin';
 
 const AdminAddRoute = () => {
@@ -36,6 +36,19 @@ const AdminAddRoute = () => {
         }
     };
 
+    const handleDelete = async (routeId) => {
+        if (window.confirm('Are you sure you want to delete this route?')) {
+            try {
+                await deleteClimbedRoute(routeId);
+                alert('Route deleted successfully!');
+                fetchRoutes();  // Refresh the list of routes after deletion
+            } catch (error) {
+                console.error('Error deleting route:', error);
+                alert('Failed to delete route.');
+            }
+        }
+    };
+
     return (
         <Wrapper>
             <BarraNavegacionAdmin />
@@ -64,8 +77,9 @@ const AdminAddRoute = () => {
                     <RoutesList>
                         {routes.map(route => (
                             <RouteItem key={route.id}>
-                                <span>{route.route_name}</span>
-                                <span>{route.grade}</span>
+                                <RouteName>{route.route_name}</RouteName>
+                                <RouteGrade>{route.grade}</RouteGrade>
+                                <DeleteButton onClick={() => handleDelete(route.id)}>Delete</DeleteButton>
                             </RouteItem>
                         ))}
                     </RoutesList>
@@ -149,15 +163,32 @@ const RouteItem = styled.li`
     align-items: center;
     padding: 10px 0;
     border-bottom: 1px solid #ccc;
+`;
 
-    span {
-        font-size: 16px;
-        font-weight: bold;
+const RouteName = styled.span`
+    flex: 3;
+    font-size: 16px;
+    font-weight: bold;
+`;
 
-        &:last-child {
-            color: #555;
-            font-weight: normal;
-        }
+const RouteGrade = styled.span`
+    flex: 1;
+    text-align: right;
+    font-size: 16px;
+    color: #555;
+`;
+
+const DeleteButton = styled.button`
+    padding: 8px 16px;
+    background-color: #FF3333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+
+    &:hover {
+        background-color: #CC0000;
     }
 `;
 

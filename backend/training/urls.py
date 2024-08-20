@@ -1,6 +1,6 @@
 # trainning/urls.py
 from django.urls import path
-from .views import UnloadedTrainingListView, UpdateTrainingView, TrainingStatsView, TrainingDetailView, WeeklyClimbingTimeView, AdminUserTrainingStatsView,  AdminAddClimbedRouteView, RoutePercentageView, ListAllRoutesView
+from .views import UnloadedTrainingListView, UpdateTrainingView, TrainingStatsView, TrainingDetailView, WeeklyClimbingTimeView, AdminUserTrainingStatsView,  AdminAddClimbedRouteView, RoutePercentageView, ListAllRoutesView, DeleteClimbedRouteView
 
 urlpatterns = [
     path('unloaded-trainings/', UnloadedTrainingListView.as_view(), name='unloaded-training'),
@@ -12,6 +12,7 @@ urlpatterns = [
     path('admin/climbed-routes/add/', AdminAddClimbedRouteView.as_view(), name='admin-add-climbed-route'),
     path('admin/route-percentages/', RoutePercentageView.as_view(), name='route-percentages'),
     path('admin/routes/', ListAllRoutesView.as_view(), name='list-all-routes'),
+    path('admin/routes/<int:route_id>/delete/', DeleteClimbedRouteView.as_view(), name='delete-route'),
 ]
   
 
