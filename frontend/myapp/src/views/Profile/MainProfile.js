@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { getUserPublications } from '../../services/publication';
+import { useNavigate } from 'react-router-dom';
+import { getUserPublications, deleteUserPublication } from '../../services/publication';  // Asegúrate de agregar deleteUserPublication
 import moment from 'moment';
 
 const MainProfile = () => {
   const [publications, setPublications] = useState([]);
   const [visibleCount, setVisibleCount] = useState(5);
-
+  const navigate = useNavigate();
   useEffect(() => {
     getUserPublications()
       .then(data => {
@@ -17,6 +18,22 @@ const MainProfile = () => {
         console.error('Error fetching user publications:', error);
       });
   }, []);
+
+  const handleDelete = async (publicationId) => {
+    if (window.confirm('Are you sure you want to delete this publication?')) {
+        try {
+            await deleteUserPublication(publicationId);
+            // Eliminar la publicación de la lista sin necesidad de recargar la página
+            setPublications(prevPublications => prevPublications.filter(pub => pub.id !== publicationId));
+            alert('Publication deleted successfully!');
+            // Redirigir al perfil o alguna otra página si es necesario
+            navigate('/profile'); // Cambia '/profile' a la ruta que desees.
+        } catch (error) {
+            console.error('Error deleting publication:', error);
+            alert('Failed to delete publication.');
+        }
+    }
+};
 
   const handleShowMore = () => {
     setVisibleCount(prevCount => prevCount + 5);
@@ -66,9 +83,10 @@ const MainProfile = () => {
                     <img src="/imagenes/comente.png" alt="Comment" />
                     <span>Comment</span>
                   </button>
-                  <div>
-                    <span>0 comments</span>
-                  </div>
+                  <button onClick={() => handleDelete(pub.id)}>
+                    <img src="/imagenes/delete.png" alt="Delete" /> {/* Asegúrate de tener un ícono de eliminar */}
+                    <span>Delete</span>
+                  </button>
                 </ArticleButtons>
               </Article>
             </ArticleContainer>
@@ -86,7 +104,6 @@ const MainProfile = () => {
     </Container>
   );
 };
-
 // Estilos
 const Container = styled.div`
   grid-area: main;

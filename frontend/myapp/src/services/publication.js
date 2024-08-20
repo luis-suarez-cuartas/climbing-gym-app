@@ -72,3 +72,16 @@ export const getTrainingDetails = async (training_id) => { // Cambia `trainingId
 };
 
 
+
+export const deleteUserPublication = async (publicationId) => {
+    try {
+      await sendAuthenticatedRequest(
+        `http://localhost:8000/api/publication/user/publications/${publicationId}/delete/`,
+        'DELETE'
+      );
+      console.log('Publication deleted successfully');
+    } catch (error) {
+      console.error('Error deleting publication:', error);
+      throw error;
+    }
+  };

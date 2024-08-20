@@ -69,6 +69,20 @@ class LikePublicationView(generics.GenericAPIView):
             return Response({"detail": "Publication not found"}, status=status.HTTP_404_NOT_FOUND)
         
 
+
+class DeleteUserPublicationView(generics.DestroyAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = Publication.objects.all()
+
+    def delete(self, request, *args, **kwargs):
+        publication_id = self.kwargs['pk']
+        try:
+            publication = self.get_queryset().get(id=publication_id, user=request.user)
+            publication.delete()
+            return Response({"detail": "Publication deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+        except Publication.DoesNotExist:
+            return Response({"detail": "Publication not found or not owned by user"}, status=status.HTTP_404_NOT_FOUND)
+
 class AdminUserPublicationListView(ListAPIView):
     serializer_class = PublicationSerializer
     permission_classes = [IsAuthenticated, IsAdminUser]
