@@ -175,3 +175,23 @@ class AdminAddClimbedRouteView(generics.CreateAPIView):
     queryset = ClimbedRoute.objects.all()
     serializer_class = ClimbedRouteSerializer
     permission_classes = [IsAuthenticated, IsAdminUser]
+
+
+
+class RoutePercentageView(APIView):
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
+    def get(self, request):
+        # Get all climbed routes data
+        all_sessions = ClimbedRouteTrainingSession.objects.all()
+
+        # Count how many times each route has been climbed
+        route_counts = Counter([session.climbed_route.route_name for session in all_sessions])
+        total_climbs = sum(route_counts.values())
+
+        # Calculate the percentage for each route
+        route_percentages = {
+            route: (count / total_climbs) * 100 for route, count in route_counts.items()
+        }
+
+        return Response(route_percentages)

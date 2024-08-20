@@ -20,6 +20,7 @@ import AdminHomePage from './views/AdminHomePage';
 import AdminUsuarios from './views/AdminUsuarios';
 import AdminProfile from './views/AdminProfile/AdminProfile';
 import AdminAddRoute from './views/AdminAddRoute';
+import AdminStats from './views/AdminStats';
 
 
 function AppRouter() {
@@ -42,6 +43,7 @@ function AppRouter() {
         <Route path="/admin/users" element={<AdminPrivateRoute component={AdminUsuarios} />} />
         <Route path="/admin/users/:userId/profile" element={<AdminPrivateRoute component={AdminProfile} />} /> 
         <Route path="/admin/addRoute" element={<AdminPrivateRoute component={AdminAddRoute} />} /> 
+        <Route path="/admin/route-percentages" element={<AdminPrivateRoute component={AdminStats} />} />
         <Route path="*" element={<Navigate to="/" replace />} /> 
       </Routes>
     </BrowserRouter>

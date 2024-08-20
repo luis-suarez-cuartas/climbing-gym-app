@@ -56,3 +56,7 @@ export const getUsers = async () => {
         data
     );
 };
+
+export const getRoutePercentages = async () => {
+  return sendAuthenticatedRequest('http://localhost:8000/api/training/admin/route-percentages/', 'GET');
+};

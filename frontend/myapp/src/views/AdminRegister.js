@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { registerAdmin } from '../services/admin';
-import { BarraNavegacion } from '../components/BarraNavegacion';
+import { BarraNavegacionAdmin } from '../components/BarraNavegacionAdmin';  
 
 function AdminRegister() {
     const [formData, setFormData] = useState({
@@ -36,7 +36,7 @@ function AdminRegister() {
 
   return (
     <div className="container">
-       <BarraNavegacion />
+       <BarraNavegacionAdmin />
       <div className="container-register">
         <div className="wrap-register">
           <form className="register-form" onSubmit={handleSubmit}>

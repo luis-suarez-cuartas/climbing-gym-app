@@ -39,7 +39,7 @@ function AdminHomePage() {
                     <ItemTitle>Publications</ItemTitle>
                     <ItemDescription>Aquí podrás visualizar, modificar, eliminar y crear las pistas</ItemDescription>
                 </DashboardItem>
-                <DashboardItem onClick={() => navigate('/admin/ajustes')}>
+                <DashboardItem onClick={() => navigate('/admin/route-percentages')}>
                     <ItemImage src="/imagenes/estadisticas.png" alt="Estadisticas" />
                     <ItemTitle>Estadisticas</ItemTitle>
                     <ItemDescription>Aquí podrás acceder a los ajustes de los administradores</ItemDescription>

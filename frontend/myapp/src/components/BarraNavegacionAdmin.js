@@ -121,7 +121,7 @@ export function BarraNavegacionAdmin() {
               <Link to="/admin/users" css={linkStyles}>Usuarios</Link>
             </li>
             <li>
-              <Link to="/usuarios" css={linkStyles}>Estadísticas</Link>
+              <Link to="/admin/route-percentages" css={linkStyles}>Estadísticas</Link>
             </li>
             <li>
               <Link to="/admin/addRoute" css={linkStyles}>Routes</Link>
