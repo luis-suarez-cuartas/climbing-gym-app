@@ -118,7 +118,7 @@ export function BarraNavegacionAdmin() {
               <Link to="/publications" css={linkStyles}>Publications</Link>
             </li>
             <li>
-              <Link to="/profile" css={linkStyles}>Perfil</Link>
+              <Link to="/admin/users" css={linkStyles}>Usuarios</Link>
             </li>
             <li>
               <Link to="/usuarios" css={linkStyles}>Estadísticas</Link>
@@ -127,7 +127,7 @@ export function BarraNavegacionAdmin() {
               <Link to="/admin/addRoute" css={linkStyles}>Routes</Link>
             </li>
             <li>
-              <Link to="/admin/users" css={linkStyles}>Usuarios</Link>
+              <Link to="/admin/users" css={linkStyles}>Ajustes</Link>
             </li>
             <li>
                <Link to="/admin/homePage" css={linkStyles}>Home</Link>

@@ -45,13 +45,13 @@ function AdminHomePage() {
                     <ItemDescription>Aquí podrás acceder a los ajustes de los administradores</ItemDescription>
                 </DashboardItem>
                 <DashboardItem onClick={() => navigate('/admin/rankings')}>
-                    <ItemImage src="/icons/rankings-icon.png" alt="Rankings" />
+                    <ItemImage src="/imagenes/ranking.png" alt="Rankings" />
                     <ItemTitle>Rankings</ItemTitle>
                     <ItemDescription>Aquí podrás acceder a todo lo relacionado con los rankings</ItemDescription>
                 </DashboardItem>
                 <DashboardItem onClick={() => navigate('/admin/formularios')}>
-                    <ItemImage src="/icons/formularios-icon.png" alt="Formularios Landing Page" />
-                    <ItemTitle>Formularios Landing Page</ItemTitle>
+                    <ItemImage src="/imagenes/ajust.png" alt="Ajustes" />
+                    <ItemTitle>Ajustes</ItemTitle>
                     <ItemDescription>Aquí podrás ver todos los mensajes del formulario de la página de inicio</ItemDescription>
                 </DashboardItem>
             </DashboardGrid>
