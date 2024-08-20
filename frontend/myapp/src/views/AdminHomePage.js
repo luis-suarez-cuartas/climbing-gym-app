@@ -1,4 +1,3 @@
-// views/AdminHomePage.js
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -49,7 +48,7 @@ function AdminHomePage() {
                     <ItemTitle>Rankings</ItemTitle>
                     <ItemDescription>Aquí podrás acceder a todo lo relacionado con los rankings</ItemDescription>
                 </DashboardItem>
-                <DashboardItem onClick={() => navigate('/admin/formularios')}>
+                <DashboardItem onClick={() => navigate('/admin/ajustes')}>
                     <ItemImage src="/imagenes/ajust.png" alt="Ajustes" />
                     <ItemTitle>Ajustes</ItemTitle>
                     <ItemDescription>Aquí podrás ver todos los mensajes del formulario de la página de inicio</ItemDescription>
