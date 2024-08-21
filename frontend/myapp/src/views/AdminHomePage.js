@@ -19,7 +19,7 @@ function AdminHomePage() {
         <Dashboard>
             <DashboardGrid>
                 <DashboardItem onClick={() => navigate('/admin/solicitudes')}>
-                    <ItemImage src="/imagenes/solicitudes-icon.png" alt="Solicitudes de registro" />
+                    <ItemImage src="/imagenes/solicitud.png" alt="Solicitudes de registro" />
                     <ItemTitle>Solicitudes de registro</ItemTitle>
                     <ItemDescription>Aquí podrás aceptar o rechazar una solicitud de registro</ItemDescription>
                 </DashboardItem>
@@ -41,6 +41,16 @@ function AdminHomePage() {
                 <DashboardItem onClick={() => navigate('/admin/route-percentages')}>
                     <ItemImage src="/imagenes/estadisticas.png" alt="Estadisticas" />
                     <ItemTitle>Estadisticas</ItemTitle>
+                    <ItemDescription>Aquí podrás acceder a los ajustes de los administradores</ItemDescription>
+                </DashboardItem>
+                <DashboardItem onClick={() => navigate('/admin/route-percentages')}>
+                    <ItemImage src="/imagenes/comentarios.png" alt="Estadisticas" />
+                    <ItemTitle>Comentarios</ItemTitle>
+                    <ItemDescription>Aquí podrás acceder a los ajustes de los administradores</ItemDescription>
+                </DashboardItem>
+                <DashboardItem onClick={() => navigate('/admin/route-percentages')}>
+                    <ItemImage src="/imagenes/alertas.png" alt="Estadisticas" />
+                    <ItemTitle>Alertas</ItemTitle>
                     <ItemDescription>Aquí podrás acceder a los ajustes de los administradores</ItemDescription>
                 </DashboardItem>
                 <DashboardItem onClick={() => navigate('/admin/rankings')}>
