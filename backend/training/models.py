@@ -27,6 +27,10 @@ class ClimbedRouteTrainingSession(models.Model):
     fells = models.IntegerField(default=0)
     time_taken = models.IntegerField(help_text="Tiempo en segundos")
     completed = models.BooleanField(default=False)
+    timeSection_1 = models.IntegerField(default=0)
+    timeSection_2 = models.IntegerField(default=0)
+    timeSection_3 = models.IntegerField(default=0)
+    timeSection_4 = models.IntegerField(default=0)
     date = models.DateField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
