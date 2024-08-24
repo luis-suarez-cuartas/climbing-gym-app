@@ -106,7 +106,7 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 DATABASES = {
     'default': dj_database_url.config(
-        default='mysql://bc5d90835768a:ec23af62qu5@us-cluster-east-01.k8s.cleardb.net/heroku_caf1501aflac492?reconnect=true'
+        default='mysql://bc5d90835768a:ec23af62qu5@us-cluster-east-01.k8s.cleardb.net/heroku_caf1501aflac492'
     )
 }
 
