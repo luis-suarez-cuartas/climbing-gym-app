@@ -1,0 +1,9 @@
+{
+    "name": "climbing-gym-app",
+    "version": "0.1.0",
+    "scripts": {
+      "postinstall": "cd frontend/myapp && npm install && npm run build",
+      "heroku-postbuild": "cd frontend/myapp && npm install && npm run build"
+    }
+  }
+  
