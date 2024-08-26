@@ -119,40 +119,40 @@ Heroku ejecutará los scripts definidos en el package.json y desplegará tanto e
 
 Este proyecto sigue la metodología Git Flow para la gestión del ciclo de vida del software. Las principales ramas utilizadas son:
 
-main: Contiene la versión estable y en producción de la aplicación.
-develop: Rama principal para el desarrollo activo.
-feature/*: Ramas dedicadas para el desarrollo de nuevas funcionalidades.
-hotfix/*: Ramas utilizadas para corregir errores críticos en producción.
-release/*: Ramas utilizadas para preparar una nueva versión estable.
+- main: Contiene la versión estable y en producción de la aplicación.
+- develop: Rama principal para el desarrollo activo.
+- feature/*: Ramas dedicadas para el desarrollo de nuevas funcionalidades.
+- hotfix/*: Ramas utilizadas para corregir errores críticos en producción.
+- release/*: Ramas utilizadas para preparar una nueva versión estable.
 
 ### Ramas Actuales
-main: Rama principal para producción.
-develop: Rama principal para el desarrollo continuo.
-feature/authentication: Desarrollo de la autenticación de usuarios.
-feature/training: Desarrollo de la gestión de entrenamientos.
-feature/publication: Desarrollo de la gestión de publicaciones.
-feature/ranking: Desarrollo de la gestión de clasificaciones.
-hotfix/errorDespliegue: Corrección de un error crítico relacionado con el despliegue.
-release/1.0.0: Preparación para el primer lanzamiento oficial.
+- main: Rama principal para producción.
+- develop: Rama principal para el desarrollo continuo.
+- feature/authentication: Desarrollo de la autenticación de usuarios.
+- feature/training: Desarrollo de la gestión de entrenamientos.
+- feature/publication: Desarrollo de la gestión de publicaciones.
+- feature/ranking: Desarrollo de la gestión de clasificaciones.
+- hotfix/errorDespliegue: Corrección de un error crítico relacionado con el despliegue.
+- release/1.0.0: Preparación para el primer lanzamiento oficial.
 
 
 
 ## Tecnologías Utilizadas
 
-Backend: Django 5.0.4, Django REST Framework, MySQL.
-Frontend: React, Redux, Material-UI, Styled Components.
-Control de Versiones: Git, GitHub.
-Despliegue: Heroku, WhiteNoise.
+- Backend: Django 5.0.4, Django REST Framework, MySQL.
+- Frontend: React, Redux, Material-UI, Styled Components.
+- Control de Versiones: Git, GitHub.
+- Despliegue: Heroku, WhiteNoise.
 
 
 ## Colaboración
 Las contribuciones son bienvenidas. Por favor, sigue los siguientes pasos para contribuir:
 
-Crea un fork del proyecto.
-Crea una nueva rama desde develop para tu feature (git checkout -b feature/tu-feature).
-Realiza tus cambios y haz commit (git commit -m 'Añadir nueva feature').
-Envía tus cambios (git push origin feature/tu-feature).
-Abre un pull request en el repositorio original.
+- Crea un fork del proyecto.
+- Crea una nueva rama desde develop para tu feature (git checkout -b feature/tu-feature).
+- Realiza tus cambios y haz commit (git commit -m 'Añadir nueva feature').
+- Envía tus cambios (git push origin feature/tu-feature).
+- Abre un pull request en el repositorio original.
 
 ## Licencia
 Este proyecto está licenciado bajo los términos de la Licencia MIT.
