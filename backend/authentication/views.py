@@ -5,13 +5,12 @@ from rest_framework import status
 from .serializers import UserSerializer, MyTokenObtainPairSerializer, AdminTokenObtainPairSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated, BasePermission
-from .models import CustomUser  # Importa tu modelo de usuario personalizado
+from .models import CustomUser  
 import logging
 from django.shortcuts import get_object_or_404
 
 logger = logging.getLogger(__name__)
 
-# Vista para el registro de usuarios normales
 class RegisterView(APIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data)
@@ -21,7 +20,6 @@ class RegisterView(APIView):
             return Response({"user": serializer.data}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# Vista para el login de usuarios normales
 class LoginView(APIView):
     def post(self, request):
         serializer = MyTokenObtainPairSerializer(data=request.data)
@@ -30,7 +28,6 @@ class LoginView(APIView):
             return Response(serializer.validated_data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# Vista para el logout de usuarios
 class LogoutView(APIView):
     permission_classes = [IsAuthenticated]
 
