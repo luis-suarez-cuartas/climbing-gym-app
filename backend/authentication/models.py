@@ -25,7 +25,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)  # Campo de imagen
-
+    rfid_tag = models.CharField(max_length=32, blank=True, null=True)
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'
