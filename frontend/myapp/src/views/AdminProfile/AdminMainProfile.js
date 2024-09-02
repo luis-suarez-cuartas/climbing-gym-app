@@ -13,7 +13,7 @@ const AdminMainProfile = () => {
     const fetchUserPublications = async () => {
       try {
         const response = await sendAuthenticatedRequest(
-          `http://localhost:8000/api/publication/admin/users/${userId}/publications/`, 
+          `/api/publication/admin/users/${userId}/publications/`, 
           'GET'
         );
         setPublications(response);

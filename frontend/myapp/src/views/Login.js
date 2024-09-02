@@ -26,7 +26,7 @@ function Login() {
     event.preventDefault();
     setError('');
     try {
-      const data = await loginRequest('https://climbing-app-2405933cdb44.herokuapp.com/api/auth/login/', formData);
+      const data = await loginRequest('/api/auth/login/', formData);
       console.log('Login successful:', data); // Debugging
       storeTokens(data);  // Store tokens received from backend
       navigate('/');  // Redirect to home page

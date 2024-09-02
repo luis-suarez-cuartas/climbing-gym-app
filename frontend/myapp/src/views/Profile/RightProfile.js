@@ -27,7 +27,7 @@ const RightProfile = () => {
       })
       .catch(error => console.error('Error fetching training stats:', error));
 
-    sendAuthenticatedRequest('http://localhost:8000/api/training/climbing-time/', 'GET')
+    sendAuthenticatedRequest('/api/training/climbing-time/', 'GET')
       .then(data => setWeeklyData(data))
       .catch(error => console.error('Error fetching weekly climbing data:', error));
   }, []);

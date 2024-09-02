@@ -3,7 +3,7 @@ import { sendAuthenticatedRequest } from './auth';
 export const createPublication = async (trainingId, isPublic) => {
     try {
         const response = await sendAuthenticatedRequest(
-            'http://localhost:8000/api/publication/create/',
+            '/api/publication/create/',
             'POST',
             { training_id: trainingId, is_public: isPublic }
         );
@@ -19,7 +19,7 @@ export const createPublication = async (trainingId, isPublic) => {
 export const getPublicPublications = async () => {
     try {
         const response = await sendAuthenticatedRequest(
-            'http://localhost:8000/api/publication/public/',
+            '/api/publication/public/',
             'GET'
         );
         console.log('Public publications fetched successfully:', response);
@@ -35,7 +35,7 @@ export const getPublicPublications = async () => {
 export const getUserPublications = async () => {
     try {
         const response = await sendAuthenticatedRequest(
-            'http://localhost:8000/api/publication/user/',
+            '/api/publication/user/',
             'GET'
         );
         console.log('User publications fetched successfully:', response);
@@ -49,7 +49,7 @@ export const getUserPublications = async () => {
 export const likePublication = async (publicationId) => {
     try {
         const response = await sendAuthenticatedRequest(
-            `http://localhost:8000/api/publication/${publicationId}/like/`,
+            `/api/publication/${publicationId}/like/`,
             'POST'
         );
         return response;
@@ -61,7 +61,7 @@ export const likePublication = async (publicationId) => {
 export const getTrainingDetails = async (training_id) => { // Cambia `trainingId` por `training_id`
     try {
       const response = await sendAuthenticatedRequest(
-        `http://localhost:8000/api/training/${training_id}/details/`, // Cambia aquí también
+        `/api/training/${training_id}/details/`, // Cambia aquí también
         'GET'
       );
       return response;
@@ -76,7 +76,7 @@ export const getTrainingDetails = async (training_id) => { // Cambia `trainingId
 export const deleteUserPublication = async (publicationId) => {
     try {
       await sendAuthenticatedRequest(
-        `http://localhost:8000/api/publication/user/publications/${publicationId}/delete/`,
+        `/api/publication/user/publications/${publicationId}/delete/`,
         'DELETE'
       );
       console.log('Publication deleted successfully');
@@ -89,7 +89,7 @@ export const deleteUserPublication = async (publicationId) => {
   export const commentPublication = async (publicationId, text) => {
     try {
         const response = await sendAuthenticatedRequest(
-            `http://localhost:8000/api/publication/${publicationId}/comment/`,
+            `/api/publication/${publicationId}/comment/`,
             'POST',
             { text }
         );

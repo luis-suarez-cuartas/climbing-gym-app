@@ -28,7 +28,7 @@ const AdminChangeProfilePicture = () => {
         formData.append('profile_picture', selectedFile);
 
         try {
-            const response = await sendAuthenticatedRequest('http://localhost:8000/api/auth/admin/change-profile-picture/', 'PUT', formData);
+            const response = await sendAuthenticatedRequest('/api/auth/admin/change-profile-picture/', 'PUT', formData);
             console.log('Profile picture updated:', response);
             navigate('/admin/profile'); // Redirigir al perfil después de actualizar la foto
         } catch (error) {

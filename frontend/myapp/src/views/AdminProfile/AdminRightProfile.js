@@ -16,7 +16,7 @@ const AdminRightProfile = () => {
     const fetchStats = async () => {
       try {
         const response = await sendAuthenticatedRequest(
-          `http://localhost:8000/api/admin/users/${userId}/stats/`,
+          `/api/admin/users/${userId}/stats/`,
           'GET'
         );
         setStats(response);

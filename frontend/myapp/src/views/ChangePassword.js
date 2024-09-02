@@ -23,7 +23,7 @@ const ChangePassword = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await sendAuthenticatedRequest('http://localhost:8000/api/auth/profile/change-password/', 'PUT', formData);
+            const response = await sendAuthenticatedRequest('/api/auth/profile/change-password/', 'PUT', formData);
             console.log('Password updated:', response);
             navigate('/profile'); // Redirigir al perfil después del cambio de contraseña
         } catch (error) {
