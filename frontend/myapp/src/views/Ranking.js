@@ -59,7 +59,7 @@ const RankingList = ({ data = [], selectedTab }) => {
   return (
     <RankingContainer>
       {data.map((item, index) => {
-        const imageUrl = item.image ? `https://climbing-app-2405933cdb44.herokuapp.com${item.image}` : "/imagenes/fotocv.jpg";
+        const imageUrl = item.image ? `https://climbing-app-2405933cdb44.herokuapp.com${item.image}` : "/static/imagenes/fotocv.jpg";
         return (
           <RankingItem key={index}>
             <RankingPosition>{index + 1}. </RankingPosition>

@@ -69,15 +69,15 @@ const Publications = () => {
                 <Article to={`/sesion/${pub.training_id}`}>
                   <SharedActor>
                     <button>
-                      <img src={pub.profile_picture ? pub.profile_picture : "/imagenes/fotocv.jpg"} alt="Profile" />
+                      <img src={pub.profile_picture ? pub.profile_picture : "/static/imagenes/fotocv.jpg"} alt="Profile" />
                       <div>
                         <h3>
                           {pub.user_name || 'Unknown User'}
                           <br />
                           <div>
-                            <img src="/imagenes/clock.png" alt="Clock" />
+                            <img src="/static/imagenes/clock.png" alt="Clock" />
                             <span>{moment(pub.created_at).fromNow()}</span>
-                            <img src="/imagenes/language.png" alt="Public" />
+                            <img src="/static/imagenes/language.png" alt="Public" />
                             <span>Public</span>
                           </div>
                         </h3>
@@ -90,7 +90,7 @@ const Publications = () => {
                 </Article>
                 <ActionsPub>
                   <div>
-                    <img src="/imagenes/like.png" alt="Like" />
+                    <img src="/static/imagenes/like.png" alt="Like" />
                     <span>
                       <b>{pub.likes_count}</b> likes
                     </span>
@@ -98,11 +98,11 @@ const Publications = () => {
                 </ActionsPub>
                 <ArticleButtons>
                   <button onClick={() => handleLike(pub.id)}>
-                    <img src="/imagenes/like.png" alt="Like" />
+                    <img src="/static/imagenes/like.png" alt="Like" />
                     <span>Like</span>
                   </button>
                   <button onClick={() => setCommenting(pub.id)}>
-                    <img src="/imagenes/comente.png" alt="Comment" />
+                    <img src="/static/imagenes/comente.png" alt="Comment" />
                     <span>Comment</span>
                   </button>
                 </ArticleButtons>

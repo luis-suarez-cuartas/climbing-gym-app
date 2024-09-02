@@ -47,15 +47,15 @@ const AdminPublications = () => {
               <Article key={pub.id}>
                 <SharedActor>
                   <button>
-                    <img src={pub.profile_picture ? pub.profile_picture : "/imagenes/fotocv.jpg"} alt="Profile" />
+                    <img src={pub.profile_picture ? pub.profile_picture : "/static/imagenes/fotocv.jpg"} alt="Profile" />
                     <div>
                       <h3>
                         {pub.user_name || 'Unknown User'}
                         <br />
                         <div>
-                          <img src="/imagenes/clock.png" alt="Clock" />
+                          <img src="/static/imagenes/clock.png" alt="Clock" />
                           <span>{moment(pub.created_at).fromNow()}</span>
-                          <img src="/imagenes/language.png" alt="Public" />
+                          <img src="/static/imagenes/language.png" alt="Public" />
                           <span>Public</span>
                         </div>
                       </h3>
@@ -67,15 +67,15 @@ const AdminPublications = () => {
                 </MessageBox>
                 <ArticleButtons>
                   <button onClick={() => handleDelete(pub.id)}>
-                    <img src="/imagenes/delete.png" alt="Delete" />
+                    <img src="/static/imagenes/delete.png" alt="Delete" />
                     <span>Delete</span>
                   </button>
                   <button>
-                    <img src="/imagenes/like.png" alt="Like" />
+                    <img src="/static/imagenes/like.png" alt="Like" />
                     <span>{pub.likes_count} Likes</span>
                   </button>
                   <button>
-                    <img src="/imagenes/comente.png" alt="Comment" />
+                    <img src="/static/imagenes/comente.png" alt="Comment" />
                     <span>Comment</span>
                   </button>
                 </ArticleButtons>

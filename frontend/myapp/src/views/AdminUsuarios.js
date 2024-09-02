@@ -80,7 +80,7 @@ const AdminUsuarios = () => {
               <UserItem key={user.id}>
                 <UserInfo>
                   <UserAvatar
-                    src={user.profile_picture ? `https://climbing-app-2405933cdb44.herokuapp.com${user.profile_picture}` : '/imagenes/default_profile.jpg'}
+                    src={user.profile_picture ? `https://climbing-app-2405933cdb44.herokuapp.com${user.profile_picture}` : '/static/imagenes/default_profile.jpg'}
                     alt={`${user.name}'s profile`}
                   />
                   <UserName>{user.name}</UserName>
