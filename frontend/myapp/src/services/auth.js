@@ -76,7 +76,7 @@ export const loginRequest = (url, data) => {
 };
 
 export const adminLoginRequest = async (data) => {
-    const response = await fetch('https://climbing-app-2405933cdb44.herokuapp.com/api/auth/admin/login/', {  
+    const response = await fetch('http://localhost:8000/api/auth/admin/login/', {  
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -113,7 +113,7 @@ export const logout = async () => {
     const refreshToken = localStorage.getItem('refreshToken');
     const accessToken = localStorage.getItem('accessToken');
     if (refreshToken) {
-        const response = await fetch('https://climbing-app-2405933cdb44.herokuapp.com/api/auth/logout/', {
+        const response = await fetch('http://localhost:8000/api/auth/logout/', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${accessToken}`,

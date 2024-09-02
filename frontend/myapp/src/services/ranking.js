@@ -5,7 +5,7 @@ import { sendAuthenticatedRequest } from './auth'; // Asegúrate de que esta imp
 export const getUserRankings = async () => {
     try {
         const response = await sendAuthenticatedRequest(
-            'https://climbing-app-2405933cdb44.herokuapp.com/api/ranking/user-rankings/', // Ajusta esta URL si es necesario
+            'http://localhost:8000/api/ranking/user-rankings/', // Ajusta esta URL si es necesario
             'GET'
         );
         console.log('User rankings fetched successfully:', response);
@@ -20,7 +20,7 @@ export const getUserRankings = async () => {
 export const getMostTrainings = async () => {
     try {
         const response = await sendAuthenticatedRequest(
-            'https://climbing-app-2405933cdb44.herokuapp.com/api/ranking/most-trainings/',
+            'http://localhost:8000/api/ranking/most-trainings/',
             'GET'
         );
         return response;
@@ -33,7 +33,7 @@ export const getMostTrainings = async () => {
 export const getMostClimbedRoutes = async () => {
     try {
         const response = await sendAuthenticatedRequest(
-            'https://climbing-app-2405933cdb44.herokuapp.com/api/ranking/most-climbed-routes/',
+            'http://localhost:8000/api/ranking/most-climbed-routes/',
             'GET'
         );
         return response;
@@ -46,7 +46,7 @@ export const getMostClimbedRoutes = async () => {
 export const getTotalTrainingTime = async () => {
     try {
         const response = await sendAuthenticatedRequest(
-            'https://climbing-app-2405933cdb44.herokuapp.com/api/ranking/total-training-time/',
+            'http://localhost:8000/api/ranking/total-training-time/',
             'GET'
         );
         return response;
@@ -59,7 +59,7 @@ export const getTotalTrainingTime = async () => {
 export const getMostPopularPublications = async () => {
     try {
         const response = await sendAuthenticatedRequest(
-            'https://climbing-app-2405933cdb44.herokuapp.com/api/ranking/most-popular-publications/',
+            'http://localhost:8000/api/ranking/most-popular-publications/',
             'GET'
         );
         return response;
@@ -72,7 +72,7 @@ export const getMostPopularPublications = async () => {
 export const getMostLikes = async () => {
     try {
         const response = await sendAuthenticatedRequest(
-            'https://climbing-app-2405933cdb44.herokuapp.com/api/ranking/most-likes/',
+            'http://localhost:8000/api/ranking/most-likes/',
             'GET'
         );
         return response;

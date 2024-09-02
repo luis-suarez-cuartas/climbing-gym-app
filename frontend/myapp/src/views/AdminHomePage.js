@@ -19,47 +19,47 @@ function AdminHomePage() {
         <Dashboard>
             <DashboardGrid>
                 <DashboardItem onClick={() => navigate('/admin/solicitudes')}>
-                    <ItemImage src="/static/imagenes/solicitud.png" alt="Solicitudes de registro" />
+                    <ItemImage src="/imagenes/solicitud.png" alt="Solicitudes de registro" />
                     <ItemTitle>Solicitudes de registro</ItemTitle>
                     <ItemDescription>Aquí podrás aceptar o rechazar una solicitud de registro</ItemDescription>
                 </DashboardItem>
                 <DashboardItem onClick={() => navigate('/admin/users')}>
-                    <ItemImage src="/static/imagenes/imagenUsuarios.png" alt="Usuarios" />
+                    <ItemImage src="/imagenes/imagenUsuarios.png" alt="Usuarios" />
                     <ItemTitle>Usuarios</ItemTitle>
                     <ItemDescription>Aquí podrás buscar y visualizar a todos los usuarios y sus datos</ItemDescription>
                 </DashboardItem>
                 <DashboardItem onClick={() => navigate('/admin/addRoute')}>
-                    <ItemImage src="/static/imagenes/rutas.jpg" alt="Rutas" />
+                    <ItemImage src="/imagenes/rutas.jpg" alt="Rutas" />
                     <ItemTitle>Rutas</ItemTitle>
                     <ItemDescription>Aquí podrás añadir las nuevas rutas de escalada</ItemDescription>
                 </DashboardItem>
                 <DashboardItem onClick={() => navigate('/admin/publications')}>
-                    <ItemImage src="/static/imagenes/publicacion.png" alt="Pistas" />
+                    <ItemImage src="/imagenes/publicacion.png" alt="Pistas" />
                     <ItemTitle>Publications</ItemTitle>
                     <ItemDescription>Aquí podrás visualizar, modificar, eliminar y crear las pistas</ItemDescription>
                 </DashboardItem>
                 <DashboardItem onClick={() => navigate('/admin/route-percentages')}>
-                    <ItemImage src="/static/imagenes/estadisticas.png" alt="Estadisticas" />
+                    <ItemImage src="/imagenes/estadisticas.png" alt="Estadisticas" />
                     <ItemTitle>Estadisticas</ItemTitle>
                     <ItemDescription>Aquí podrás acceder a los ajustes de los administradores</ItemDescription>
                 </DashboardItem>
                 <DashboardItem onClick={() => navigate('/admin/route-percentages')}>
-                    <ItemImage src="/static/imagenes/comentarios.png" alt="Estadisticas" />
+                    <ItemImage src="/imagenes/comentarios.png" alt="Estadisticas" />
                     <ItemTitle>Comentarios</ItemTitle>
                     <ItemDescription>Aquí podrás acceder a los ajustes de los administradores</ItemDescription>
                 </DashboardItem>
                 <DashboardItem onClick={() => navigate('/admin/route-percentages')}>
-                    <ItemImage src="/static/imagenes/alertas.png" alt="Estadisticas" />
+                    <ItemImage src="/imagenes/alertas.png" alt="Estadisticas" />
                     <ItemTitle>Alertas</ItemTitle>
                     <ItemDescription>Aquí podrás acceder a los ajustes de los administradores</ItemDescription>
                 </DashboardItem>
                 <DashboardItem onClick={() => navigate('/admin/rankings')}>
-                    <ItemImage src="/static/imagenes/ranking.png" alt="Rankings" />
+                    <ItemImage src="/imagenes/ranking.png" alt="Rankings" />
                     <ItemTitle>Rankings</ItemTitle>
                     <ItemDescription>Aquí podrás acceder a todo lo relacionado con los rankings</ItemDescription>
                 </DashboardItem>
                 <DashboardItem onClick={() => navigate('/admin/ajustes')}>
-                    <ItemImage src="/static/imagenes/ajust.png" alt="Ajustes" />
+                    <ItemImage src="/imagenes/ajust.png" alt="Ajustes" />
                     <ItemTitle>Ajustes</ItemTitle>
                     <ItemDescription>Aquí podrás ver todos los mensajes del formulario de la página de inicio</ItemDescription>
                 </DashboardItem>

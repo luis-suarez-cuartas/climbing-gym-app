@@ -24,7 +24,7 @@ const AdminChangePassword = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await sendAuthenticatedRequest('https://climbing-app-2405933cdb44.herokuapp.com/api/auth/admin/change-password/', 'PUT', formData);
+            const response = await sendAuthenticatedRequest('http://localhost:8000/api/auth/admin/change-password/', 'PUT', formData);
             console.log('Password updated:', response);
             navigate('/admin/profile'); // Redirigir al perfil del administrador después del cambio de contraseña
         } catch (error) {

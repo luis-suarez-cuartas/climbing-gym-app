@@ -12,7 +12,7 @@ SECRET_KEY = config('DJANGO_SECRET_KEY', default='unsafe-secret-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['climbing-app.herokuapp.com']
 
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
+    'django_extensions',
     'authentication',
     'training',
     'publication',

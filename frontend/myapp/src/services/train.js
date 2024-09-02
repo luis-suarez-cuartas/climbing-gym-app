@@ -10,7 +10,7 @@ export const getUnloadedSessions = async () => {
     }
 
     try {
-        const response = await fetch('https://climbing-app-2405933cdb44.herokuapp.com/api/training/unloaded-trainings/', {
+        const response = await fetch('http://localhost:8000/api/training/unloaded-trainings/', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
@@ -43,7 +43,7 @@ export const getUnloadedSessions = async () => {
 export const loadSession = async (sessionId, data) => {
     try {
         const response = await sendAuthenticatedRequest(
-            `https://climbing-app-2405933cdb44.herokuapp.com/api/training/update-training/${sessionId}/`, 
+            `http://localhost:8000/api/training/update-training/${sessionId}/`, 
             'PATCH',  // Especificar que se debe usar el método PATCH
             data
         );
@@ -58,7 +58,7 @@ export const loadSession = async (sessionId, data) => {
 export const getTrainingStats = async () => {
     try {
         const response = await sendAuthenticatedRequest(
-            'https://climbing-app-2405933cdb44.herokuapp.com/api/training/stats/',
+            'http://localhost:8000/api/training/stats/',
             'GET'
         );
         return response;
@@ -71,7 +71,7 @@ export const getTrainingStats = async () => {
 export const getTrainingDetails = async (training_id) => { // Cambia `trainingId` por `training_id`
     try {
       const response = await sendAuthenticatedRequest(
-        `https://climbing-app-2405933cdb44.herokuapp.com/api/training/${training_id}/details/`, // Cambia aquí también
+        `http://localhost:8000/api/training/${training_id}/details/`, // Cambia aquí también
         'GET'
       );
       return response;
@@ -85,7 +85,7 @@ export const getTrainingDetails = async (training_id) => { // Cambia `trainingId
 export const getAdminUserTrainingStats = async (userId) => {
     try {
         const response = await sendAuthenticatedRequest(
-            `https://climbing-app-2405933cdb44.herokuapp.com/api/admin/users/${userId}/stats/`, 
+            `http://localhost:8000/api/admin/users/${userId}/stats/`, 
             'GET'
         );
         return response;

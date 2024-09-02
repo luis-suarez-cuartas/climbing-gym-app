@@ -11,7 +11,7 @@ const LeftProfile = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await sendAuthenticatedRequest('https://climbing-app-2405933cdb44.herokuapp.com/api/auth/profile/', 'GET');
+        const response = await sendAuthenticatedRequest('http://localhost:8000/api/auth/profile/', 'GET');
         setUser(response);
       } catch (error) {
         console.error('Error fetching user profile:', error);
@@ -43,7 +43,7 @@ const LeftProfile = () => {
         const accessToken = localStorage.getItem('accessToken');
 
         // Logout (esto revoca el refresh token)
-        await fetch('https://climbing-app-2405933cdb44.herokuapp.com/api/auth/logout/', {
+        await fetch('http://localhost:8000/api/auth/logout/', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
@@ -52,7 +52,7 @@ const LeftProfile = () => {
             body: JSON.stringify({ refresh_token: refreshToken }),
         });
        
-        await sendAuthenticatedRequest('https://climbing-app-2405933cdb44.herokuapp.com/api/auth/delete-account/', 'DELETE');
+        await sendAuthenticatedRequest('http://localhost:8000/api/auth/delete-account/', 'DELETE');
 
         // Limpiar los tokens locales
         localStorage.removeItem('accessToken');
@@ -82,7 +82,7 @@ const LeftProfile = () => {
         <UserInfo>
           <CardBackground />
           <h1>
-            <Photo style={{ backgroundImage: `url(https://climbing-app-2405933cdb44.herokuapp.com${user.profile_picture})` }} />
+            <Photo style={{ backgroundImage: `url(http://localhost:8000${user.profile_picture})` }} />
             <NameCard>{user.name}</NameCard>
           </h1>
           <a href="#">
@@ -96,7 +96,7 @@ const LeftProfile = () => {
 
       <SettingsSection>
         <SettingsItem onClick={handleSettingsClick}>
-          <SettingsIcon src="/static/imagenes/ajustes.png" alt="Icono de ajustes" />
+          <SettingsIcon src="/imagenes/ajustes.png" alt="Icono de ajustes" />
           Ajustes
         </SettingsItem>
         <SettingsItem onClick={handleChangePasswordClick}>

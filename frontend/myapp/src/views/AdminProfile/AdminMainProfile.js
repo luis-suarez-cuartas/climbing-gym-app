@@ -13,7 +13,7 @@ const AdminMainProfile = () => {
     const fetchUserPublications = async () => {
       try {
         const response = await sendAuthenticatedRequest(
-          `https://climbing-app-2405933cdb44.herokuapp.com/api/publication/admin/users/${userId}/publications/`, 
+          `http://localhost:8000/api/publication/admin/users/${userId}/publications/`, 
           'GET'
         );
         setPublications(response);
@@ -38,15 +38,15 @@ const AdminMainProfile = () => {
               <Article to={`/sesion/${pub.training_id}`} as={Link}>
                 <SharedActor>
                   <button>
-                    <img src={pub.profile_picture ? pub.profile_picture : "/static/imagenes/clock.jpg"} alt="Profile" />
+                    <img src={pub.profile_picture ? pub.profile_picture : "/imagenes/clock.jpg"} alt="Profile" />
                     <div>
                       <h3>
                         {pub.user_name || 'Unknown User'}
                         <br />
                         <div>
-                          <img src="/static/imagenes/clock.png" alt="Clock" />
+                          <img src="/imagenes/clock.png" alt="Clock" />
                           <span>{moment(pub.created_at).fromNow()}</span>
-                          <img src={pub.is_public ? "/static/imagenes/language.png" : "/static/imagenes/unlock.png"} alt={pub.is_public ? "Public" : "Private"} />
+                          <img src={pub.is_public ? "/imagenes/language.png" : "/imagenes/unlock.png"} alt={pub.is_public ? "Public" : "Private"} />
                           <span>{pub.is_public ? "Public" : "Just me"}</span>
                         </div>
                       </h3>
@@ -58,7 +58,7 @@ const AdminMainProfile = () => {
                 </MessageBox>
                 <ActionsPub>
                   <div>
-                    <img src="/static/imagenes/like.png" alt="Like" />
+                    <img src="/imagenes/like.png" alt="Like" />
                     <span>
                       <b>0</b> likes
                     </span>
@@ -66,11 +66,11 @@ const AdminMainProfile = () => {
                 </ActionsPub>
                 <ArticleButtons>
                   <button>
-                    <img src="/static/imagenes/like.png" alt="Like" />
+                    <img src="/imagenes/like.png" alt="Like" />
                     <span>Like</span>
                   </button>
                   <button>
-                    <img src="/static/imagenes/comente.png" alt="Comment" />
+                    <img src="/imagenes/comente.png" alt="Comment" />
                     <span>Comment</span>
                   </button>
                   <div>
