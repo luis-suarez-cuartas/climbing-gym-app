@@ -48,15 +48,15 @@ const MainProfile = () => {
               <Article to={`/sesion/${pub.training_id}`} as={Link}>
                 <SharedActor>
                   <button>
-                    <img src={pub.profile_picture ? pub.profile_picture : "/imagenes/clock.jpg"} alt="Profile" />
+                    <img src={pub.profile_picture ? pub.profile_picture : "/static/imagenes/clock.jpg"} alt="Profile" />
                     <div>
                       <h3>
                         {pub.user_name || 'Unknown User'}
                         <br />
                         <div>
-                          <img src="/imagenes/clock.png" alt="Clock" />
+                          <img src="/static/imagenes/clock.png" alt="Clock" />
                           <span>{moment(pub.created_at).fromNow()}</span>
-                          <img src={pub.is_public ? "/imagenes/language.png" : "/imagenes/unlock.png"} alt={pub.is_public ? "Public" : "Private"} />
+                          <img src={pub.is_public ? "/static/imagenes/language.png" : "/static/imagenes/unlock.png"} alt={pub.is_public ? "Public" : "Private"} />
                           <span>{pub.is_public ? "Public" : "Just me"}</span>
                         </div>
                       </h3>
@@ -68,7 +68,7 @@ const MainProfile = () => {
                 </MessageBox>
                 <ActionsPub>
                   <div>
-                    <img src="/imagenes/like.png" alt="Like" />
+                    <img src="/static/imagenes/like.png" alt="Like" />
                     <span>
                       <b>0</b> likes
                     </span>
@@ -76,15 +76,15 @@ const MainProfile = () => {
                 </ActionsPub>
                 <ArticleButtons>
                   <button>
-                    <img src="/imagenes/like.png" alt="Like" />
+                    <img src="/static/imagenes/like.png" alt="Like" />
                     <span>Like</span>
                   </button>
                   <button>
-                    <img src="/imagenes/comente.png" alt="Comment" />
+                    <img src="/static/imagenes/comente.png" alt="Comment" />
                     <span>Comment</span>
                   </button>
                   <button onClick={() => handleDelete(pub.id)}>
-                    <img src="/imagenes/delete.png" alt="Delete" /> {/* Asegúrate de tener un ícono de eliminar */}
+                    <img src="/static/imagenes/delete.png" alt="Delete" /> {/* Asegúrate de tener un ícono de eliminar */}
                     <span>Delete</span>
                   </button>
                 </ArticleButtons>
