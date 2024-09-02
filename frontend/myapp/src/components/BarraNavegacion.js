@@ -107,7 +107,7 @@ export function BarraNavegacion() {
       <div css={navContainerStyles}>
         {/* Div para el logo alineado a la izquierda */}
         <div css={logoContainerStyles}>
-          <img src="/static/imagenes/logo.png" alt="logo" css={logoStyles} />
+          <img src="/imagenes/logo.png" alt="logo" css={logoStyles} />
         </div>
 
         {/* Div para los enlaces de navegación alineados al centro */}

@@ -104,7 +104,7 @@ export function BarraNavegacionAdmin() {
       <div css={navContainerStyles}>
         <div css={logoContainerStyles}>
           <img 
-            src="/static/imagenes/logo.png" 
+            src="/imagenes/logo.png" 
             alt="logo" 
             css={logoStyles} 
            

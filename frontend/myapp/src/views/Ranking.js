@@ -59,7 +59,7 @@ const RankingList = ({ data = [], selectedTab }) => {
   return (
     <RankingContainer>
       {data.map((item, index) => {
-        const imageUrl = item.image ? `http://localhost:8000${item.image}` : "/static/imagenes/fotocv.jpg";
+        const imageUrl = item.image ? `http://localhost:8000${item.image}` : "/imagenes/fotocv.jpg";
         return (
           <RankingItem key={index}>
             <RankingPosition>{index + 1}. </RankingPosition>
