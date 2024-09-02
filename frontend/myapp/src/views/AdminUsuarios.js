@@ -42,7 +42,7 @@ const AdminUsuarios = () => {
       return;
     }
     try {
-      await sendAuthenticatedRequest(`http://localhost:8000/api/auth/admin/users/${selectedUserId}/delete/`, 'DELETE');
+      await sendAuthenticatedRequest(`https://climbing-app-2405933cdb44.herokuapp.com/api/auth/admin/users/${selectedUserId}/delete/`, 'DELETE');
       setUsers(users.filter(user => user.id !== selectedUserId));
     } catch (error) {
       console.error('Error deleting user:', error);
@@ -80,7 +80,7 @@ const AdminUsuarios = () => {
               <UserItem key={user.id}>
                 <UserInfo>
                   <UserAvatar
-                    src={user.profile_picture ? `http://localhost:8000${user.profile_picture}` : '/imagenes/default_profile.jpg'}
+                    src={user.profile_picture ? `https://climbing-app-2405933cdb44.herokuapp.com${user.profile_picture}` : '/imagenes/default_profile.jpg'}
                     alt={`${user.name}'s profile`}
                   />
                   <UserName>{user.name}</UserName>

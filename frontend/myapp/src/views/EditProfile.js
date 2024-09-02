@@ -15,7 +15,7 @@ const EditProfile = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await sendAuthenticatedRequest('http://localhost:8000/api/auth/profile/', 'GET');
+        const response = await sendAuthenticatedRequest('https://climbing-app-2405933cdb44.herokuapp.com/api/auth/profile/', 'GET');
         setFormData({
           name: response.name,
           profile_picture: response.profile_picture,
@@ -57,7 +57,7 @@ const EditProfile = () => {
     }
 
     try {
-        const response = await sendAuthenticatedRequest('http://localhost:8000/api/auth/profile/edit/', 'PUT', updatedData);
+        const response = await sendAuthenticatedRequest('https://climbing-app-2405933cdb44.herokuapp.com/api/auth/profile/edit/', 'PUT', updatedData);
         console.log('Profile updated:', response);
         navigate('/profile'); // Redirigir al perfil después de la actualización
     } catch (error) {

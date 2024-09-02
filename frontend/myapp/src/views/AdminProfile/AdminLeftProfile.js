@@ -11,7 +11,7 @@ const AdminLeftProfile = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await sendAuthenticatedRequest(`http://localhost:8000/api/auth/admin/users/${userId}/profile/`, 'GET');
+        const response = await sendAuthenticatedRequest(`https://climbing-app-2405933cdb44.herokuapp.com/api/auth/admin/users/${userId}/profile/`, 'GET');
         setUser(response);
       } catch (error) {
         console.error('Error fetching user profile:', error);
@@ -35,7 +35,7 @@ const AdminLeftProfile = () => {
         <UserInfo>
           <CardBackground />
           <h1>
-            <Photo style={{ backgroundImage: `url(http://localhost:8000${user.profile_picture})` }} />
+            <Photo style={{ backgroundImage: `url(https://climbing-app-2405933cdb44.herokuapp.com${user.profile_picture})` }} />
             <NameCard>{user.name}</NameCard>
           </h1>
           <a href="#">

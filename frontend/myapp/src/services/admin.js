@@ -9,7 +9,7 @@ export const registerAdmin = async (formData) => {
         throw new Error('No access token available');
     }
 
-    const response = await fetch('http://localhost:8000/api/auth/admin/register/', {
+    const response = await fetch('https://climbing-app-2405933cdb44.herokuapp.com/api/auth/admin/register/', {
         method: 'POST',
         headers: {
             'Authorization': `Bearer ${token}`,  // Incluye el token en la cabecera
@@ -30,7 +30,7 @@ export const getUsers = async () => {
     const token = getAccessToken();
     console.log('Fetching users with token:', token);
   
-    const response = await fetch('http://localhost:8000/api/auth/admin/users/', {
+    const response = await fetch('https://climbing-app-2405933cdb44.herokuapp.com/api/auth/admin/users/', {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -51,29 +51,29 @@ export const getUsers = async () => {
   
   export const addClimbedRoute = async (data) => {
     return sendAuthenticatedRequest(
-        'http://localhost:8000/api/training/admin/climbed-routes/add/',
+        'https://climbing-app-2405933cdb44.herokuapp.com/api/training/admin/climbed-routes/add/',
         'POST',
         data
     );
 };
 
 export const getRoutePercentages = async () => {
-  return sendAuthenticatedRequest('http://localhost:8000/api/training/admin/route-percentages/', 'GET');
+  return sendAuthenticatedRequest('https://climbing-app-2405933cdb44.herokuapp.com/api/training/admin/route-percentages/', 'GET');
 };
 
 export const getAllPublications = async () => {
-  return sendAuthenticatedRequest('http://localhost:8000/api/publication/admin/publications/', 'GET');
+  return sendAuthenticatedRequest('https://climbing-app-2405933cdb44.herokuapp.com/api/publication/admin/publications/', 'GET');
 };
 
 
 export const deletePublication = async (publicationId) => {
-  return sendAuthenticatedRequest(`http://localhost:8000/api/publication/admin/publications/${publicationId}/delete/`, 'DELETE');
+  return sendAuthenticatedRequest(`https://climbing-app-2405933cdb44.herokuapp.com/api/publication/admin/publications/${publicationId}/delete/`, 'DELETE');
 };
 
 
 export const getAllClimbedRoutes = async () => {
   try {
-      const response = await sendAuthenticatedRequest('http://localhost:8000/api/training/admin/routes/', 'GET');
+      const response = await sendAuthenticatedRequest('https://climbing-app-2405933cdb44.herokuapp.com/api/training/admin/routes/', 'GET');
       return response;
   } catch (error) {
       console.error('Error fetching routes:', error);
@@ -83,5 +83,5 @@ export const getAllClimbedRoutes = async () => {
 
 
 export const deleteClimbedRoute = async (routeId) => {
-  return sendAuthenticatedRequest(`http://localhost:8000/api/training/admin/routes/${routeId}/delete/`, 'DELETE');
+  return sendAuthenticatedRequest(`https://climbing-app-2405933cdb44.herokuapp.com/api/training/admin/routes/${routeId}/delete/`, 'DELETE');
 };

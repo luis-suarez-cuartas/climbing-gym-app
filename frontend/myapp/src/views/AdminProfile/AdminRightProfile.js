@@ -16,7 +16,7 @@ const AdminRightProfile = () => {
     const fetchStats = async () => {
       try {
         const response = await sendAuthenticatedRequest(
-          `http://localhost:8000/api/admin/users/${userId}/stats/`,
+          `https://climbing-app-2405933cdb44.herokuapp.com/api/admin/users/${userId}/stats/`,
           'GET'
         );
         setStats(response);

@@ -13,7 +13,7 @@ const AdminMainProfile = () => {
     const fetchUserPublications = async () => {
       try {
         const response = await sendAuthenticatedRequest(
-          `http://localhost:8000/api/publication/admin/users/${userId}/publications/`, 
+          `https://climbing-app-2405933cdb44.herokuapp.com/api/publication/admin/users/${userId}/publications/`, 
           'GET'
         );
         setPublications(response);
