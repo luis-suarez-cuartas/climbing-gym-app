@@ -1,8 +1,14 @@
 from rest_framework import serializers
+from django.contrib.auth import get_user_model, authenticate
+from rest_framework_simplejwt.tokens import RefreshToken
+from authentication.models import CustomUser  # Asegúrate de que el import usa el nombre correcto de tu app
+
+
+from rest_framework import serializers
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 from authentication.models import CustomUser
-
+import logging
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,15 +20,21 @@ class UserSerializer(serializers.ModelSerializer):
         }
 
     def create(self, validated_data):
+        # Asigna una foto de perfil por defecto si no se proporciona
         if not validated_data.get('profile_picture'):
-            validated_data['profile_picture'] = 'profile_pictures/default_profile.jpg'  
+            validated_data['profile_picture'] = 'profile_pictures/default_profile.jpg'  # Ruta relativa a MEDIA_ROOT
         user = CustomUser.objects.create_user(**validated_data)
         return user
 
     def update(self, instance, validated_data):
+        # Actualiza el nombre solo si se proporciona un nuevo valor
         instance.name = validated_data.get('name', instance.name)
+        
+        # Actualiza la imagen de perfil solo si se proporciona una nueva
         if validated_data.get('profile_picture'):
             instance.profile_picture = validated_data['profile_picture']
+        
+        # Guarda la instancia actualizada
         instance.save()
         return instance
 
