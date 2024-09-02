@@ -96,7 +96,7 @@ export function GrowthSection() {
           </h3>
         </div>
         <div>
-          <img src="imagenes/autobelay.jpg" alt="" />
+          <img src="static/imagenes/autobelay.jpg" alt="" />
         </div>
       </section>
 
