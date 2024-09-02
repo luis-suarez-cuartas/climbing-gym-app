@@ -149,7 +149,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, '..', 'frontend', 'myapp', 'build'),
-    os.path.join(BASE_DIR, 'myproject', 'media', 'profile_pictures'),
 ]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
