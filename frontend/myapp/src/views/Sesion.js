@@ -78,7 +78,7 @@ const Sesion = () => {
       <ContentWrapper>
         <CardContainer>
           <UserInfo>
-            <ProfileImage src={trainingData.profile_picture.split('/').pop() || "/imagenes/profile.jpg"} alt="User Profile" />
+            <ProfileImage src={trainingData.profile_picture ? trainingData.profile_picture.split('/').pop() : "/imagenes/profile.jpg"} alt="User Profile" />
             <UserDetails>
               <UserName>{trainingData.user_name}</UserName>
               <ActivityInfo>
