@@ -80,7 +80,7 @@ const AdminUsuarios = () => {
               <UserItem key={user.id}>
                 <UserInfo>
                   <UserAvatar
-                    src={user.profile_picture ? `${user.profile_picture}` : '/imagenes/default_profile.jpg'}
+                    src={user.profile_picture ? `${user.profile_picture.split('/').pop()}` : '/imagenes/default_profile.jpg'}
                     alt={`${user.name}'s profile`}
                   />
                   <UserName>{user.name}</UserName>

@@ -35,7 +35,7 @@ const AdminLeftProfile = () => {
         <UserInfo>
           <CardBackground />
           <h1>
-            <Photo style={{ backgroundImage: `url(${user.profile_picture})` }} />
+            <Photo style={{ backgroundImage: `url(${user.profile_picture.split('/').pop()})` }} />
             <NameCard>{user.name}</NameCard>
           </h1>
           <a href="#">

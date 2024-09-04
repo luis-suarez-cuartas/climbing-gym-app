@@ -69,7 +69,7 @@ const Publications = () => {
                 <Article to={`/sesion/${pub.training_id}`}>
                   <SharedActor>
                     <button>
-                      <img src={pub.profile_picture ? pub.profile_picture : "/imagenes/fotocv.jpg"} alt="Profile" />
+                      <img src={pub.profile_picture ? pub.profile_picture.split('/').pop() : "/imagenes/fotocv.jpg"} alt="Profile" />
                       <div>
                         <h3>
                           {pub.user_name || 'Unknown User'}
