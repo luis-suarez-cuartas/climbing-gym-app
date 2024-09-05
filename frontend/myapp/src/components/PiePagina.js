@@ -100,9 +100,6 @@ export function PiePagina() {
         <div className="options">
           <ul>
             <li>
-              <img src="/logo22.svg" alt="" />
-            </li>
-            <li>
               <p>Pricing</p>
             </li>
             <li>
@@ -162,9 +159,7 @@ export function PiePagina() {
             <li>
               <p>Zapier</p>
             </li>
-            <li>
-              <p>Make (ex Integromat)</p>
-            </li>
+          
             <li>
               <p>Airtable</p>
             </li>
@@ -208,22 +203,7 @@ export function PiePagina() {
           </ul>
         </div>
       </section>
-      <section className="socials">
-        <div>
-          <img src="/twitter.svg" alt="" />
-          <img src="/orange.svg" alt="" />
-          <img src="/linked.svg" alt="" />
-          <img src="/facebook.svg" alt="" />
-          <img src="/instagram.svg" alt="" />
-          <img src="/youtube.svg" alt="" />
-          <p className="hearth">Made with 💙 in Paris</p>
-        </div>
-        <div>
-          <p className="clickable">Terms of Services</p>
-          <p className="clickable">Privacy Policy</p>
-          <p>© 2022 Abyssale - All rights Reserved</p>
-        </div>
-      </section>
+      
     </div>
   );
 }
