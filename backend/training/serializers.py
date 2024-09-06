@@ -31,6 +31,7 @@ class TrainingDetailSerializer(serializers.ModelSerializer):
             'activity_date',
             'activity_title',
             'total_time_climbed',
+            'duration',  
             'routes_count',
             'routes',
             'grade_percentages',

@@ -91,7 +91,7 @@ const Sesion = () => {
           <ActivityStats>
             <StatItem>
               <StatLabel>Duración total</StatLabel>
-              <StatValue>{trainingData.total_duration} min</StatValue>
+              <StatValue>{trainingData.duration} min</StatValue>
             </StatItem>
             <StatItem>
               <StatLabel>Tiempo escalando</StatLabel>
